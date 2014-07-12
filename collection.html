@@ -32,21 +32,30 @@
 	</style>
 </head>
 <body>
-
-	<h1>MemeMaster</h1>
-
-	<ul>
-		<li><a href="#">Home</a></li>
-		<li><a href="#">Collection</a></li>
-		<li><a href="#">Downloads</a></li>
-	</ul>
+	<h1><a href="../cse134_group23/home.html">MemeMaster</a></h1>
 	
+	<div style="position:relative; top:10px">
+	<ul>
+		<li><a href="../cse134_group23/collection.html">Collection</a></li>
+		<li><a href="../cse134_group23/dlist.html">Downloads</a></li>
+		<li>	
+			<form>		
+				<input type="text" name="meme" placeholder="Add image to collection...">
+				<input name="Submit" type="submit" value="Add to Collection">
+				<input name="Submit" type="submit" value="Delete from Collection">
+			</form>
+		</li>
+	</ul>	
+	</div>
+
+	<p></p>
 	<form> 
 		<input type="search" placeholder="Search for image..."/>
 		<input type="submit" value="Search"/>
 	</form>
+	
 
-	<div style="position: relative">
+	<div style="position: relative; top:20px">
 		<div style="float:left; padding: 10px">
 			<input type="checkbox" style="position:absolute; width: 20px; height: 20px">
 			<img src="http://memedad.com/create/thumbnails/7.jpg" alt="First World Problems">
@@ -113,13 +122,6 @@
 		</div>	
 
 	</div>	
-
-	<div style="position:fixed; right:20px; top:20px">
-		<form>
-			Enter Meme URL: <input type="text" size="60" name="meme">
-			<input name="Submit" type="submit" value="Add To Collection" />
-		</form>
-	</div>
 	
 </body>
 </html>	
