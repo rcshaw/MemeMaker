@@ -1,44 +1,59 @@
 <!DOCTYPE html>
  <html lang="en">
  <head>
- 	<meta charset="utf-8">
-<title>MemeMaster</title>
+	<meta charset="utf-8">
+	<title>MemeMaster</title>
 
-<style>
-ul {
-    float: left;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-}
+	<style>
+	ul {
+	    float: left;
+	    width: 100%;
+	    padding: 0;
+	    margin: 0;
+	    list-style-type: none;
+	}
 
-a {
-    float: left;
-    width: 6em;
-    text-decoration: none;
-    color: white;
-    background-color: purple;
-    padding: 0.2em 0.6em;
-    border-right: 1px solid white;
-}
+	a {
+	    float: left;
+	    width: 6em;
+	    text-decoration: none;
+	    color: white;
+	    background-color: purple;
+	    padding: 0.2em 0.6em;
+	    border-right: 1px solid white;
+	}
 
-a:hover {
-    background-color: fuchsia;
-}
+	a:hover {
+	    background-color: fuchsia;
+	}
 
-li {
-    display: inline;
-}
-</style>
+	li {
+	    display: inline;
+	}
+	</style>
 </head>
+<body>
+	<h1><a href="../cse134_group23/home.html">MemeMaster</a></h1>
 
-<h1>MemeMaster</h1>
-
+	<div style="position:relative; top:10px">
 	<ul>
 		<li><a href="../cse134_group23/collection.html">Collection</a></li>
 		<li><a href="../cse134_group23/dlist.html">Downloads</a></li>
-	</ul>
+		<li>	
+			<form>		
+				<input type="text" name="meme" placeholder="Add image to collection...">
+				<input name="Submit" type="submit" value="Add to Collection">
+				<input name="Submit" type="submit" value="Delete from Collection">
+			</form>
+		</li>
+	</ul>	
+	</div>
+
+	<p></p>
+	<form> 
+		<input type="search" placeholder="Search for image..."/>
+		<input type="submit" value="Search"/>
+	</form>
 
  <!--	<script type="text/javascript">
  		function check(){
@@ -56,12 +71,8 @@ li {
  		}
  	</script>
 -->
-<div style="position: relative; top: 10px">
- 	<input type="search" placeholder="Search for image..."/>
- 	<input type="submit" value="Search"/>
-</div>
 
-<div style="position: relative; top: 10px">
+<div style="position: relative; top: 20px">
 		<div style="float:left; padding: 10px">
 			<input type="checkbox" style="position:absolute; width: 20px; height: 20px">
 			<img src="http://memedad.com/create/thumbnails/7.jpg" alt="First World Problems">
