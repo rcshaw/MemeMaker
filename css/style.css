@@ -36,6 +36,7 @@ body {
 .wrap{
 	margin:0 auto;
 	width:80%;
+	
 }
 /* start header */
 .header_bg{
@@ -395,9 +396,31 @@ body {
 }
 .portfolio-wrapper {
 	overflow:hidden;
-	position: relative !important;
+	position: relative;
 	cursor:pointer;
+  padding: 3px;
+  line-height: 1.428571429;
+  background-color: #34495e;
+  border-radius: 4px; 
+  -webkit-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
 }
+
+
+.portfolio-wrapper:hover {
+	overflow:hidden;
+	position: relative;
+	cursor:pointer;
+  padding: 3px;
+  line-height: 1.428571429;
+  background-color: #fff;
+ /* border: 1px solid #ddd; */
+  border-radius: 4px;
+  -webkit-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+
+
 #portfoliolist a img{
 	display: block;
 }
@@ -421,11 +444,11 @@ body {
 	background: rgba(0, 0, 0, 0.21);
 }
 .portfolio .label-text {
-	text-align:center;
+	/*text-align:center;
 	color:#fff;
 	position: relative;
 	z-index:500;
-	padding:5px 8px;
+	padding:5px 8px; */
 }
 .text-title{
 	font-size: 1.2em;
@@ -1760,6 +1783,7 @@ span.tab-img{
 	}
 	.header {
 		padding: 4% 4%;
+		
 	}
 	.content {
 		margin-top: -20px;
@@ -1802,4 +1826,19 @@ span.tab-img{
 	.contact-form input[type="text"], .contact-form textarea {
 		width: 90.3333%;
 	}
+	
+
+.thumbnail{
+    position: relative;
+    float:left;
+    margin:5px;
+}
+
+/*
+.thumbnail:hover img{
+    opacity:0.6;
+}
+
+*/
+
 }
