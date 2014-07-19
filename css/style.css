@@ -36,7 +36,6 @@ body {
 .wrap{
 	margin:0 auto;
 	width:80%;
-	
 }
 /* start header */
 .header_bg{
@@ -122,7 +121,7 @@ body {
 	color: #ffffff;
 }
 .sb-search-input::-moz-placeholder {
-	color: #efb480;
+	color: #ffffff;
 }
 .sb-search-input:-ms-input-placeholder {
 	color: #ffffff;
@@ -302,7 +301,7 @@ body {
 }
 /*start slider */
 .slider_bg{
-	background: url('../images/slider_bg.jpg');
+	background-color: #34495E;
 }
 .slider{
 	padding: 8% 4%;
@@ -396,31 +395,9 @@ body {
 }
 .portfolio-wrapper {
 	overflow:hidden;
-	position: relative;
+	position: relative !important;
 	cursor:pointer;
-  padding: 3px;
-  line-height: 1.428571429;
-  background-color: #34495e;
-  border-radius: 4px; 
-  -webkit-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
 }
-
-
-.portfolio-wrapper:hover {
-	overflow:hidden;
-	position: relative;
-	cursor:pointer;
-  padding: 3px;
-  line-height: 1.428571429;
-  background-color: #fff;
- /* border: 1px solid #ddd; */
-  border-radius: 4px;
-  -webkit-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
-}
-
-
 #portfoliolist a img{
 	display: block;
 }
@@ -444,11 +421,11 @@ body {
 	background: rgba(0, 0, 0, 0.21);
 }
 .portfolio .label-text {
-	/*text-align:center;
+	text-align:center;
 	color:#fff;
 	position: relative;
 	z-index:500;
-	padding:5px 8px; */
+	padding:5px 8px;
 }
 .text-title{
 	font-size: 1.2em;
@@ -813,12 +790,12 @@ p.para{
 	width:20px;
 	height:20px;
 	display:inline-block;
-	background:url(../images/blog_icons.png) no-repeat;	
+	background-color: #34495E;	
 	vertical-align:middle;
 	transition:none;
 }
 .blog_list li a:hover > i{
-	background:url(../images/blog_icons.png) no-repeat;	
+	background-color: #34495E;	
 }
 .blog_list li a:hover{
 	color: #19BD9B;
@@ -867,12 +844,12 @@ p.para{
 	width:20px;
 	height:20px;
 	display:inline-block;
-	background:url(../images/art.png) no-repeat;	
+	background-color: #34495E;	
 	vertical-align:middle;
 	transition:none;
 }
 .blog_art li a:hover > i{
-	background:url(../images/art_h.png) no-repeat;	
+	background-color: #34495E;	
 }
 .blog_art li a:hover{
 	color: #D0D3D7;
@@ -1460,6 +1437,7 @@ span.tab-img{
 	-moz-transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
+	href: "#"
 }
 .contact-form input[type="submit"]:hover{
 	background: #34495E;
@@ -1478,6 +1456,80 @@ span.tab-img{
 	-moz-box-shadow: 0px 0px 5px #DDDDDD;
 	-o-box-shadow: 0px 0px 5px #DDDDDD;
 }
+
+/* New Image Stuff */
+
+.image-wrap {
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 25px;
+	cursor: pointer;
+}
+
+.image-wrap img {
+	width: 100%;	
+}
+
+.image-wrap  .hover-wrap {
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 100%;
+	
+	opacity: 0;
+	filter: alpha(opacity=0);
+	
+	-webkit-transition: all 450ms ease-out 0s;	
+	   -moz-transition: all 450ms ease-out 0s;
+		 -o-transition: all 450ms ease-out 0s;
+		    transition: all 450ms ease-out 0s;
+		  
+	-webkit-transform: rotateY(180deg) scale(0.5,0.5);
+	   -moz-transform: rotateY(180deg) scale(0.5,0.5);
+		-ms-transform: rotateY(180deg) scale(0.5,0.5);
+		 -o-transform: rotateY(180deg) scale(0.5,0.5);
+			transform: rotateY(180deg) scale(0.5,0.5);	
+}
+
+.image-wrap:hover .hover-wrap,
+.image-wrap.active .hover-wrap {
+	opacity: 1;
+	filter: alpha(opacity=100);
+	
+	-webkit-transform: rotateY(0deg) scale(1,1);
+	   -moz-transform: rotateY(0deg) scale(1,1);
+		-ms-transform: rotateY(0deg) scale(1,1);
+		 -o-transform: rotateY(0deg) scale(1,1);
+		    transform: rotateY(0deg) scale(1,1);
+}
+
+.image-wrap .hover-wrap .overlay-img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #DE5E60;
+	
+	opacity: 0.80;
+	filter: alpha(opacity=80);
+}
+
+.image-wrap .hover-wrap .overlay-text-thumb {
+	position: absolute;
+	width: 100%;
+	height: 32px;
+	top: 50%;
+	margin: -16px 0 0 0;
+	color: #FFFFFF;
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 32px;
+	text-transform: uppercase;
+	text-align: center;
+	
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
 /***** Media Quries *****/
 @media only screen and (max-width: 1366px) {
 	.wrap{
@@ -1783,7 +1835,6 @@ span.tab-img{
 	}
 	.header {
 		padding: 4% 4%;
-		
 	}
 	.content {
 		margin-top: -20px;
@@ -1826,19 +1877,6 @@ span.tab-img{
 	.contact-form input[type="text"], .contact-form textarea {
 		width: 90.3333%;
 	}
-	
 
-.thumbnail{
-    position: relative;
-    float:left;
-    margin:5px;
-}
-
-/*
-.thumbnail:hover img{
-    opacity:0.6;
-}
-
-*/
 
 }
