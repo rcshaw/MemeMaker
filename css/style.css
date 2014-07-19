@@ -359,8 +359,50 @@ body {
 	-webkit-transition: all 1s ease;
 	-moz-transition: all 1s ease;
 	-o-transition: all 1s ease;
-	transition: all 1s ease;	
+	transition: all 1s ease;
+	align: center;
 }
+.login {
+	position: absolute;
+	left: 85%;
+	top: 30%;
+	width: 300px;
+
+}
+
+.divider {
+    position:absolute;
+    left:70%;
+    top:10%;
+    bottom:10%;
+    border-left:3px solid white;
+}
+.slider_container{
+	position: absolute;
+	left: 50%;
+	top: 0px;
+	width: 300px;
+	height: 300px;
+}
+
+.jssora02l {
+background-position: -3px -33px;
+}
+.jssora02l, .jssora02r, .jssora02ldn, .jssora02rdn {
+position: absolute;
+cursor: pointer;
+display: block;
+background: url(../img/a02.png) no-repeat;
+}
+
+
+.jssora02l, .jssora02r, .jssora02ldn, .jssora02rdn {
+position: relative;
+cursor: pointer;
+display: block;
+background: url(../img/a02.png) no-repeat;
+}
+
 #filters {
 	color:#ffffff;
 	margin: 0% 0 3%;
