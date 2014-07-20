@@ -1,0 +1,454 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>MemeMaster | Home</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!--  jquery plguin -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<!-- start gallery -->
+	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
+	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		
+		var filterList = {
+		
+			init: function () {
+			
+				// MixItUp plugin
+				// http://mixitup.io
+				$('#portfoliolist').mixitup({
+					targetSelector: '.portfolio',
+					filterSelector: '.filter',
+					effects: ['fade'],
+					easing: 'snap',
+					// call the hover effect
+					onMixEnd: filterList.hoverEffect()
+				});				
+			
+			},
+			
+			hoverEffect: function () {
+			
+				// Simple parallax effect
+				$('#portfoliolist .portfolio').hover(
+					function () {
+						$(this).find('.label').stop().animate({bottom: 0}, 200, 'easeOutQuad');
+						$(this).find('img').stop().animate({top: -30}, 500, 'easeOutQuad');				
+					},
+					function () {
+						$(this).find('.label').stop().animate({bottom: -40}, 200, 'easeInQuad');
+						$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
+					}		
+				);				
+			
+			}
+
+		};
+		
+		// Run the show!
+		filterList.init();
+			
+	});	
+	</script>
+<!-- Add fancyBox main JS and CSS files -->
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
+<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+		<script>
+			$(document).ready(function() {
+				$('.popup-with-zoom-anim').magnificPopup({
+					type: 'inline',
+					fixedContentPos: false,
+					fixedBgPos: true,
+					overflowY: 'auto',
+					closeBtnInside: true,
+					preloader: false,
+					midClick: true,
+					removalDelay: 300,
+					mainClass: 'my-mfp-zoom-in'
+			});
+		});
+		</script>
+
+</head>
+<body>
+<!-- start header -->
+<div class="header_bg">
+<div class="wrap">
+	<div class="header">
+		<div class="logo">
+			<h1><a href="index.html"><img src="images/meme_logo.png"  alt=""/></a></h1>
+		</div>
+		
+		<img src="images/monkey.gif" height="50px" width="50px" style="padding-left:-4%" title="image-name">
+		
+		<div class="h_right">
+			<ul class="menu">
+				<li class="active"><a href="folders_page.html">home</a></li>
+				<li><a href="about.html">create</a></li>
+				<li><a href="portfolio.html">upload</a></li>
+				<li><a>chrome extension</a></li>
+				<li><a href="teampage.html">team page</a></li>
+				<li><a href="index.html">logout</a></li>
+			</ul>
+			<div id="sb-search" class="sb-search">
+				<form>
+					<input class="sb-search-input" placeholder="Search by tag, name, folder..." type="text" value="" name="search" id="search">
+					<input class="sb-search-submit" type="submit" value="">
+					<span class="sb-icon-search"></span>
+				</form>
+			</div>
+			<script src="js/classie.js"></script>
+			<script src="js/uisearch.js"></script>
+			<script>
+				new UISearch( document.getElementById( 'sb-search' ) );
+			</script>
+			<!-- start smart_nav * -->
+	        <nav class="nav">
+	            <ul class="nav-list">
+	                <li class="nav-item"><a href="index.html">Home</a></li>
+	                <li class="nav-item"><a href="about.html">About</a></li>
+	                <li class="nav-item"><a href="portfolio.html">Portfolio</a></li>
+	                <div class="clear"></div>
+	            </ul>
+	        </nav>
+	        <script type="text/javascript" src="js/responsive.menu.js"></script>
+			<!-- end smart_nav * -->
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="header_btm">
+		<div class="h_left" style="margin-top:-81px;">
+			<h2>GIFs, Memes, Made Manegable</h2>
+			<h3>So simple, we've trained our monkey to use it</h3>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+</div>
+<!-- start main -->
+<div class="main_bg">
+<div class="wrap">
+	<div class="main">
+		<!-- start popup -->
+		<div id="small-dialog" class="mfp-hide">
+			<div class="pop_up">
+			<h2 contenteditable="true">Meme/GIF Title</h2><br>
+			<div class="contact">							
+				<div class="contact_left">
+				<div class="contact-form">
+					<div>
+						<span>
+							<img src="images/monkey.gif">
+						</span>
+					</div>
+				   </div>
+				  
+				</div>
+				<div class="contact_right">
+					  <div class="contact-form">
+						    <div>
+						    	<span style="padding-top:50px"><label>rating</label></span>
+							<span><img src="images/rating.jpg"></span>
+						    </div>	
+						    <div>
+						     	<span><label>tags</label></span>
+						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    </div>
+				    </div>
+  				</div>	
+				<div class="contact-form">
+					<span><label>comments</label></span>
+					<span><textarea name="userMsg"> </textarea></span>
+
+				</div>
+				<div class="contact-form">
+					<span><input type="submit" value="delete" style="background:#F51100" ></span>
+					<span><input type="submit" value="save" style="float: left;"></span>
+				</div>
+				<div class="clear"></div>		
+
+			</div>
+			</div>
+		</div>
+		<!-- end popup -->
+		
+		<!-- start popup -->
+		<div id="small-dialog1" class="mfp-hide">
+			<div class="pop_up">
+			<h2 contenteditable="true">Meme/GIF Title</h2><br>
+			<div class="contact">							
+				<div class="contact_left">
+				<div class="contact-form">
+					<div>
+						<span>
+							<img src="http://i.imgur.com/3FUuJp4.jpg" height="154px" !important width="154px">
+						</span>
+					</div>
+				   </div>
+				  
+				</div>
+				<div class="contact_right">
+					  <div class="contact-form">
+						    <div>
+						    	<span style="padding-top:50px"><label>rating</label></span>
+							<span><img src="images/rating.jpg"></span>
+						    </div>	
+						    <div>
+						     	<span><label>tags</label></span>
+						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    </div>
+				    </div>
+  				</div>	
+				<div class="contact-form">
+					<span><label>comments</label></span>
+					<span><textarea name="userMsg"> </textarea></span>
+
+				</div>
+				<div class="contact-form">
+					<span><input type="submit" value="delete" style="background:#F51100" ></span>
+					<span><input type="submit" value="save" style="float: left;"></span>
+				</div>
+				<div class="clear"></div>		
+
+			</div>
+			</div>
+		</div>
+		<!-- end popup -->
+		
+		<!-- start popup -->
+		<div id="small-dialog2" class="mfp-hide">
+			<div class="pop_up">
+			<h2 contenteditable="true">Meme/GIF Title</h2><br>
+			<div class="contact">							
+				<div class="contact_left">
+				<div class="contact-form">
+					<div>
+						<span>
+							<img src="http://i1.kym-cdn.com/photos/images/newsfeed/000/641/298/448.jpg">
+						</span>
+					</div>
+				   </div>
+				  
+				</div>
+				<div class="contact_right">
+					  <div class="contact-form">
+						    <div>
+						    	<span style="padding-top:50px"><label>rating</label></span>
+							<span><img src="images/rating.jpg"></span>
+						    </div>	
+						    <div>
+						     	<span><label>tags</label></span>
+						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    </div>
+				    </div>
+  				</div>	
+				<div class="contact-form">
+					<span><label>comments</label></span>
+					<span><textarea name="userMsg"> </textarea></span>
+
+				</div>
+				<div class="contact-form">
+					<span><input type="submit" value="delete" style="background:#F51100" ></span>
+					<span><input type="submit" value="save" style="float: left;"></span>
+				</div>
+				<div class="clear"></div>		
+
+			</div>
+			</div>
+		</div>
+		<!-- end popup -->
+		
+		
+		<!-- start gallery  -->
+			<div class="container">
+					<ul id="filters" class="clearfix">
+						<li><span class="filter active" data-filter="app card icon logo web">Newest First</span></li> /
+						<li><span class="filter" data-filter="app card logo">Oldest First</span></li> /
+						<li><span class="filter" data-filter="card app web icon">A-Z</span></li> /
+						<li><span class="filter" data-filter="icon web app">Z-A</span></li> /
+						<li><span class="filter">+ New Folder</span></li> 
+					</ul>
+		<div id="portfoliolist">
+			<div id="portfoliolist"><!-- 1 -->
+			<a class="popup-with-zoom-anim" href="#small-dialog">
+				<div class="portfolio logo1" data-cat="logo">
+					<div class="portfolio-wrapper">				
+							<a href="portfolio.html"><img  src="images/add.png" style="padding-top:30px;" height="250px"/></a>
+						<div class="label">
+
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>		
+			</a>
+			<a href="gif_album.html">				<div class="portfolio logo1" data-cat="logo">
+					<div class="portfolio-wrapper">				
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">Bird Document</p>
+								<span class="text-category">Logo</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>		
+			</a>
+			<a href="gif_album.html">				<div class="portfolio app" data-cat="app">
+					<div class="portfolio-wrapper">			
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">Visual Infography</p>
+								<span class="text-category">APP</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>		
+			</a>
+			<a href="gif_album.html">				<div class="portfolio web" data-cat="web">
+					<div class="portfolio-wrapper">						
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">Sonor's Design</p>
+								<span class="text-category">Web design</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>				
+			</a>
+			<a class="popup-with-zoom-anim" href="#small-dialog">
+				<div class="portfolio card" data-cat="card">
+					<div class="portfolio-wrapper">			
+							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280px" !important width="270px" />
+						<div class="label">
+							<div class="label-text">
+							<!--	<p class="text-title">BMF</p>
+								<span class="text-category">Business card</span> -->
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>	
+			</a><!-- 7 -->
+			<a href="gif_album.html">				<div class="portfolio card" data-cat="card">
+					<div class="portfolio-wrapper">			
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">BMF</p>
+								<span class="text-category">Business card</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>	
+			</a>
+			<a class="popup-with-zoom-anim" href="#small-dialog">
+				<div class="portfolio card" data-cat="card">
+					<div class="portfolio-wrapper">			
+							<img src="http://i.imgur.com/YVf3376.png"  style="padding-top:30px;" alt="Image 2" height="200px" !important width="270px" />
+						<div class="label">
+							<div class="label-text">
+							<!--	<p class="text-title">Typography Company</p>
+								<span class="text-category">Business card</span> -->
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>	
+			</a> <!-- 5 -->
+			
+			<a href="gif_album.html">				<div class="portfolio app" data-cat="app">
+					<div class="portfolio-wrapper">			
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">Graph Plotting</p>
+								<span class="text-category">APP</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>		
+			</a>
+			<a href="gif_album.html">												
+				<div class="portfolio web" data-cat="web">
+					<div class="portfolio-wrapper">						
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">Student Guide</p>
+								<span class="text-category">Web design</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>	
+			</a>
+			<a href="gif_album.html">				<div class="portfolio icon" data-cat="icon">
+					<div class="portfolio-wrapper">
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">Scoccer</p>
+								<span class="text-category">Icon</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>			
+			</a>
+			<a href="gif_album.html">				<div class="portfolio icon" data-cat="icon">
+					<div class="portfolio-wrapper">						
+							<img src="images/folders.png"  alt="Image 2" />
+						<div class="label">
+							<div class="label-text">
+								<p class="text-title">3D Map</p>
+								<span class="text-category">Icon</span>
+							</div>
+							<div class="label-bg"></div>
+						</div>
+					</div>
+				</div>		
+			</a>	
+		</div>
+	</div><!-- end container -->	
+			
+		</div>
+	</div><!-- end container -->
+	</div>
+</div>
+</div>
+<div class="footer_bg">
+<div class="wrap">
+	<div class="footer">
+		<div class="span_of_4">		
+			<div class="clear"></div>
+		</div>
+		<div class="footer_top">
+			<div class="f_nav1">
+				<ul>
+					<li><a href="index.html">home</a></li>
+					<li><a href="about.html">about</a></li>
+					<li><a href="index.html">features</a></li>
+				</ul>
+			</div>
+			<div class="copy">
+				<p class="link"><span>A TeaMeme Website | Class Page by&nbsp;<a href="http://classes.pint.com/cse134b"> Group 23</a></span></p>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>

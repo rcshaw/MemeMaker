@@ -1,13 +1,59 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>MemeMaster: All About Memes</title>
+<title>MemeMaster | Portfolio</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<!-- start gallery -->
+	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
+	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		
+		var filterList = {
+		
+			init: function () {
+			
+				// MixItUp plugin
+				// http://mixitup.io
+				$('#portfoliolist').mixitup({
+					targetSelector: '.portfolio',
+					filterSelector: '.filter',
+					effects: ['fade'],
+					easing: 'snap',
+					// call the hover effect
+					onMixEnd: filterList.hoverEffect()
+				});				
+			
+			},
+			
+			hoverEffect: function () {
+			
+				// Simple parallax effect
+				$('#portfoliolist .portfolio').hover(
+					function () {
+						$(this).find('.label').stop().animate({bottom: 0}, 200, 'easeOutQuad');
+						$(this).find('img').stop().animate({top: -30}, 500, 'easeOutQuad');				
+					},
+					function () {
+						$(this).find('.label').stop().animate({bottom: -40}, 200, 'easeInQuad');
+						$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
+					}		
+				);				
+			
+			}
+
+		};
+		
+		// Run the show!
+		filterList.init();
+			
+	});	
+	</script>
 <!-- Add fancyBox main JS and CSS files -->
 <link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
@@ -26,6 +72,7 @@
 			});
 		});
 		</script>
+
 </head>
 <body>
 <!-- start header -->
@@ -33,13 +80,19 @@
 <div class="wrap">
 	<div class="header">
 		<div class="logo">
-			<a href="index.html"><img src="images/logo.png" alt=""/></a>
+			<h1><a href="index.html"><img src="images/meme_logo.png"  alt=""/></a></h1>
 		</div>
+		
+		<img src="images/monkey.gif" height="50px" width="50px" style="padding-left:-4%" title="image-name">
+		
 		<div class="h_right">
 			<ul class="menu">
-				<li><a href="index.html">home</a></li>
+				<li><a href="folders_page.html">home</a></li>
 				<li><a href="about.html">create</a></li>
 				<li class="active"><a href="portfolio.html">upload</a></li>
+				<li><a>chrome extension</a></li>
+				<li><a href="teampage.html">team page</a></li>
+				<li><a href="index.html">logout</a></li>
 			</ul>
 			<div id="sb-search" class="sb-search">
 				<form>
@@ -57,8 +110,9 @@
 	        <nav class="nav">
 	            <ul class="nav-list">
 	                <li class="nav-item"><a href="index.html">Home</a></li>
-	                <li class="nav-item"><a href="about.html">Create</a></li>
-	                <li class="nav-item"><a href="portfolio.html">Upload</a></li>
+	                <li class="nav-item"><a href="about.html">About</a></li>
+	                <li class="nav-item"><a href="portfolio.html">Portfolio</a></li>
+	                <div class="clear"></div>
 	            </ul>
 	        </nav>
 	        <script type="text/javascript" src="js/responsive.menu.js"></script>
@@ -66,16 +120,16 @@
 		</div>
 		<div class="clear"></div>
 	</div>
-</div>
-</div>
-<!-- start slider -->
-<div class="slider_bg">
-<div class="wrap">
-	<div class="slider">
-		<h2>Upload</h2>
+	<div class="header_btm">
+		<div class="h_left" style="margin-top:-81px;">
+			<h2>Upload a GIF or Meme</h2>
+			<h3>then don't forget to tag, rate, and comment</h3>
+		</div>
+		<div class="clear"></div>
 	</div>
 </div>
-</div>
+
+
 <!-- start main -->
 <div class="main_bg">
 <div class="wrap">
@@ -130,12 +184,24 @@
 	</div>
 </div>
 </div>
+
+
 <div class="footer_bg">
 <div class="wrap">
 	<div class="footer">
-		<div class="span_of_4">
+		<div class="span_of_4">		
+			<div class="clear"></div>
+		</div>
+		<div class="footer_top">
+			<div class="f_nav1">
+				<ul>
+					<li><a href="index.html">home</a></li>
+					<li><a href="about.html">about</a></li>
+					<li><a href="index.html">features</a></li>
+				</ul>
+			</div>
 			<div class="copy">
-				<p class="link"><span>© All rights reserved | Template by&nbsp;<a href="http://w3layouts.com/"> W3Layouts</a></span></p>
+				<p class="link"><span>A TeaMeme Website | Class Page by&nbsp;<a href="http://classes.pint.com/cse134b"> Group 23</a></span></p>
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -143,4 +209,5 @@
 </div>
 </div>
 </body>
+</html>
 </html>
