@@ -365,9 +365,11 @@ body {
 .login {
 	position: absolute;
 	left: 85%;
-	top: 30%;
+	top: 25%;
 	width: 300px;
-
+}
+.login-text {
+	position: relative;
 }
 
 .divider {
@@ -379,10 +381,10 @@ body {
 }
 .slider_container{
 	position: absolute;
-	left: 50%;
+	left: 20%;
 	top: 0px;
-	width: 300px;
-	height: 300px;
+	width: 1200px;
+	height: 1200px;
 }
 
 .jssora02l {
@@ -1380,7 +1382,6 @@ span.tab-img{
 .contact_left {
 	float:left;
 	margin-right:3.3333%;
-	width: 32.3333%;
 }
 .contact_right {
 	float:left;
