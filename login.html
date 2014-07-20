@@ -78,17 +78,15 @@
 <!-- start header -->
 <div class="header_bg">
 <div class="wrap">
-	<div class="header">
+		<div class="header">
 		<div class="logo">
-			<h1><a href="index.html"><img src="images/logo.png" alt="home"/></a></h1>
+			<h1><a href="index.html"><img src="images/logo.png" alt=""/></a></h1>
 		</div>
 		<div class="h_right">
 			<ul class="menu">
 				<li class="active"><a href="index.html">home</a></li>
-				<li><a href="about.html">about</a></li>
-				<li><a href="portfolio.html">portfolio</a></li>
-				<li><a href="blog.html">blog</a></li>
-				<li><a href="contact.html">contact</a></li>
+				<li><a href="about.html">Create</a></li>
+				<li><a href="portfolio.html">Upload</a></li>
 			</ul>
 			<div id="sb-search" class="sb-search">
 				<form>
@@ -97,6 +95,25 @@
 					<span class="sb-icon-search"></span>
 				</form>
 			</div>
+			<script src="js/classie.js"></script>
+			<script src="js/uisearch.js"></script>
+			<script>
+				new UISearch( document.getElementById( 'sb-search' ) );
+			</script>
+			<!-- start smart_nav * -->
+	        <nav class="nav">
+	            <ul class="nav-list">
+	                <li class="nav-item"><a href="index.html">Home</a></li>
+	                <li class="nav-item"><a href="about.html">Create</a></li>
+	                <li class="nav-item"><a href="portfolio.html">Upload</a></li>
+	                <div class="clear"></div>
+	            </ul>
+	        </nav>
+	        <script type="text/javascript" src="js/responsive.menu.js"></script>
+			<!-- end smart_nav * -->
+		</div>
+		<div class="clear"></div>
+	</div>
 <script>
 (function(g,h,b,e,c,d,o){/*! Jssor */
 /*Jssor*/
