@@ -1,0 +1,23 @@
+{
+  "name": "MemeMaster",
+  "description": "Add a meme to your MemeMaster account with the click of a button!",
+  "version" : "1.0.1",
+  "background" : { "scripts": ["background.js"] },
+  "permissions" : [
+    "contextMenus",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+   ],
+  "minimum_chrome_version" : "6.0.0.0",
+    "browser_action": {
+    "default_icon": "fry.png",
+    "default_popup": "popup.html"
+  },
+  "icons" : {
+    "16" : "fry.png",
+    "48" : "fry.png",
+    "128" : "fry.png"
+  },
+  "manifest_version": 2
+}

@@ -63,7 +63,7 @@ body {
 	margin-right: 10px;
 }
 .menu li.active a,.menu li a:hover{
-	background: #19BD9B;
+	background: #33495E;
 	color: #ffffff;
 	text-shadow: 0 1px 0 #10816A;
 }
@@ -320,7 +320,6 @@ body {
 	padding: 4%;
 }
 .content{
-	margin-top: -110px;
 	background: #ffffff;
 	padding: 4%;
 	border-radius: 4px;
@@ -359,12 +358,10 @@ body {
 }
 .login {
 	position: absolute;
-	left: 85%;
-	top: 25%;
+	left: 75%;
+	top: 30%;
 	width: 300px;
-}
-.login-text {
-	position: relative;
+
 }
 
 .divider {
@@ -376,10 +373,10 @@ body {
 }
 .slider_container{
 	position: absolute;
-	left: 20%;
+	left: 50%;
 	top: 0px;
-	width: 1200px;
-	height: 1200px;
+	width: 300px;
+	height: 300px;
 }
 
 .jssora02l {
@@ -1393,6 +1390,7 @@ span.tab-img{
 .contact_left {
 	float:left;
 	margin-right:3.3333%;
+	width: 32.3333%;
 }
 .contact_right {
 	float:left;
