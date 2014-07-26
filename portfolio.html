@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
 	<script type="text/javascript">
+    
 	$(function () {
 		
 		var filterList = {
@@ -47,14 +48,29 @@
 				);				
 			
 			}
+            
+        });
 
 		};
 		
 		// Run the show!
 		filterList.init();
-			
 	});	
 	</script>
+    <script type="text/javascript">
+        $(function() {
+            var url = "";
+            $("form[name^='addURL']").on("submit", function(e) {
+              e.preventDefault();  
+              url = $("input[name^='urlLink']").val();
+              $("img#imageShown").attr("src", url);
+              $("img#imageShown").css("display", "block");
+            });
+            
+            
+            
+        });
+    </script>
 <!-- Add fancyBox main JS and CSS files -->
 <link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
@@ -135,17 +151,16 @@
 <div class="wrap">
 	<div class="main">
 		<div class="content">
-			<form method="post" action="#">
+			<form name="addURL" method="post" action="" enctype="multipart/form-data">
 			<div class="contact">							
 				<div class="contact_left">
 				  <div class="contact-form">
 				  	<h3>Upload An Image</h3>
 					<div>
 						<span>
-							<input name="userName" type="text" class="textbox" placeholder="URL to be Added"><br/>
+							<input id="urlLink" name="urlLink" type="text" class="textbox" placeholder="URL to be Added"><br/>
 							<input type="submit" value="Add URL" style="margin-right: 0;">
-							<input type="submit" value="Browse Computer" style="margin-right: 0">
-							<img src="images/test.jpg" alt="Test image." style="margin-top: 10px; border-color:black;">
+							<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black; height: 100%; width: 100%;" />
 						</span>
 					</div>
 				   </div>
@@ -155,21 +170,35 @@
 					<div class="contact-form">
 						    <div>
 						    	<span><label>title</label></span>
-						    	<span><input name="userName" type="text" class="textbox"></span>
+						    	<span><input name="title" type="text" class="textbox"></span>
 						    </div>
-						    <div>
-						    	<span><label>rating</label></span>
-							<span><img src="images/rating.jpg" alt="Test ratings."></span>
-						    </div>
+                            <div>
+                                <span><label>rating</label></span>
+                                <span class="star-rating">
+                                    <input type="radio" name="rating" value="1"><i></i>
+                                    <input type="radio" name="rating" value="2"><i></i>
+                                    <input type="radio" name="rating" value="3"><i></i>
+                                    <input type="radio" name="rating" value="4"><i></i>
+                                    <input type="radio" name="rating" value="5"><i></i>
+                                </span>
+                            </div>
+                        
+                            <div>
+                                <span><label>folder</label></span>
+                                <select>
+                                    <option></option>
+                                </select>
+                            </div>
+                        
 						    <div>
 						     	<span><label>tags</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    	<span><input name="tags" type="text" class="textbox"></span>
 						    </div>
 							
 						    <div>
 						    	<span><label>comments</label></span>
-						    	<span><textarea name="userMsg"> </textarea></span>
-						</div>
+						    	<span><textarea name="comments"> </textarea></span>
+						    </div>
 
 						    <div>
 								    <span><input type="submit" value="upload"></span>
@@ -211,3 +240,7 @@
 </div>
 </body>
 </html>
+
+<!--<input class="button1" type="button" onclick="javascript:new_file_input('url');" value="Add More Files">
+<input class="button1" type="button" value="Start Uploading" onclick="javascript:toggle_lightbox('index.php?act=upload_in_progress', 'progress_bar_lightbox'); javascript:document.forms['upload_form'].submit();">-->
+
