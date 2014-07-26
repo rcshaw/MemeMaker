@@ -1436,12 +1436,13 @@ span.tab-img{
 	font-weight: 600;
 	text-shadow: 0 1px 0 #ffffff;
 }
-.contact-form{
+
+/* .contact-form{
 	position:relative;
-}
+} */
 .contact-form div{
 	padding:5px 0;
-}
+} 
 .contact-form span{
 	text-transform: capitalize;
 	display: block;
@@ -1450,7 +1451,7 @@ span.tab-img{
 	line-height: 1.5em;
 	font-size: 0.8725em;
 	font-weight: 400;
-}
+} 
 .contact-form input[type="text"],.contact-form textarea{
 	font-family: 'Open Sans', sans-serif;
 	padding: 10px;
@@ -1878,6 +1879,39 @@ span.tab-img{
 	.contact-form input[type="text"], .contact-form textarea {
 		width: 90.3333%;
 	}
+}
 
+/**** ADDED BY STK ****/
 
+#upload_overlay {
+ position: fixed;
+ height: 100%;
+ width: 100%;
+ background-color: rgba(0, 0, 0, .8);
+ display: none;
+ z-index: 999;
+}
+
+#upload_prompt {
+  position: absolute;
+  top: 80px;
+  left: 320px;
+  width: 810px; 
+  height: 600px;
+  background-color: #FFF;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  padding: 20px;
+}
+
+#upload_prompt h2 {
+  margin-bottom: 10px;
+  font-size: 22pt; 
+}
+
+#upload_prompt form label {
+  margin-right: 60px; 
+  margin-left: 10px;
+  font-size: 14pt;
 }
