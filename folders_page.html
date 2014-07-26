@@ -11,9 +11,29 @@
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <!-- start gallery -->
-	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
-	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
+<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+<script type="text/javascript">
+	$(function(e) {
+
+    $(document).mouseup(function(e) {
+      var p = $("#upload_prompt");
+      if(!p.is(e.target) && p.has(e.target).length === 0)
+        $("#upload_overlay").hide();
+    });	 
+	  
+	$(document).on("keydown", function(e) {
+	  if(e.keyCode == 27)
+	    $("#upload_prompt button.mfp-close").trigger("click"); 
+	});
+	  $("#add_item").click(function() {
+	    $("#upload_overlay").show();
+	  });  
+	  $("#upload_prompt button.mfp-close").click(function() {
+	    $("#upload_overlay").hide();
+	  });
+	});
+
 	$(function () {
 		
 		var filterList = {
@@ -72,14 +92,27 @@
 					removalDelay: 300,
 					mainClass: 'my-mfp-zoom-in'
 			});
+
 		});
 		</script>
 
 </head>
 <body>
+		<!-- start popup for adding image/folder -->
+		<div id="upload_overlay">
+			<div id="upload_prompt">
+			  <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+			  <h2>Add a New...</h2>
+				<form action="" method="post" name="add_item">
+				  <input type="radio" name="add_type" value="image" /><label>Image</label>
+				  <input type="radio" name="add_type" value="folder" /><label>Folder</label>
+				</form>
+			</div>		
+		</div>
 <!-- start header -->
 <div class="header_bg">
 <div class="wrap">
+
 	<div class="header">
 		<div class="logo">
 			<a href="index.html"><img src="images/meme_logo.png"  alt=""/></a>
@@ -134,7 +167,8 @@
 <div class="main_bg">
 <div class="wrap">
 	<div class="main">
-		<!-- start popup -->
+
+		<!-- start popup for existing images -->
 		<div id="small-dialog" class="mfp-hide">
 			<div class="pop_up">
 			<h2 contenteditable="true">Meme/GIF Title</h2><br>
@@ -157,7 +191,7 @@
 						    </div>	
 						    <div>
 						     	<span><label>tags</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    	<input name="userPhone" type="text" class="textbox">
 						    </div>
 				    </div>
   				</div>	
@@ -200,7 +234,7 @@
 						    </div>	
 						    <div>
 						     	<span><label>tags</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    	<input name="userPhone" type="text" class="textbox">
 						    </div>
 				    </div>
   				</div>	
@@ -243,7 +277,7 @@
 						    </div>	
 						    <div>
 						     	<span><label>tags</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    	<input name="userPhone" type="text" class="textbox" >
 						    </div>
 				    </div>
   				</div>	
@@ -276,7 +310,7 @@
 		<div id="portfoliolist">
 				<div class="portfolio logo1" data-cat="logo">
 					<div class="portfolio-wrapper">				
-							<a href="portfolio.html"><img  src="images/add.png" style="padding-top:30px;" height="250" alt="test"/></a>
+					  <a href="#" onclick="return false;" id="add_item"><img  src="images/add.png" style="padding-top:30px;" height="150" alt="Add an Image or Folder" title="Add an Image or Folder" /></a>
 						<div class="label">
 
 							<div class="label-bg"></div>

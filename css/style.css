@@ -28,6 +28,11 @@ nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 /*end reset*/
+
+.no-border {
+  border: none !important;
+}
+
 body {
 	font-family: 'Open Sans', sans-serif;
 	background:#ffffff;
@@ -405,8 +410,10 @@ background: url(../img/a02.png) no-repeat;
 }
 #filters li {
 	display: inline-block;
-	margin:0 10px;
+    border-right: 1px solid #FFF;
+    padding: 0 10px;
 }
+
 #filters li:first-child{
 	margin: 0px;
 }
@@ -1547,7 +1554,7 @@ input[type="radio"]{
   background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
   background-size: contain;
 }
-.star-rating i {
+.star-rating span {
   opacity: 0;
   position: absolute;
   left: 0;
@@ -1570,23 +1577,23 @@ input[type="radio"]{
   z-index: 2;
   position: relative;
 }
-.star-rating input:hover + i,
-.star-rating input:checked + i {
+.star-rating input:hover + span,
+.star-rating input:checked + span {
   opacity: 1;
 }
-.star-rating i ~ i{
+.star-rating span ~ span{
     width: 40%;
 }
 
-.star-rating i ~ i ~ i{
+.star-rating span ~ span ~ span{
     width: 60%;
 }
 
-.star-rating i ~ i ~ i ~ i{
+.star-rating span ~ span ~ span ~ span{
     width: 80%;
 }
 
-.star-rating i ~ i ~ i ~ i ~ i{
+.star-rating span ~ span ~ span ~ span ~ span{
     width: 100%;
 }
 ::after,
@@ -1964,8 +1971,8 @@ input[type="radio"]{
   position: absolute;
   top: 80px;
   left: 320px;
-  width: 810px; 
-  height: 600px;
+  width: 840px; 
+  height: auto;
   background-color: #FFF;
   border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -1978,8 +1985,43 @@ input[type="radio"]{
   font-size: 22pt; 
 }
 
-#upload_prompt form label {
+#upload_prompt input {
+  display: inline-block !important;
+}
+
+#upload_prompt input ~ label {
   margin-right: 60px; 
   margin-left: 10px;
+}
+
+#upload_prompt label {
   font-size: 14pt;
+}
+
+#upload_prompt form {
+  display: none;
+}
+
+img#imageShown {
+  display: none;
+  padding-top: 10px !important;
+  height: 100%;
+  width: 100%;
+  border-color: #000;
+}
+
+#upload_prompt form#addFolder label {
+  float: left;
+  clear: both !important;
+  width: 100%;
+}
+
+#upload_prompt form#addFolder input.textbox {
+  max-width: 350px;
+  float: left;
+}
+
+#upload_prompt form#addFolder input[type="submit"] {
+  float: right;
+  width: 140px;
 }
