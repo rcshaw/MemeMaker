@@ -159,7 +159,6 @@
 				   </div>
 				</div>
                 
-                <form id="details">
 				<div class="contact_right">
 					<div class="contact-form">
 						    <div>
@@ -203,7 +202,6 @@
 						  </div>
 				    </div>
   				</div>	
-                </form>
 				<div class="clear"></div>		
 
 			</div>
@@ -241,7 +239,8 @@
                 var imgTag = Y.one('#tag').get('value');
                 var imgFolder = Y.one('#folder-list').get('value');
                 var imgRatings = Y.one('#ratings').get('value');
-                var imgComments = Y.one('#comments').get('text');
+                alert(imgRatings);
+                var imgComments = Y.one('#comments').get('value');
 				var ImageItem = Parse.Object.extend("ImageItem");
 				var imageItem = new ImageItem();
 
@@ -265,12 +264,12 @@
                         inputImgTag.set('value', '');
                         inputImgFolder.set('value', '');
                         inputImgRatings.set('value', '');
-                        inputImgComments.set('text', '');
+                        inputImgComments.set('value', '');
 				  },
 				  error: function(gameScore, error) {
 						alert("Error when saving Todos: " + error.code + " " + error.message);
 				  }
-				});
+				}); 
 			});
 			
 			
