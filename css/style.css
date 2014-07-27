@@ -2035,3 +2035,12 @@ img#imageShown {
 .draggable {
   z-index: 9001; /** z-index of draggable items is OVER 9,000!!!! **/
 }
+
+form select {
+  margin-top: 20px;
+  border: none !important;
+  min-width: 250px;
+  height: 30px;
+  padding: 1px;
+  font-size: 10pt !important;
+}
