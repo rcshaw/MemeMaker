@@ -9,6 +9,8 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.0.19.min.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
@@ -136,7 +138,27 @@
 				  $("img#imageShown").css("display", "block");
 				});
 			});
+
 		</script>
+    <script type="text/javascript">
+        $(function() {
+        
+        	$("form[name^='addURL']").submit(function(e) {
+        	  e.preventDefault();
+        	});
+        
+        	$("form[name^='addFolder']").submit(function(e) {
+        	  e.preventDefault();
+        	});
+        
+            var url = "";
+            $("#add_url").on("click", function(e) {
+              url = $("input[name^='img-url']").val();
+              $("img#imageShown").attr("src", url);
+              $("img#imageShown").css("display", "block");
+            });      
+        });
+        </script>
 </head>
 <body>
 		<!-- start popup for adding image/folder -->
@@ -146,75 +168,188 @@
 			  <h2>Add a New...</h2>
 			  <input type="radio" name="add_type" value="image" id="add_image" /><label for="add_image">Image</label>
 			  <input type="radio" name="add_type" value="folder" id="add_folder" /><label for="add_folder">Folder</label>
-				<form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
-				  <hr />
-				<div class="contact">							
-					<div class="contact_left">
-					  <div class="contact-form">
-						<label>Image URL</label>
-						<div>
-								<input id="urlLink" name="urlLink" type="text" class="textbox" placeholder="URL to be Added"><br/>
-								<input type="submit" value="Add URL" style="margin-right: 0;">
-								<img id="imageShown" alt="Your Uploaded Image" title="Your Uploaded Image" />
-						</div>
-					   </div>
+			  <form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
+				<div class="contact_left">
+				  <div class="contact-form">
+				  	<label>Upload An Image</label>
+					<div>
+							<input id="img-url" name="img-url" type="text" class="textbox" placeholder="URL to be Added"><br/>
+							<input type="button" id="add_url" value="Add URL" style="margin-right: 0;">
+							<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
 					</div>
-
-					<div class="contact_right">
-						<div class="contact-form">
-								<div>
-									<label>Title</label>
-									<input name="title" type="text" class="textbox">
-								</div>
-								<div>
-									<label>Rating</label>
-									<span class="star-rating">
-										<input type="radio" name="rating" value="1"><span></span>
-										<input type="radio" name="rating" value="2"><span></span>
-										<input type="radio" name="rating" value="3"><span></span>
-										<input type="radio" name="rating" value="4"><span></span>
-										<input type="radio" name="rating" value="5"><span></span>
-									</span>
-								</div>
-						
-								<div>
-									<label>Folder</label>
-									<select>
-										<option></option>
-									</select>
-								</div>
-						
-								<div>
-									<label>Tags</label>
-									<input name="tags" type="text" class="textbox">
-								</div>
-							
-								<div>
-									<label>Comments</label>
-									<textarea name="comments"> </textarea>
-								</div>
-
-								<div>
-										<input type="submit" value="Upload">
-							  </div>
-						</div>
-					</div>		
-					<div class="clear"></div>		
-
+				   </div>
 				</div>
-			</form>
-			<form action="" method="post" id="addFolder">
+                
+				<div class="contact_right">
+					<div class="contact-form">
+						    <div>
+						    	<label>Title</label>
+						    	<input id="image-title" type="text" class="textbox">
+						    </div>
+                            <div>
+                                <label>Rating</label>
+                                <span class="star-rating">
+                                    <input type="radio" id="ratings" name="ratings" value="1"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="2"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="3"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="4"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="5"><span></span>
+                                </span>
+                            </div>
+                        
+                            <div>
+                                <label>Folder</label>
+                                <select id="folder-list">
+                                    <option id="folder-filler">Choose Folder</option>
+                                </select>
+                            </div>
+                        
+						    <div>
+						     	<label>Tags</label>
+						    	<input id="tag" type="text" class="textbox">
+						    </div>
+							
+						    <div>
+						    	<label>Comments</label>
+						    	<textarea id="comments" type="text" name="comments"> </textarea>
+						    </div>
+
+						    <div>
+								    <input id="list-item-submit" type="submit" value="Upload" >
+						  </div>
+				    </div>
+  				</div>	
+				<div class="clear"></div>		
+			  </form>
+			  
+    <script id="list-of-images" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
+	</script>
+			  
+	<script>
+		YUI().use('node', function(Y) {
+			
+			var ImageItem, 
+			query,
+			submitBtn = Y.one("#list-item-submit"),
+			imageList = Y.one('#image-items'),
+			input = Y.one("#image-title"),
+			inputImgUrl = Y.one("#img-url"),
+            inputImgTag = Y.one("#tag"),
+            inputImgFolder = Y.one("#folder-list"),
+            inputImgRatings = Y.one("#ratings"),
+            inputImgComments = Y.one("#comments");
+			
+			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+            
+            var FolderItem = Parse.Object.extend("FolderItem");
+            var folderItem = new Parse.Query(FolderItem);
+            folderItem.find({
+                success: function(item) {
+                    for (i in item){
+                        var folder = item[i];
+//                        console.log(folder.get("content"));
+                        var folderCategories = document.getElementById("folder-list");
+                        var newFolderItem = document.createElement('option');
+                        newFolderItem.innerText = folder.get("content");
+                        folderCategories.appendChild(newFolderItem);
+                    }
+                }
+            });
+			
+			//Handle Click Event
+			submitBtn.on('click', function(e) {
+				
+				//Save the current Todo
+				var imgTitle = Y.one('#image-title').get('value');
+                var imgUrl = Y.one('#img-url').get('value');
+                var imgTag = Y.one('#tag').get('value');
+                var imgFolder = Y.one('#folder-list').get('value');
+                var imgRatings = $('input[name^="ratings"]:checked').val();
+                var imgComments = Y.one('#comments').get('value');
+				var ImageItem = Parse.Object.extend("ImageItem");
+				var imageItem = new ImageItem();
+
+				imageItem.set("imgTitle", imgTitle);
+				imageItem.set("imgUrl", imgUrl);
+                imageItem.set("imgTag", imgTag);
+                imageItem.set("imgFolder", imgFolder);
+                imageItem.set("imgRatings", imgRatings);
+                imageItem.set("imgComments", imgComments);
+				
+				//Once it is saved, show it in the list of todo's.
+				imageItem.save(null, {
+				  success: function(item) {
+						
+				    var content = Y.Lang.sub(Y.one('#list-of-images').getHTML(), {
+							content: item.get('imgTitle'),
+							id: item.id,
+						});
+						input.set('value', '').focus();
+                        inputImgUrl.set('value', '');
+                        inputImgTag.set('value', '');
+                        inputImgFolder.set('value', '');
+                        $('#imageShown').css("display", "none");
+                        $('input[name=ratings]').attr('checked',false);
+                        inputImgComments.set('value', '');
+				  },
+				  error: function(gameScore, error) {
+						alert("Error when saving Todos: " + error.code + " " + error.message);
+				  }
+				}); 
+			});
+			
+			
+		});
+	</script>
+			<form action="" method="post" id="addFolder" name="addFolder">
 				<hr />
 			  <div class="contact_right">
 				<div class="contact-form">
-
 				<label for="folder_name">Folder Name</label>
 				<input id="folder_name" name="folder_name" type="text" class="textbox" placeholder="Folder Name" />
-				<input type="submit" name="add_folder" value="Add Folder" />
+				<input type="submit" name="add_folder" id="new_folder" value="Add Folder" />
 				</div>
 			  </div>
 			</form>
+	<script id="list-of-folders" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}">{content}</li>
+	</script>
 
+	<script>
+		YUI().use('node', function(Y) {
+			
+			var FolderItem, 
+			query,
+			submitBtn = Y.one("#new_folder"),
+			folderList = Y.one('#folder-items')
+			input = Y.one("#folder_name");
+			
+			
+			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+			
+			//Handle Click Event
+			submitBtn.on('click', function(e) {
+				
+				//Save the current Todo
+				var text = Y.one('#folder_name').get('value');
+				var FolderItem = Parse.Object.extend("FolderItem");
+				var folderItem = new FolderItem();
+				folderItem.set("content", text);
+				
+				//Once it is saved, show it in the list of todo's.
+				folderItem.save(null, {
+				  success: function(item) {
+					input.set('value', '').focus();
+				  },
+				  error: function(gameScore, error) {
+						alert("Error when saving Todos: " + error.code + " " + error.message);
+				  }
+				});
+			});
+						
+		});
+	</script>			
 			</div>		
 		</div>
 <!-- start header -->

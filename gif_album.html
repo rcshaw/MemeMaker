@@ -9,6 +9,8 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.0.19.min.js"></script>
 <!-- start gallery -->
 	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
@@ -136,7 +138,14 @@
 		<!-- start popup -->
 		<div id="small-dialog" class="mfp-hide">
 			<div class="pop_up">
-			<h2 contenteditable="true">Meme/GIF Title</h2><br>
+                <div>
+                    <label>Title</label>
+                    <input id="image-title" type="text" class="textbox">
+                </div>
+                <div>
+                    <label>URL</label>
+                    <input id="img-url" name="img-url" type="text" class="textbox">
+                </div>
 			<div class="contact">							
 				<div class="contact_left">
 				<div class="contact-form">
@@ -149,25 +158,39 @@
 				  
 				</div>
 				<div class="contact_right">
-					  <div class="contact-form">
+					<div class="contact-form">
+                            <div>
+                                <label>Rating</label>
+                                <span class="star-rating">
+                                    <input type="radio" id="ratings" name="ratings" value="1"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="2"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="3"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="4"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="5"><span></span>
+                                </span>
+                            </div>
+                        
+                            <div>
+                                <label>Folder</label>
+                                <select id="folder-list">
+                                    <option id="folder-filler">Choose Folder</option>
+                                </select>
+                            </div>
+                        
 						    <div>
-						    	<span style="padding-top:50px"><label>rating</label></span>
-							<span><img src="images/rating.jpg" alt="ratings"></span>
-						    </div>	
+						     	<label>Tags</label>
+						    	<input id="tag" type="text" class="textbox">
+						    </div>
+							
 						    <div>
-						     	<span><label>tags</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    	<label>Comments</label>
+						    	<textarea id="comments" type="text" name="comments"> </textarea>
 						    </div>
 				    </div>
   				</div>	
 				<div class="contact-form">
-					<span><label>comments</label></span>
-					<span><textarea name="userMsg"> </textarea></span>
-
-				</div>
-				<div class="contact-form">
 					<span><input type="submit" value="delete" style="background:#F51100" ></span>
-					<span><input type="submit" value="save" style="float: left;"></span>
+					<span><input id="list-item-submit" type="button" value="save" style="float: left;" onclick="location.href = 'gif_album.html';"></span>
 				</div>
 				<div class="clear"></div>		
 
@@ -457,6 +480,82 @@
 			</a>	
 			
 		</div>
+            
+        <script id="list-of-images" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
+	</script>
+	
+	<script>
+		YUI().use('node', function(Y) {
+			
+			var ImageItem, 
+			query,
+			submitBtn = Y.one("#list-item-submit"),
+			imageList = Y.one('#image-items'),
+			input = Y.one("#image-title"),
+			inputImgUrl = Y.one("#img-url"),
+            inputImgTag = Y.one("#tag"),
+            inputImgFolder = Y.one("#folder-list"),
+            inputImgRatings = Y.one("#ratings"),
+            inputImgComments = Y.one("#comments");
+			
+			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+            
+            var FolderItem = Parse.Object.extend("FolderItem");
+            var folderItem = new Parse.Query(FolderItem);
+            folderItem.find({
+                success: function(item) {
+                    for (i in item){
+                        var folder = item[i];
+//                        console.log(folder.get("content"));
+                        var folderCategories = document.getElementById("folder-list");
+                        var newFolderItem = document.createElement('option');
+                        newFolderItem.innerText = folder.get("content");
+                        folderCategories.appendChild(newFolderItem);
+                    }
+                }
+            });
+			
+			//Handle Click Event
+			submitBtn.on('click', function(e) {
+				
+				//Save the current Todo
+				var imgTitle = Y.one('#image-title').get('value');
+                var imgUrl = Y.one('#img-url').get('value');
+                var imgTag = Y.one('#tag').get('value');
+                var imgFolder = Y.one('#folder-list').get('value');
+                var imgRatings = $('input[name^="ratings"]:checked').val();
+                var imgComments = Y.one('#comments').get('value');
+				var ImageItem = Parse.Object.extend("ImageItem");
+				var imageItem = new ImageItem();
+
+				imageItem.set("imgTitle", imgTitle);
+				imageItem.set("imgUrl", imgUrl);
+                imageItem.set("imgTag", imgTag);
+                imageItem.set("imgFolder", imgFolder);
+                imageItem.set("imgRatings", imgRatings);
+                imageItem.set("imgComments", imgComments);
+				
+				//Once it is saved, show it in the list of todo's.
+				imageItem.save(null, {
+				  success: function(item) {
+						
+				    var content = Y.Lang.sub(Y.one('#list-of-images').getHTML(), {
+							content: item.get('imgTitle'),
+							id: item.id,
+						});
+						input.set('value', '').focus();
+                        inputImgUrl.set('value', '');
+                        inputImgTag.set('value', '');
+                        inputImgFolder.set('value', '');
+                        $('#imageShown').css("display", "none");
+                        $('input[name=ratings]').attr('checked',false);
+                        inputImgComments.set('value', '');
+				  },
+				}); 
+			});		
+		});
+	</script>
 	</div><!-- end container -->
 	</div>
 </div>
