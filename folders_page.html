@@ -136,6 +136,10 @@
         	  e.preventDefault();
         	});
         
+        	$("form[name^='addFolder']").submit(function(e) {
+        	  e.preventDefault();
+        	});
+        
             var url = "";
             $("#add_url").on("click", function(e) {
               url = $("input[name^='img-url']").val();
@@ -233,7 +237,7 @@
                 success: function(item) {
                     for (i in item){
                         var folder = item[i];
-                        console.log(folder.get("content"));
+//                        console.log(folder.get("content"));
                         var folderCategories = document.getElementById("folder-list");
                         var newFolderItem = document.createElement('option');
                         newFolderItem.innerText = folder.get("content");
@@ -287,19 +291,54 @@
 			
 		});
 	</script>
-			
-			<form action="" method="post" id="addFolder">
+			<form action="" method="post" id="addFolder" name="addFolder">
 				<hr />
 			  <div class="contact_right">
 				<div class="contact-form">
-
 				<label for="folder_name">Folder Name</label>
 				<input id="folder_name" name="folder_name" type="text" class="textbox" placeholder="Folder Name" />
-				<input type="submit" name="add_folder" value="Add Folder" />
+				<input type="submit" name="add_folder" id="new_folder" value="Add Folder" />
 				</div>
 			  </div>
 			</form>
+	<script id="list-of-folders" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}">{content}</li>
+	</script>
 
+	<script>
+		YUI().use('node', function(Y) {
+			
+			var FolderItem, 
+			query,
+			submitBtn = Y.one("#new_folder"),
+			folderList = Y.one('#folder-items')
+			input = Y.one("#folder_name");
+			
+			
+			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+			
+			//Handle Click Event
+			submitBtn.on('click', function(e) {
+				
+				//Save the current Todo
+				var text = Y.one('#folder_name').get('value');
+				var FolderItem = Parse.Object.extend("FolderItem");
+				var folderItem = new FolderItem();
+				folderItem.set("content", text);
+				
+				//Once it is saved, show it in the list of todo's.
+				folderItem.save(null, {
+				  success: function(item) {
+					input.set('value', '').focus();
+				  },
+				  error: function(gameScore, error) {
+						alert("Error when saving Todos: " + error.code + " " + error.message);
+				  }
+				});
+			});
+						
+		});
+	</script>			
 			</div>		
 		</div>
 <!-- start header -->
