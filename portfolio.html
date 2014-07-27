@@ -146,11 +146,9 @@
 				  	<h3>Upload An Image</h3>
 					<div>
                         <form id="addURL" name="addURL" method="post" action="" enctype="multipart/form-data">
-						<span>
 							<input id="img-url" name="img-url" type="url" class="textbox" placeholder="URL to be Added"><br/>
 							<input type="submit" value="Add URL" style="margin-right: 0;">
 							<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
-						</span>
                         </form>
 					</div>
 				   </div>
@@ -159,11 +157,11 @@
 				<div class="contact_right">
 					<div class="contact-form">
 						    <div>
-						    	<span><label>title</label></span>
-						    	<span><input id="image-title" type="text" class="textbox"></span>
+						    	<label>Title</label>
+						    	<input id="image-title" type="text" class="textbox">
 						    </div>
                             <div>
-                                <span><label>rating</label></span>
+                                <label>rating</label>
                                     <!--<input type="number" id="ratings" placeHolder="Number of Stars" min="1" max="5">-->
                                 <span class="star-rating">
                                     <input type="radio" id="ratings" name="ratings" value="1"><span></span>
@@ -175,31 +173,24 @@
                             </div>
                         
                             <div>
-                                <span><label>folder</label></span>
+                                <label>Folder</label>
                                 <select id="folder-list">
-<<<<<<< HEAD
                                     <option id="folder-filler">Choose Folder</option>
-=======
-                                    <option value="Choose Folder">Choose Folder</option>
-                                    <option value="folder1">folder1</option> 
-                                    <option value="folder2">folder2</option>
-                                    <option value="folder3">folder3</option>
->>>>>>> dc8c77983aff0b095ae533b838ec838797eb46f0
                                 </select>
                             </div>
                         
 						    <div>
-						     	<span><label>tags</label></span>
-						    	<span><input id="tag" type="string" class="textbox"></span>
+						     	<label>Tags</label>
+						    	<input id="tag" type="text" class="textbox">
 						    </div>
 							
 						    <div>
-						    	<span><label>comments</label></span>
-						    	<span><textarea id="comments" type="text" name="comments"> </textarea></span>
+						    	<label>comments</label>
+						    	<textarea id="comments" type="text" name="comments"> </textarea>
 						    </div>
 
 						    <div>
-								    <span><input id="list-item-submit" type="submit" value="upload" ></span>
+								    <input id="list-item-submit" type="submit" value="Upload" >
 						  </div>
 				    </div>
   				</div>	
@@ -210,11 +201,6 @@
 	</div>
 </div>
 </div>
-    
-    <script id="list-of-images" type="x/handlebars">
-		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
-	</script>
-
 	<script>
 		YUI().use('node', function(Y) {
 			

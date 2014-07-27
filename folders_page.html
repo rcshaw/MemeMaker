@@ -119,16 +119,13 @@
 					preloader: false,
 					midClick: true,
 					removalDelay: 300,
-<<<<<<< HEAD
 					mainClass: 'my-mfp-zoom-in',
 			     });
             });
-=======
 					mainClass: 'my-mfp-zoom-in'
 			});
 
 		});
->>>>>>> 8ec9b38e079c94b4181ad61aacb81a9fa4a6036f
 		</script>
 		<script type="text/javascript">
 			$(function() {
@@ -172,13 +169,13 @@
 								</div>
 								<div>
 									<label>Rating</label>
-									<span class="star-rating">
-										<input type="radio" name="rating" value="1"><span></span>
-										<input type="radio" name="rating" value="2"><span></span>
-										<input type="radio" name="rating" value="3"><span></span>
-										<input type="radio" name="rating" value="4"><span></span>
-										<input type="radio" name="rating" value="5"><span></span>
-									</span>
+                                <span class="star-rating">
+                                    <input type="radio" id="ratings" name="ratings" value="1"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="2"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="3"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="4"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="5"><span></span>
+                                </span>
 								</div>
 						
 								<div>
@@ -207,6 +204,83 @@
 
 				</div>
 			</form>
+	<script>
+		YUI().use('node', function(Y) {
+			
+			var ImageItem, 
+			query,
+			submitBtn = Y.one("#list-item-submit"),
+			imageList = Y.one('#image-items'),
+			input = Y.one("#image-title"),
+			inputImgUrl = Y.one("#img-url"),
+            inputImgTag = Y.one("#tag"),
+            inputImgFolder = Y.one("#folder-list"),
+            inputImgRatings = Y.one("#ratings"),
+            inputImgComments = Y.one("#comments");
+			
+			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+            
+            var FolderItem = Parse.Object.extend("FolderItem");
+            var folderItem = new Parse.Query(FolderItem);
+            folderItem.find({
+                success: function(item) {
+                    for (i in item){
+                        var folder = item[i];
+                        console.log(folder.get("content"));
+                        var folderCategories = document.getElementById("folder-list");
+                        var newFolderItem = document.createElement('option');
+                        newFolderItem.innerText = folder.get("content");
+                        folderCategories.appendChild(newFolderItem);
+                    }
+                }
+            });
+			
+			//Handle Click Event
+			submitBtn.on('click', function(e) {
+				
+				//Save the current Todo
+				var imgTitle = Y.one('#image-title').get('value');
+                var imgUrl = Y.one('#img-url').get('value');
+                var imgTag = Y.one('#tag').get('value');
+                var imgFolder = Y.one('#folder-list').get('value');
+                var imgRatings = $('input[name^="ratings"]:checked').val();
+                var imgComments = Y.one('#comments').get('value');
+				var ImageItem = Parse.Object.extend("ImageItem");
+				var imageItem = new ImageItem();
+
+				imageItem.set("imgTitle", imgTitle);
+				imageItem.set("imgUrl", imgUrl);
+                imageItem.set("imgTag", imgTag);
+                imageItem.set("imgFolder", imgFolder);
+                imageItem.set("imgRatings", imgRatings);
+                imageItem.set("imgComments", imgComments);
+				
+				//Once it is saved, show it in the list of todo's.
+				imageItem.save(null, {
+				  success: function(item) {
+						
+				    var content = Y.Lang.sub(Y.one('#list-of-images').getHTML(), {
+							content: item.get('imgTitle'),
+							id: item.id,
+						});
+						input.set('value', '').focus();
+                        inputImgUrl.set('value', '');
+                        inputImgTag.set('value', '');
+                        inputImgFolder.set('value', '');
+                        $('#imageShown').css("display", "none");
+                        $('input[name=ratings]').attr('checked',false);
+                        inputImgComments.set('value', '');
+				  },
+				  error: function(gameScore, error) {
+						alert("Error when saving Todos: " + error.code + " " + error.message);
+				  }
+				}); 
+			});
+			
+			
+		});
+	</script>
+			
 			<form action="" method="post" id="addFolder">
 				<hr />
 			  <div class="contact_right">
