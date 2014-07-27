@@ -57,10 +57,7 @@
               url = $("input[name^='img-url']").val();
               $("img#imageShown").attr("src", url);
               $("img#imageShown").css("display", "block");
-            });
-            
-            
-            
+            });      
         });
         </script>
 <!-- Add fancyBox main JS and CSS files -->
@@ -181,9 +178,6 @@
                                 <span><label>folder</label></span>
                                 <select id="folder-list">
                                     <option id="folder-filler">Choose Folder</option>
-                                    <option id="folder1">folder1</option> 
-                                    <option id="folder2">folder2</option>
-                                    <option id="folder3">folder3</option>
                                 </select>
                             </div>
                         
@@ -229,6 +223,21 @@
             inputImgComments = Y.one("#comments");
 			
 			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+            
+            var FolderItem = Parse.Object.extend("FolderItem");
+            var folderItem = new Parse.Query(FolderItem);
+            folderItem.find({
+                success: function(item) {
+                    for (i in item){
+                        var folder = item[i];
+                        console.log(folder.get("content"));
+                        var folderCategories = document.getElementById("folder-list");
+                        var newFolderItem = document.createElement('option');
+                        newFolderItem.innerText = folder.get("content");
+                        folderCategories.appendChild(newFolderItem);
+                    }
+                }
+            });
 			
 			//Handle Click Event
 			submitBtn.on('click', function(e) {
@@ -238,8 +247,7 @@
                 var imgUrl = Y.one('#img-url').get('value');
                 var imgTag = Y.one('#tag').get('value');
                 var imgFolder = Y.one('#folder-list').get('value');
-                var imgRatings = Y.one('#ratings').get('value');
-                alert(imgRatings);
+                var imgRatings = $('input[name^="ratings"]:checked').val();
                 var imgComments = Y.one('#comments').get('value');
 				var ImageItem = Parse.Object.extend("ImageItem");
 				var imageItem = new ImageItem();
@@ -263,7 +271,8 @@
                         inputImgUrl.set('value', '');
                         inputImgTag.set('value', '');
                         inputImgFolder.set('value', '');
-                        inputImgRatings.set('value', '');
+                        $('#imageShown').css("display", "none");
+                        $('input[name=ratings]').attr('checked',false);
                         inputImgComments.set('value', '');
 				  },
 				  error: function(gameScore, error) {
