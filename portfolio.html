@@ -138,6 +138,7 @@
 		<div class="clear"></div>
 	</div>
 </div>
+</div>
 
 
 <!-- start main -->
@@ -179,6 +180,7 @@
                                 <label>Folder</label>
                                 <select id="folder-list">
                                     <option id="folder-filler">Choose Folder</option>
+                                    <option value="No Folder">No Folder</option>
                                 </select>
                             </div>
                         
@@ -234,6 +236,7 @@
 //                        console.log(folder.get("content"));
                         var folderCategories = document.getElementById("folder-list");
                         var newFolderItem = document.createElement('option');
+                        newFolderItem.setAttribute("value", folder.get("content"));
                         newFolderItem.innerText = folder.get("content");
                         folderCategories.appendChild(newFolderItem);
                     }

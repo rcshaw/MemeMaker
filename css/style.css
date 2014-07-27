@@ -27,6 +27,8 @@ a{text-decoration:none;}
 nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
+a { border: none; }
+* { outline: none; }
 /*end reset*/
 
 .no-border {
@@ -51,6 +53,10 @@ width:80%;
 }
 /* start header */
 .header_bg{
+z-index: 9001; /** z-index of draggable items is OVER 9,000!!!! **/
+width: 100%;
+position: fixed;
+top: 0;
 background: #ffffff;
 }
 .header{
@@ -326,6 +332,10 @@ font-weight: 600;
 }
 /*start main */
 .main_bg{
+width: 100%;
+margin-top: 160px;
+float: left;
+clear: both;
 background: #34495E;
 }
 .main{
@@ -443,6 +453,7 @@ display:none;
 float:left;
 overflow:hidden;
 }
+
 .portfolio-wrapper {
 overflow:hidden;
 position: relative;
@@ -450,9 +461,8 @@ cursor:pointer;
   padding: 3px;
   line-height: 1.428571429;
   background-color: #34495e;
+  border: 1px solid transparent !important;
   border-radius: 4px;
-  -webkit-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
 }
 
 
@@ -462,15 +472,17 @@ position: relative;
 cursor:pointer;
   padding: 3px;
   line-height: 1.428571429;
-  background-color: #fff;
- /* border: 1px solid #ddd; */
+  border: 1px solid #fff !important;
   border-radius: 4px;
-  -webkit-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
 }
+
 #portfoliolist a img{
+margin: 0 auto; 
 display: block;
+max-height: 190px;
+width: auto;
 }
+
 .portfolio .label-bg {
 /*
 background: none;
@@ -481,6 +493,7 @@ top:0;
 left:0;
 */
 }
+
 .portfolio,.label-bg{
 -webkit-transition: all 0.3s ease-in-out;
 -moz-transition: all 0.3s ease-in-out;
@@ -2033,7 +2046,7 @@ img#imageShown {
 }
 
 .draggable {
-  z-index: 9001; /** z-index of draggable items is OVER 9,000!!!! **/
+  z-index: 9000;
 }
 
 form select {
@@ -2043,4 +2056,17 @@ form select {
   height: 30px;
   padding: 1px;
   font-size: 10pt !important;
+}
+
+.portfolio-wrapper {
+
+  text-align: center;
+  padding: 15px !important;
+}
+
+.portfolio-wrapper a#add_item {
+   color: #000;
+  font-size: 130px;
+  text-align: center !important;
+  vertical-align: middle;
 }
