@@ -51,9 +51,14 @@
 	</script>
     <script type="text/javascript">
         $(function() {
+        
+        	$("form[name^='addURL']").submit(function(e) {
+        	  e.preventDefault();
+        	});
+        
+        
             var url = "";
-            $("form[name^='addURL']").on("submit", function(e) {
-              e.preventDefault();  
+            $("#add_url").on("click", function(e) {
               url = $("input[name^='img-url']").val();
               $("img#imageShown").attr("src", url);
               $("img#imageShown").css("display", "block");
@@ -141,15 +146,14 @@
 	<div class="main">
 		<div class="content">
 			<div class="contact">							
+			  <form id="addURL" name="addURL" method="post" action="" enctype="multipart/form-data">
 				<div class="contact_left">
 				  <div class="contact-form">
-				  	<h3>Upload An Image</h3>
+				  	<label>Upload An Image</label>
 					<div>
-                        <form id="addURL" name="addURL" method="post" action="" enctype="multipart/form-data">
-							<input id="img-url" name="img-url" type="url" class="textbox" placeholder="URL to be Added"><br/>
-							<input type="submit" value="Add URL" style="margin-right: 0;">
+							<input id="img-url" name="img-url" type="text" class="textbox" placeholder="URL to be Added"><br/>
+							<input type="button" id="add_url" value="Add URL" style="margin-right: 0;">
 							<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
-                        </form>
 					</div>
 				   </div>
 				</div>
@@ -161,8 +165,7 @@
 						    	<input id="image-title" type="text" class="textbox">
 						    </div>
                             <div>
-                                <label>rating</label>
-                                    <!--<input type="number" id="ratings" placeHolder="Number of Stars" min="1" max="5">-->
+                                <label>Rating</label>
                                 <span class="star-rating">
                                     <input type="radio" id="ratings" name="ratings" value="1"><span></span>
                                     <input type="radio" id="ratings" name="ratings" value="2"><span></span>
@@ -185,7 +188,7 @@
 						    </div>
 							
 						    <div>
-						    	<label>comments</label>
+						    	<label>Comments</label>
 						    	<textarea id="comments" type="text" name="comments"> </textarea>
 						    </div>
 
@@ -195,12 +198,17 @@
 				    </div>
   				</div>	
 				<div class="clear"></div>		
-
+			  </form>
 			</div>
 		</div>
 	</div>
 </div>
 </div>
+
+    <script id="list-of-images" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
+	</script>
+	
 	<script>
 		YUI().use('node', function(Y) {
 			
@@ -223,7 +231,7 @@
                 success: function(item) {
                     for (i in item){
                         var folder = item[i];
-                        console.log(folder.get("content"));
+//                        console.log(folder.get("content"));
                         var folderCategories = document.getElementById("folder-list");
                         var newFolderItem = document.createElement('option');
                         newFolderItem.innerText = folder.get("content");
@@ -272,9 +280,7 @@
 						alert("Error when saving Todos: " + error.code + " " + error.message);
 				  }
 				}); 
-			});
-			
-			
+			});		
 		});
 	</script>
 

@@ -9,6 +9,8 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.0.19.min.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
@@ -127,17 +129,21 @@
 
 		});
 		</script>
-		<script type="text/javascript">
-			$(function() {
-				var url = "";
-				$("form[name^='addURL']").on("submit", function(e) {
-				  e.preventDefault();  
-				  url = $("input[name^='urlLink']").val();
-				  $("img#imageShown").attr("src", url);
-				  $("img#imageShown").css("display", "block");
-				});
-			});
-		</script>
+    <script type="text/javascript">
+        $(function() {
+        
+        	$("form[name^='addURL']").submit(function(e) {
+        	  e.preventDefault();
+        	});
+        
+            var url = "";
+            $("#add_url").on("click", function(e) {
+              url = $("input[name^='img-url']").val();
+              $("img#imageShown").attr("src", url);
+              $("img#imageShown").css("display", "block");
+            });      
+        });
+        </script>
 </head>
 <body>
 		<!-- start popup for adding image/folder -->
@@ -147,28 +153,26 @@
 			  <h2>Add a New...</h2>
 			  <input type="radio" name="add_type" value="image" id="add_image" /><label for="add_image">Image</label>
 			  <input type="radio" name="add_type" value="folder" id="add_folder" /><label for="add_folder">Folder</label>
-				<form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
-				  <hr />
-				<div class="contact">							
-					<div class="contact_left">
-					  <div class="contact-form">
-						<label>Image URL</label>
-						<div>
-								<input id="urlLink" name="urlLink" type="text" class="textbox" placeholder="URL to be Added"><br/>
-								<input type="submit" value="Add URL" style="margin-right: 0;">
-								<img id="imageShown" alt="Your Uploaded Image" title="Your Uploaded Image" />
-						</div>
-					   </div>
+			  <form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
+				<div class="contact_left">
+				  <div class="contact-form">
+				  	<label>Upload An Image</label>
+					<div>
+							<input id="img-url" name="img-url" type="text" class="textbox" placeholder="URL to be Added"><br/>
+							<input type="button" id="add_url" value="Add URL" style="margin-right: 0;">
+							<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
 					</div>
-
-					<div class="contact_right">
-						<div class="contact-form">
-								<div>
-									<label>Title</label>
-									<input name="title" type="text" class="textbox">
-								</div>
-								<div>
-									<label>Rating</label>
+				   </div>
+				</div>
+                
+				<div class="contact_right">
+					<div class="contact-form">
+						    <div>
+						    	<label>Title</label>
+						    	<input id="image-title" type="text" class="textbox">
+						    </div>
+                            <div>
+                                <label>Rating</label>
                                 <span class="star-rating">
                                     <input type="radio" id="ratings" name="ratings" value="1"><span></span>
                                     <input type="radio" id="ratings" name="ratings" value="2"><span></span>
@@ -176,34 +180,37 @@
                                     <input type="radio" id="ratings" name="ratings" value="4"><span></span>
                                     <input type="radio" id="ratings" name="ratings" value="5"><span></span>
                                 </span>
-								</div>
-						
-								<div>
-									<label>Folder</label>
-									<select>
-										<option></option>
-									</select>
-								</div>
-						
-								<div>
-									<label>Tags</label>
-									<input name="tags" type="text" class="textbox">
-								</div>
+                            </div>
+                        
+                            <div>
+                                <label>Folder</label>
+                                <select id="folder-list">
+                                    <option id="folder-filler">Choose Folder</option>
+                                </select>
+                            </div>
+                        
+						    <div>
+						     	<label>Tags</label>
+						    	<input id="tag" type="text" class="textbox">
+						    </div>
 							
-								<div>
-									<label>Comments</label>
-									<textarea name="comments"> </textarea>
-								</div>
+						    <div>
+						    	<label>Comments</label>
+						    	<textarea id="comments" type="text" name="comments"> </textarea>
+						    </div>
 
-								<div>
-										<input type="submit" value="Upload">
-							  </div>
-						</div>
-					</div>		
-					<div class="clear"></div>		
-
-				</div>
-			</form>
+						    <div>
+								    <input id="list-item-submit" type="submit" value="Upload" >
+						  </div>
+				    </div>
+  				</div>	
+				<div class="clear"></div>		
+			  </form>
+			  
+    <script id="list-of-images" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
+	</script>
+			  
 	<script>
 		YUI().use('node', function(Y) {
 			

@@ -1482,7 +1482,7 @@ border: 1px solid #3D72A4;
 resize:none;
 height:120px;
 }
-.contact-form input[type="submit"]{
+.contact-form input[type="submit"], .contact-form input[type="button"]{
 -webkit-appearance: none;
 font-weight: 600;
 float: right;
@@ -1528,7 +1528,7 @@ border-radius: 2px;
 -o-transition: all 0.3s ease-in-out;
 transition: all 0.3s ease-in-out;
 }
-.contact-form input[type="submit"]:hover{
+.contact-form input[type="submit"]:hover, .contact-form input[type="button"]:hover{
 background: #34495E;
 }
 /* start details */
