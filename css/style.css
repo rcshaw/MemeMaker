@@ -2051,7 +2051,7 @@ img#imageShown {
 
 form select {
   margin-top: 20px;
-  border: none !important;
+  border: 1px solid #CCC;
   min-width: 250px;
   height: 30px;
   padding: 1px;
