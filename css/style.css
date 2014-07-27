@@ -2025,3 +2025,7 @@ img#imageShown {
   float: right;
   width: 140px;
 }
+
+.draggable {
+  z-index: 9001; /** z-index of draggable items is OVER 9,000!!!! **/
+}
