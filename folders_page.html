@@ -15,17 +15,20 @@
 	<style>
 	</style>
     <script type="text/javascript">
-    $(function() {
-        $(".draggable").draggable({revert: "invalid"});
-        $(".droppable").droppable({   
-            drop: function(event, ui) {
-                var element = document.getElementById(ui.draggable.attr("id"));
-                alert(element);
-                element.parentNode.removeChild(element);
-            }
+          
+        $(function() {
+            $(".draggable").draggable({
+                revert: "invalid",
+                opacity: 0.35,
+            });
+            $(".droppable").droppable({   
+                drop: function(event, ui) {
+                    var element = document.getElementById(ui.draggable.attr("id"));
+                    element.parentNode.removeChild(element);
+                }
+            });
         });
 
-    });
         
     </script>
     
@@ -119,18 +122,11 @@
 					preloader: false,
 					midClick: true,
 					removalDelay: 300,
-<<<<<<< HEAD
 					mainClass: 'my-mfp-zoom-in',
 			     });
-            });
-=======
-					mainClass: 'my-mfp-zoom-in'
-			});
-
 		});
->>>>>>> 8ec9b38e079c94b4181ad61aacb81a9fa4a6036f
 		</script>
-		<script type="text/javascript">
+    <script type="text/javascript">
 			$(function() {
 				var url = "";
 				$("form[name^='addURL']").on("submit", function(e) {
@@ -421,7 +417,7 @@
 						</div>
 					</div>
 				</div>		
-			<a href="gif_album.html">				<div class="portfolio logo1 droppable" data-cat="logo">
+			<a href="gif_album.html">				<div id="drop1" class="portfolio logo1 droppable" data-cat="logo">
 					<div class="portfolio-wrapper">				
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -462,8 +458,9 @@
 			</a>
 			<a class="popup-with-zoom-anim" href="#small-dialog">
 				<div id="drag1" class="portfolio card draggable" data-cat="card">
+                    							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280" width="270" /> 
+
 					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280" width="270" /> 
                         <p class="text-title">Foul Bachalorette</p>
 						<div class="label">
 							<div class="label-text">
