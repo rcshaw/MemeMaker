@@ -10,6 +10,28 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<style>
+	</style>
+    <script type="text/javascript">
+    $(function() {
+        $(".draggable").draggable({revert: "invalid"});
+        $(".droppable").droppable({   
+            drop: function(event, ui) {
+                var element = document.getElementById(ui.draggable.attr("id"));
+                alert(element);
+                element.parentNode.removeChild(element);
+            }
+        });
+
+    });
+        
+    </script>
+    
+    
+    
 <!-- start gallery -->
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>	
 <script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
@@ -100,10 +122,16 @@
 					preloader: false,
 					midClick: true,
 					removalDelay: 300,
+<<<<<<< HEAD
+					mainClass: 'my-mfp-zoom-in',
+			     });
+            });
+=======
 					mainClass: 'my-mfp-zoom-in'
 			});
 
 		});
+>>>>>>> 8ec9b38e079c94b4181ad61aacb81a9fa4a6036f
 		</script>
 		<script type="text/javascript">
 			$(function() {
@@ -392,12 +420,11 @@
 					<div class="portfolio-wrapper">				
 					  <a href="#" onclick="return false;" id="add_item"><img  src="images/add.png" style="padding-top:30px;" height="150" alt="Add an Image or Folder" title="Add an Image or Folder" /></a>
 						<div class="label">
-
 							<div class="label-bg"></div>
 						</div>
 					</div>
 				</div>		
-			<a href="gif_album.html">				<div class="portfolio logo1" data-cat="logo">
+			<a href="gif_album.html">				<div class="portfolio logo1 droppable" data-cat="logo">
 					<div class="portfolio-wrapper">				
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -410,7 +437,7 @@
 					</div>
 				</div>		
 			</a>
-			<a href="gif_album.html">				<div class="portfolio app" data-cat="app">
+			<a href="gif_album.html">				<div class="portfolio app droppable" data-cat="app">
 					<div class="portfolio-wrapper">			
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -423,7 +450,7 @@
 					</div>
 				</div>		
 			</a>
-			<a href="gif_album.html">				<div class="portfolio web" data-cat="web">
+			<a href="gif_album.html">				<div class="portfolio web droppable" data-cat="web">
 					<div class="portfolio-wrapper">						
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -437,9 +464,10 @@
 				</div>				
 			</a>
 			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
+				<div id="drag1" class="portfolio card draggable" data-cat="card">
 					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280" width="270" />
+							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280" width="270" /> 
+                        <p class="text-title">Foul Bachalorette</p>
 						<div class="label">
 							<div class="label-text">
 							<!--	<p class="text-title">BMF</p>
@@ -450,7 +478,7 @@
 					</div>
 				</div>	
 			</a><!-- 7 -->
-			<a href="gif_album.html">				<div class="portfolio card" data-cat="card">
+			<a href="gif_album.html">				<div class="portfolio card droppable" data-cat="card">
 					<div class="portfolio-wrapper">			
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -464,7 +492,7 @@
 				</div>	
 			</a>
 			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
+				<div id="drag2" class="portfolio card draggable" data-cat="card">
 					<div class="portfolio-wrapper">			
 							<img src="http://i.imgur.com/YVf3376.png"  style="padding-top:30px;" alt="Image 2" height="200" width="270" />
 						<div class="label">
@@ -478,7 +506,7 @@
 				</div>	
 			</a> <!-- 5 -->
 			
-			<a href="gif_album.html">				<div class="portfolio app" data-cat="app">
+			<a href="gif_album.html">				<div class="portfolio app droppable" data-cat="app">
 					<div class="portfolio-wrapper">			
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -492,7 +520,7 @@
 				</div>		
 			</a>
 			<a href="gif_album.html">												
-				<div class="portfolio web" data-cat="web">
+				<div class="portfolio web droppable" data-cat="web">
 					<div class="portfolio-wrapper">						
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -505,7 +533,7 @@
 					</div>
 				</div>	
 			</a>
-			<a href="gif_album.html">				<div class="portfolio icon" data-cat="icon">
+			<a href="gif_album.html">				<div class="portfolio icon droppable" data-cat="icon">
 					<div class="portfolio-wrapper">
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -518,7 +546,7 @@
 					</div>
 				</div>			
 			</a>
-			<a href="gif_album.html">				<div class="portfolio icon" data-cat="icon">
+			<a href="gif_album.html">				<div class="portfolio icon droppable" data-cat="icon">
 					<div class="portfolio-wrapper">						
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">

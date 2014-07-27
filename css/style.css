@@ -1963,6 +1963,8 @@ input[type="radio"]{
 }
 
 
+<<<<<<< HEAD
+=======
 /**** ADDED BY STK ****/
 
 #upload_overlay {
@@ -1972,6 +1974,7 @@ input[type="radio"]{
  background-color: rgba(0, 0, 0, .8);
  display: none;
  z-index: 999;
+>>>>>>> 8ec9b38e079c94b4181ad61aacb81a9fa4a6036f
 }
 
 #upload_prompt {
