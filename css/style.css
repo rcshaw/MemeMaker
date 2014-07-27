@@ -1970,7 +1970,7 @@ width: 90.3333%;
  width: 100%;
  background-color: rgba(0, 0, 0, .8);
  display: none;
- z-index: 999;
+ z-index: 9002;
 }
 
 #upload_prompt {
