@@ -10,28 +10,60 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<style>
+	</style>
+    <script type="text/javascript">
+    $(function() {
+        $(".draggable").draggable({revert: "invalid"});
+        $(".droppable").droppable({   
+            drop: function(event, ui) {
+                var element = document.getElementById(ui.draggable.attr("id"));
+                alert(element);
+                element.parentNode.removeChild(element);
+            }
+        });
+
+    });
+        
+    </script>
+    
+    
+    
 <!-- start gallery -->
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>	
 <script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
 <script type="text/javascript">
-	$(function(e) {
+	$(function() {
 
-    $(document).mouseup(function(e) {
-      var p = $("#upload_prompt");
-      if(!p.is(e.target) && p.has(e.target).length === 0)
-        $("#upload_overlay").hide();
-    });	 
+		$("input[name^='add_type']").change(function() {
+			if($(this).val() == "image") {
+			  $("#addFolder").slideUp(400);
+			  $("#addImage").slideDown(400);
+		    } else {
+		      $("#addImage").slideUp(400);
+			  $("#addFolder").slideDown(400);
+		   }
+		});
+
+		$(document).mouseup(function(e) {
+		  var p = $("#upload_prompt");
+		  if(!p.is(e.target) && p.has(e.target).length === 0)
+			$("#upload_overlay").hide();
+		});	 
 	  
-	$(document).on("keydown", function(e) {
-	  if(e.keyCode == 27)
-	    $("#upload_prompt button.mfp-close").trigger("click"); 
-	});
-	  $("#add_item").click(function() {
-	    $("#upload_overlay").show();
-	  });  
-	  $("#upload_prompt button.mfp-close").click(function() {
-	    $("#upload_overlay").hide();
-	  });
+		$(document).on("keydown", function(e) {
+		  if(e.keyCode == 27)
+			$("#upload_prompt button.mfp-close").trigger("click"); 
+		});
+		  $("#add_item").click(function() {
+			$("#upload_overlay").show();
+		  });  
+		  $("#upload_prompt button.mfp-close").click(function() {
+			$("#upload_overlay").hide();
+		  });
 	});
 
 	$(function () {
@@ -90,12 +122,28 @@
 					preloader: false,
 					midClick: true,
 					removalDelay: 300,
+<<<<<<< HEAD
+					mainClass: 'my-mfp-zoom-in',
+			     });
+            });
+=======
 					mainClass: 'my-mfp-zoom-in'
 			});
 
 		});
+>>>>>>> 8ec9b38e079c94b4181ad61aacb81a9fa4a6036f
 		</script>
-
+		<script type="text/javascript">
+			$(function() {
+				var url = "";
+				$("form[name^='addURL']").on("submit", function(e) {
+				  e.preventDefault();  
+				  url = $("input[name^='urlLink']").val();
+				  $("img#imageShown").attr("src", url);
+				  $("img#imageShown").css("display", "block");
+				});
+			});
+		</script>
 </head>
 <body>
 		<!-- start popup for adding image/folder -->
@@ -103,10 +151,77 @@
 			<div id="upload_prompt">
 			  <button title="Close (Esc)" type="button" class="mfp-close">×</button>
 			  <h2>Add a New...</h2>
-				<form action="" method="post" name="add_item">
-				  <input type="radio" name="add_type" value="image" /><label>Image</label>
-				  <input type="radio" name="add_type" value="folder" /><label>Folder</label>
-				</form>
+			  <input type="radio" name="add_type" value="image" id="add_image" /><label for="add_image">Image</label>
+			  <input type="radio" name="add_type" value="folder" id="add_folder" /><label for="add_folder">Folder</label>
+				<form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
+				  <hr />
+				<div class="contact">							
+					<div class="contact_left">
+					  <div class="contact-form">
+						<label>Image URL</label>
+						<div>
+								<input id="urlLink" name="urlLink" type="text" class="textbox" placeholder="URL to be Added"><br/>
+								<input type="submit" value="Add URL" style="margin-right: 0;">
+								<img id="imageShown" alt="Your Uploaded Image" title="Your Uploaded Image" />
+						</div>
+					   </div>
+					</div>
+
+					<div class="contact_right">
+						<div class="contact-form">
+								<div>
+									<label>Title</label>
+									<input name="title" type="text" class="textbox">
+								</div>
+								<div>
+									<label>Rating</label>
+									<span class="star-rating">
+										<input type="radio" name="rating" value="1"><span></span>
+										<input type="radio" name="rating" value="2"><span></span>
+										<input type="radio" name="rating" value="3"><span></span>
+										<input type="radio" name="rating" value="4"><span></span>
+										<input type="radio" name="rating" value="5"><span></span>
+									</span>
+								</div>
+						
+								<div>
+									<label>Folder</label>
+									<select>
+										<option></option>
+									</select>
+								</div>
+						
+								<div>
+									<label>Tags</label>
+									<input name="tags" type="text" class="textbox">
+								</div>
+							
+								<div>
+									<label>Comments</label>
+									<textarea name="comments"> </textarea>
+								</div>
+
+								<div>
+										<input type="submit" value="Upload">
+							  </div>
+						</div>
+					</div>		
+					<div class="clear"></div>		
+
+				</div>
+			</form>
+			<form action="" method="post" id="addFolder">
+				<hr />
+			  <div class="contact_right">
+				<div class="contact-form">
+
+				<label for="folder_name">Folder Name</label>
+				<input id="folder_name" name="folder_name" type="text" class="textbox" placeholder="Folder Name" />
+				<input type="submit" name="add_folder" value="Add Folder" />
+				</div>
+			  </div>
+			</form>
+
 			</div>		
 		</div>
 <!-- start header -->
@@ -176,9 +291,7 @@
 				<div class="contact_left">
 				<div class="contact-form">
 					<div>
-						<span>
-							<img src="images/monkey.gif" alt="monkey">
-						</span>
+						<img src="images/monkey.gif" alt="monkey">
 					</div>
 				   </div>
 				  
@@ -186,23 +299,23 @@
 				<div class="contact_right">
 					  <div class="contact-form">
 						    <div>
-						    	<span style="padding-top:50px"><label>rating</label></span>
-							<span><img src="images/rating.jpg" alt="rating"></span>
+						    	<span style="padding-top:50px"><label>Rating</label></span>
+							<img src="images/rating.jpg" alt="rating">
 						    </div>	
 						    <div>
-						     	<span><label>tags</label></span>
+						     	<label>Tags</label>
 						    	<input name="userPhone" type="text" class="textbox">
 						    </div>
 				    </div>
   				</div>	
 				<div class="contact-form">
-					<span><label>comments</label></span>
-					<span><textarea name="userMsg"> </textarea></span>
+					<label>Comments</label>
+					<textarea name="userMsg"> </textarea>
 
 				</div>
 				<div class="contact-form">
-					<span><input type="submit" value="delete" style="background:#F51100" ></span>
-					<span><input type="submit" value="save" style="float: left;"></span>
+					<input type="submit" value="delete" style="background:#F51100" >
+					<input type="submit" value="save" style="float: left;">
 				</div>
 				<div class="clear"></div>		
 
@@ -219,9 +332,7 @@
 				<div class="contact_left">
 				<div class="contact-form">
 					<div>
-						<span>
-							<img src="http://i.imgur.com/3FUuJp4.jpg" height="154" width="154" alt="test">
-						</span>
+						<img src="http://i.imgur.com/3FUuJp4.jpg" height="154" width="154" alt="test">
 					</div>
 				   </div>
 				  
@@ -229,23 +340,23 @@
 				<div class="contact_right">
 					  <div class="contact-form">
 						    <div>
-						    	<span style="padding-top:50px"><label>rating</label></span>
-							<span><img src="images/rating.jpg" alt="rating"></span>
+						    	<span style="padding-top:50px"><label>Rating</label></span>
+							<img src="images/rating.jpg" alt="rating">
 						    </div>	
 						    <div>
-						     	<span><label>tags</label></span>
+						     	<label>Tags</label>
 						    	<input name="userPhone" type="text" class="textbox">
 						    </div>
 				    </div>
   				</div>	
 				<div class="contact-form">
-					<span><label>comments</label></span>
-					<span><textarea name="userMsg"> </textarea></span>
+					<label>Comments</label>
+					<textarea name="userMsg"> </textarea>
 
 				</div>
 				<div class="contact-form">
-					<span><input type="submit" value="delete" style="background:#F51100" ></span>
-					<span><input type="submit" value="save" style="float: left;"></span>
+					<input type="submit" value="delete" style="background:#F51100" >
+					<input type="submit" value="save" style="float: left;">
 				</div>
 				<div class="clear"></div>		
 
@@ -262,9 +373,7 @@
 				<div class="contact_left">
 				<div class="contact-form">
 					<div>
-						<span>
-							<img src="http://i1.kym-cdn.com/photos/images/newsfeed/000/641/298/448.jpg" alt="test">
-						</span>
+						<img src="http://i1.kym-cdn.com/photos/images/newsfeed/000/641/298/448.jpg" alt="test">
 					</div>
 				   </div>
 				  
@@ -272,23 +381,23 @@
 				<div class="contact_right">
 					  <div class="contact-form">
 						    <div>
-						    	<span style="padding-top:50px"><label>rating</label></span>
-							<span><img src="images/rating.jpg" alt="rating"></span>
+						    	<span style="padding-top:50px"><label>Rating</label></span>
+							<img src="images/rating.jpg" alt="rating">
 						    </div>	
 						    <div>
-						     	<span><label>tags</label></span>
+						     	<label>Tags</label>
 						    	<input name="userPhone" type="text" class="textbox" >
 						    </div>
 				    </div>
   				</div>	
 				<div class="contact-form">
-					<span><label>comments</label></span>
-					<span><textarea name="userMsg"> </textarea></span>
+					<label>Comments</label>
+					<textarea name="userMsg"> </textarea>
 
 				</div>
 				<div class="contact-form">
-					<span><input type="submit" value="delete" style="background:#F51100" ></span>
-					<span><input type="submit" value="save" style="float: left;"></span>
+					<input type="submit" value="delete" style="background:#F51100" >
+					<input type="submit" value="save" style="float: left;">
 				</div>
 				<div class="clear"></div>		
 
@@ -301,23 +410,21 @@
 		<!-- start gallery  -->
 	<div class="container">
 					<ul id="filters" class="clearfix">
-						<li>Newest First / </li>
-						<li>Oldest First / </li> 
-						<li>A-Z / </li> 
-						<li>Z-A / </li>
-						<li>+ New Folder</li> 
+						<li>Newest First</li>
+						<li>Oldest First</li> 
+						<li>A-Z</li> 
+						<li class="no-border">Z-A </li>
 					</ul>
 		<div id="portfoliolist">
 				<div class="portfolio logo1" data-cat="logo">
 					<div class="portfolio-wrapper">				
 					  <a href="#" onclick="return false;" id="add_item"><img  src="images/add.png" style="padding-top:30px;" height="150" alt="Add an Image or Folder" title="Add an Image or Folder" /></a>
 						<div class="label">
-
 							<div class="label-bg"></div>
 						</div>
 					</div>
 				</div>		
-			<a href="gif_album.html">				<div class="portfolio logo1" data-cat="logo">
+			<a href="gif_album.html">				<div class="portfolio logo1 droppable" data-cat="logo">
 					<div class="portfolio-wrapper">				
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -330,7 +437,7 @@
 					</div>
 				</div>		
 			</a>
-			<a href="gif_album.html">				<div class="portfolio app" data-cat="app">
+			<a href="gif_album.html">				<div class="portfolio app droppable" data-cat="app">
 					<div class="portfolio-wrapper">			
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -343,7 +450,7 @@
 					</div>
 				</div>		
 			</a>
-			<a href="gif_album.html">				<div class="portfolio web" data-cat="web">
+			<a href="gif_album.html">				<div class="portfolio web droppable" data-cat="web">
 					<div class="portfolio-wrapper">						
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -357,9 +464,10 @@
 				</div>				
 			</a>
 			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
+				<div id="drag1" class="portfolio card draggable" data-cat="card">
 					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280" width="270" />
+							<img src="http://i.imgur.com/NIBP3CI.jpg" style="padding-top:30px;" alt="Image 2" height="280" width="270" /> 
+                        <p class="text-title">Foul Bachalorette</p>
 						<div class="label">
 							<div class="label-text">
 							<!--	<p class="text-title">BMF</p>
@@ -370,7 +478,7 @@
 					</div>
 				</div>	
 			</a><!-- 7 -->
-			<a href="gif_album.html">				<div class="portfolio card" data-cat="card">
+			<a href="gif_album.html">				<div class="portfolio card droppable" data-cat="card">
 					<div class="portfolio-wrapper">			
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -384,7 +492,7 @@
 				</div>	
 			</a>
 			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
+				<div id="drag2" class="portfolio card draggable" data-cat="card">
 					<div class="portfolio-wrapper">			
 							<img src="http://i.imgur.com/YVf3376.png"  style="padding-top:30px;" alt="Image 2" height="200" width="270" />
 						<div class="label">
@@ -398,7 +506,7 @@
 				</div>	
 			</a> <!-- 5 -->
 			
-			<a href="gif_album.html">				<div class="portfolio app" data-cat="app">
+			<a href="gif_album.html">				<div class="portfolio app droppable" data-cat="app">
 					<div class="portfolio-wrapper">			
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -412,7 +520,7 @@
 				</div>		
 			</a>
 			<a href="gif_album.html">												
-				<div class="portfolio web" data-cat="web">
+				<div class="portfolio web droppable" data-cat="web">
 					<div class="portfolio-wrapper">						
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -425,7 +533,7 @@
 					</div>
 				</div>	
 			</a>
-			<a href="gif_album.html">				<div class="portfolio icon" data-cat="icon">
+			<a href="gif_album.html">				<div class="portfolio icon droppable" data-cat="icon">
 					<div class="portfolio-wrapper">
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -438,7 +546,7 @@
 					</div>
 				</div>			
 			</a>
-			<a href="gif_album.html">				<div class="portfolio icon" data-cat="icon">
+			<a href="gif_album.html">				<div class="portfolio icon droppable" data-cat="icon">
 					<div class="portfolio-wrapper">						
 							<img src="images/folders.png"  alt="Image 2" />
 						<div class="label">
@@ -472,7 +580,7 @@
 				</ul>
 			</div>
 			<div class="copy">
-				<p class="link"><span>A TeaMeme Website | Class Page by&nbsp;<a href="http://classes.pint.com/cse134b"> Group 23</a></span></p>
+				<p class="link">A TeaMeme Website | Class Page by&nbsp;<a href="http://classes.pint.com/cse134b"> Group 23</a></p>
 			</div>
 			<div class="clear"></div>
 		</div>
