@@ -1672,7 +1672,7 @@ text-align:center;
 .h_right {
 background: #19BD9B;
 height: 44px;
-float:none;
+float: none;
 }
 .menu {
 display: none;
@@ -1976,7 +1976,7 @@ width: 90.3333%;
 
 /**** ADDED BY STK ****/
 
-#upload_overlay {
+#upload_overlay, #edit_overlay {
  position: fixed;
  height: 100%;
  width: 100%;
@@ -1985,34 +1985,38 @@ width: 90.3333%;
  z-index: 9002;
 }
 
-#upload_prompt {
+#upload_prompt, .edit {
   position: absolute;
-  top: 80px;
-  left: 320px;
+  top: 20px;
+  left: 16%;
   width: 840px; 
   height: auto;
   background-color: #FFF;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  padding: 20px;
+  padding: 15px;
 }
 
-#upload_prompt h2 {
+.edit {
+  display: none;
+}
+
+#upload_prompt h2, .edit h2 {
   margin-bottom: 10px;
-  font-size: 22pt; 
+  font-size: 20pt; 
 }
 
-#upload_prompt input {
+#upload_prompt input, .edit input {
   display: inline-block !important;
 }
 
-#upload_prompt input ~ label {
+#upload_prompt input ~ label, .edit input ~ label {
   margin-right: 60px; 
   margin-left: 10px;
 }
 
-#upload_prompt label {
+#upload_prompt label, .edit label {
   font-size: 14pt;
 }
 
@@ -2058,7 +2062,7 @@ form select {
 }
 
 .portfolio-wrapper {
-
+  height: 220px;
   text-align: center;
   padding: 15px !important;
 }
