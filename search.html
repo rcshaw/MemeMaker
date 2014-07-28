@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html >
 <head>
 <title>MemeMaster | Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -26,38 +26,25 @@
 	function loc(){
 		var url = window.location.search;
 		url = url.replace("?", ''); // remove the ?
+        url= url.replace("search=", '');
 		//alert(url); 
 		document.getElementById("folder").innerHTML = url;
         renderImage();
 		}
         
-        /*
-    $(document).on("load", ".popup-with-zoom-anim", function() {
-        //   console.log("inside";   <-- here it is
-        $('#small-dialog').get(0).scrollIntoView(); 
-        $('#small-dialog').load("gif_album.html");
-       // $('#small-dialog').css("z-index", 99999);
-        //window.open("folders_page.html");
-        //$('#small-dialog').css({"display":"inline"});
-    //    $('.mfp-hide').css({"display":"inline"});
-      //  $('.mfp-hide').css({"z-index":"-5"});
-    //    $('..mfp-content').css({"display":"inline-block"});
-       // alert("gif_album.html"); 
-        
-        
-    });
-        */
-        
-        
-
         
     //do pic rendering here
     function renderImage(){
         Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
-        //alert("hello");
+        
+        var url = window.location.search;
+		url = url.replace("?", ''); // remove the ?
+        url= url.replace("search=", '');
+        
         var Image = Parse.Object.extend("ImageItem");
         var query = new Parse.Query(Image);
-        query.equalTo("imgFolder", "Home Folder");
+        query.equalTo("imgTag", url);
+
         query.find({
         success: function(results) {
         //alert("Successfully retrieved " + results.length + " scores.");
@@ -72,6 +59,32 @@
         alert("Error: " + error.code + " " + error.message);
       }    
     });
+        
+        
+        var Image = Parse.Object.extend("ImageItem");
+        var query = new Parse.Query(Image);
+        query.equalTo("imgTitle", url);
+
+        query.find({
+        success: function(results) {
+        //alert("Successfully retrieved " + results.length + " scores.");
+        // Do something with the returned Parse.Object values
+        for (var i = 0; i < results.length; i++) { 
+          var object = results[i];
+
+           $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('imgUrl') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">" + object.get('imgTitle') +"</p></div></div></div></div></a>");
+        } //for loop    
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+      }    
+    });
+        
+        
+        
+        
+        
+        
     } //renderImage function
     
         
@@ -198,9 +211,15 @@
 <div class="main_bg">
 <div class="wrap">
 	<div class="main">
-        <ul class = "loc" style="color:white">
+       <!-- <ul class = "loc" style="color:white">
+			<li style="display:inline"> You are searching for: </li>
+			<li style = "display:inline; color=white"> </li>
+			<li style="display:inline"> <div id= "folder" style="display:inline">  </div>  </li>
+		</ul> -->
+        
+             <ul class = "loc" style="color:white">
 			<li style="display:inline"> <a href="folders_page.html">Home </a> </li>
-			<li style = "display:inline; color=white"> -> </li>
+			<li style = "display:inline; color=white"> -> Searching for:</li>
 			<li style="display:inline"> <div id= "folder" style="display:inline">  </div>  </li>
 		</ul>
         
@@ -298,97 +317,7 @@
 					</div>
             </div>		-->
 
-			<a class="popup-with-zoom-anim" href="#small-dialog" >
-				<div class="portfolio web" data-cat="web">
-					<div class="portfolio-wrapper">						
-							<img src="http://i.imgur.com/kovjvcU.png"  alt="Image 2" height="154" width="270"/>
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Cute Puffin!</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>				
-			</a> <!-- 4 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/YVf3376.png"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Penguin</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>	
-			</a> <!-- 5 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">	
-				<div class="portfolio app" data-cat="app">
-					<div class="portfolio-wrapper">
-							<img src="http://www.dumpaday.com/wp-content/uploads/2011/12/funny-meme-pictures.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>			
-			</a><!-- 6 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/NIBP3CI.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>	
-			</a><!-- 7 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/xJLKOxC.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>	
-			</a> <!-- 8 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio logo1" data-cat="logo">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/y2xaRjW.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>																																							
-			</a> <!-- 9 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio app" data-cat="app">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/qPXNbnN.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>		
-			</a>
+		
 			
 		</div>
             
