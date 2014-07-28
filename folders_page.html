@@ -34,14 +34,12 @@
 	<script type="text/javascript">
 	function render2() {
 
-    Parse.initialize("RzTLcT8ZkrXI5M4PMnYzYVAZsXU22lzmvfvNKUjv", "yFvpW3dSBmms2OysaWqer5CZsH8tTwHg1kpv7EnW");
     
+    Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
 	var container = document.getElementById('portfoliolist');
-    var Meme = Parse.Object.extend("Meme");
+    var Meme = Parse.Object.extend("ImageItem");
 	var query = new Parse.Query(Meme);
 	var search = document.getElementById('search').value
-	query.contains("tag", "fry");
-
 	query.find({
   	success: function(results) {
     //alert("Successfully retrieved " + results.length + " scores.");
@@ -51,7 +49,7 @@
        
 
       var object = results[i];
-       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"#small-dialog\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('url') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">Some picture</p></div></div></div></div></a>");
+       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"#small-dialog\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('imgUrl') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">Some picture</p></div></div></div></div></a>");
 //		alert(object.get('url'));
       //alert(object.id + ' - ' + object.get('tag'));
      // var img = document.createElement("img");//
