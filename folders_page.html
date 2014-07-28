@@ -50,7 +50,7 @@
       var object = results[i];
        var folders = [];
        var folderName = object.get('content');
-       $("#portfoliolist").append("<a href='gif_album.html?"+ folderName + "' onclick='return false'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='images/folders.png' alt='Image 2' title='Image' /><div class='label'><div class='label-text'><p class='text-title'>"+ folderName +"</p></div></div></div></div></a>");
+       $("#portfoliolist").append("<a href='gif_album.html?"+ folderName + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='images/folders.png' alt='Image 2' title='Image' /><div class='label'><div class='label-text'><p class='text-title'>"+ folderName +"</p></div></div></div></div></a>");
        folders[i] = folderName;
     } //for loop    
   },
