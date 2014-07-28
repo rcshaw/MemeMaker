@@ -72,20 +72,6 @@
 
 }	
 	</script>
-	
-    <script type="text/javascript">
-    $(function() {
-        $(".draggable").draggable({revert: "invalid"});
-        $(".droppable").droppable({   
-            drop: function(event, ui) {
-                var element = document.getElementById(ui.draggable.attr("id"));
-                alert(element);
-                element.parentNode.removeChild(element);
-            }
-        });
-
-    }); 
-    </script>
     
 <!-- start gallery -->
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>	
