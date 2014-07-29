@@ -348,7 +348,7 @@ clear: both;
 background: #34495E;
 }
 .main{
-height: 200pt;
+height: auto;
 padding: 4%;
 }
 .content{
