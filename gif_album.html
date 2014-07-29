@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>MemeMaster | Home</title>
+<title>MemeMaster | Gallery</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel='shortcut icon' type='image/x-icon' href='style/favicon.ico' />
@@ -54,20 +54,45 @@
     //do pic rendering here
     function renderImage(){
         Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
-        //alert("hello");
-        var Image = Parse.Object.extend("ImageItem");
-        var query = new Parse.Query(Image);
-        query.equalTo("imgFolder", "Home Folder");
-        query.find({
-        success: function(results) {
-        //alert("Successfully retrieved " + results.length + " scores.");
-        // Do something with the returned Parse.Object values
-        for (var i = 0; i < results.length; i++) { 
-          var object = results[i];
-
-           $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('imgUrl') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">" + object.get('imgTitle') +"</p></div></div></div></div></a>");
-        } //for loop    
-      },
+    var Image = Parse.Object.extend("ImageItem");
+	var query = new Parse.Query(Image);
+	var folder = document.getElementById("folder").innerHTML;
+	query.equalTo("imgFolder", folder);
+	query.find({
+  	success: function(results) {
+    //alert("Successfully retrieved " + results.length + " scores.");
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < results.length; i++) { 
+      var object = results[i];
+      var imgTitle = object.get('imgTitle');
+      var imgURL = object.get('imgUrl');
+      var imgTags = object.get('imgTag');
+      var imgComments = object.get('imgComments');
+      var imgRating = object.get('imgRatings');
+      var imgFolder = object.get('imgFolder');
+       $("#portfoliolist").append("<a class='popup-with-zoom-anim img" + i + "' href='#' onclick='return false;'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");
+       
+       var appendContent = "<div class='edit edit_img" + i + "'><button title='Close (Esc)' type='button' class='mfp-close'>×</button><h2>" + imgTitle + "</h2><hr /><form method='post' action=''><div class='contact_left'><div class='contact-form'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /></div></div><div class='contact_right'><div class='contact-form'><div><label>Title</label><input id='image-title' type='text' class='textbox' value='" + imgTitle + "'></div><div><label>Rating</label><span class='star-rating'>";
+	   appendContent += "<input type='radio' id='ratings' name='ratings' value='1'";
+		if(imgRating == 1) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='2'";
+		if(imgRating == 2) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='3'";
+		if(imgRating == 3) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='4'";
+		if(imgRating == 4) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='5'";
+		if(imgRating == 5) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span></span></div><label>Folder</label><label>Tags</label><input id='tag' type='text' class='textbox' value='" + imgTags +"'><label>Comments</label><textarea id='comments' type='text' name='comments'>" + imgComments + "</textarea><br /><input class='edit-item-submit' type='submit' value='Save Edits' ></div></div></form></div>";
+       
+       $("#edit_overlay").append(appendContent);
+    } //for loop    
+  },
       error: function(error) {
         alert("Error: " + error.code + " " + error.message);
       }    
@@ -78,6 +103,46 @@
 	</script>
     
 	<script type="text/javascript">
+
+	$(function() {
+
+		$("input[name^='add_type']").change(function() {
+			if($(this).val() == "image") {
+			  $("#addFolder").slideUp(400);
+			  $("#addImage").slideDown(400);
+		    } else {
+		      $("#addImage").slideUp(400);
+			  $("#addFolder").slideDown(400);
+		   }
+		});
+
+		$(document).mouseup(function(e) {
+		  var p = $("#upload_prompt");
+		  if(!p.is(e.target) && p.has(e.target).length === 0)
+			$("#upload_overlay").hide();
+		});	 
+	  
+		$(document).on("keydown", function(e) {
+		  if(e.keyCode == 27)
+			$("button.mfp-close").trigger("click"); 
+		});
+		  $(".add_item").click(function() {
+			$("#upload_overlay").show();
+		  });  
+		  
+		  $(document).on("click", ".popup-with-zoom-anim", function() {
+		    var imgID = $(this).attr("class");
+		    imgID = imgID.substr(imgID.indexOf(" img")+4);
+		    $("#edit_overlay").show();
+		    $(".edit_img" + imgID).show();
+		  });
+		  
+		  $(document).on("click", "button.mfp-close", function() {
+		    $(".edit").hide();
+		    $("#edit_overlay").hide();
+			$("#upload_overlay").hide();
+		  });
+	});
 	$(function () {
 		
 		var filterList = {
@@ -137,10 +202,224 @@
 					mainClass: 'my-mfp-zoom-in'
 			});
 		});
-		</script>
+</script>
+<script type="text/javascript">
+	$(function() {
+	
+		$("form[name^='addURL']").submit(function(e) {
+		  e.preventDefault();
+		});
+	
+		$("form[name^='addFolder']").submit(function(e) {
+		  e.preventDefault();
+		});
+	
+		var url = "";
+		$("#add_url").on("click", function(e) {
+		  url = $("input[name^='img-url']").val();
+		  $("img#imageShown").attr("src", url);
+		  $("img#imageShown").css("display", "block");
+		});      
+	});
+	</script>
 
 </head>
 <body onload="loc()">
+<!-- start edit overlay -->
+<div id="edit_overlay">
+</div>
+
+<!-- start upload overlay -->
+<div id="upload_overlay">
+			<div id="upload_prompt">
+			  <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+			  <h2>Add a New...</h2>
+			  <input type="radio" name="add_type" value="image" id="add_image" /><label for="add_image">Image</label>
+			  <input type="radio" name="add_type" value="folder" id="add_folder" /><label for="add_folder">Folder</label>
+			  <form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
+			     <hr />
+				<div class="contact_left">
+				  <div class="contact-form">
+				  	<label>Upload An Image</label>
+					<div>
+						<input id="img-url" name="img-url" type="text" class="textbox" placeholder="URL to be Added"><br/>
+						<input type="button" id="add_url" value="Add URL" style="margin-right: 0;">
+						<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
+					</div>
+				   </div>
+				</div>
+                
+				<div class="contact_right">
+					<div class="contact-form">
+						    <div>
+						    	<label>Title</label>
+						    	<input id="image-title" type="text" class="textbox">
+						    </div>
+                            <div>
+                                <label>Rating</label>
+                                <span class="star-rating">
+                                    <input type="radio" id="ratings" name="ratings" value="1"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="2"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="3"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="4"><span></span>
+                                    <input type="radio" id="ratings" name="ratings" value="5"><span></span>
+                                </span>
+                            </div>
+                        
+                            <div>
+                                <label>Folder</label>
+                                <select id="folder-list">
+                                    <option id="folder-filler">Choose Folder</option>
+									<option value="No Folder">No Folder</option>
+                                </select>
+                            </div>
+                        
+						    <div>
+						     	<label>Tags</label>
+						    	<input id="tag" type="text" class="textbox">
+						    </div>
+							
+						    <div>
+						    	<label>Comments</label>
+						    	<textarea id="comments" type="text" name="comments"> </textarea>
+						    </div>
+
+						    <div>
+								    <input id="list-item-submit" type="submit" value="Upload" >
+						  </div>
+				    </div>
+  				</div>	
+				<div class="clear"></div>		
+			  </form> 
+				<script id="list-of-images" type="x/handlebars">
+					<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
+				</script>	  
+			<script>
+				YUI().use('node', function(Y) {
+			
+					var ImageItem, 
+					query,
+					submitBtn = Y.one("#list-item-submit"),
+					imageList = Y.one('#image-items'),
+					input = Y.one("#image-title"),
+					inputImgUrl = Y.one("#img-url"),
+					inputImgTag = Y.one("#tag"),
+					inputImgFolder = Y.one("#folder-list"),
+					inputImgRatings = Y.one("#ratings"),
+					inputImgComments = Y.one("#comments");
+			
+					Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+			
+					var FolderItem = Parse.Object.extend("FolderItem");
+					var folderItem = new Parse.Query(FolderItem);
+					folderItem.find({
+						success: function(item) {
+							for (i in item){
+								var folder = item[i];
+		//                        console.log(folder.get("content"));
+								var folderCategories = document.getElementById("folder-list");
+								var newFolderItem = document.createElement('option');
+								newFolderItem.setAttribute("value", folder.get("content"));
+								newFolderItem.innerText = folder.get("content");
+								folderCategories.appendChild(newFolderItem);
+							}
+						}
+					});
+			
+					//Handle Click Event
+					submitBtn.on('click', function(e) {
+				
+						//Save the current Todo
+						var imgTitle = Y.one('#image-title').get('value');
+						var imgUrl = Y.one('#img-url').get('value');
+						var imgTag = Y.one('#tag').get('value');
+						var imgFolder = Y.one('#folder-list').get('value');
+						var imgRatings = $('input[name^="ratings"]:checked').val();
+						var imgComments = Y.one('#comments').get('value');
+						var ImageItem = Parse.Object.extend("ImageItem");
+						var imageItem = new ImageItem();
+
+						imageItem.set("imgTitle", imgTitle);
+						imageItem.set("imgUrl", imgUrl);
+						imageItem.set("imgTag", imgTag);
+						imageItem.set("imgFolder", imgFolder);
+						imageItem.set("imgRatings", imgRatings);
+						imageItem.set("imgComments", imgComments);
+				
+						//Once it is saved, show it in the list of todo's.
+						imageItem.save(null, {
+						  success: function(item) {
+						
+							var content = Y.Lang.sub(Y.one('#list-of-images').getHTML(), {
+									content: item.get('imgTitle'),
+									id: item.id,
+								});
+								input.set('value', '').focus();
+								inputImgUrl.set('value', '');
+								inputImgTag.set('value', '');
+								inputImgFolder.set('value', '');
+								$('#imageShown').css("display", "none");
+								$('input[name=ratings]').attr('checked',false);
+								inputImgComments.set('value', '');
+						  },
+						  error: function(gameScore, error) {
+								alert("Error when saving Todos: " + error.code + " " + error.message);
+						  }
+						}); 
+					});
+			
+			
+				});
+			</script>
+			<form action="" method="post" id="addFolder" name="addFolder">
+				<hr />
+			  <div class="contact_right">
+				<div class="contact-form">
+				<label for="folder_name">Folder Name</label>
+				<input id="folder_name" name="folder_name" type="text" class="textbox" placeholder="Folder Name" />
+				<input type="submit" name="add_folder" id="new_folder" value="Add Folder" />
+				</div>
+			  </div>
+			</form>
+			<script id="list-of-folders" type="x/handlebars">
+				<li class="list-item"><input type="checkbox" id="{id}">{content}</li>
+			</script>
+			<script>
+				YUI().use('node', function(Y) {
+			
+					var FolderItem, 
+					query,
+					submitBtn = Y.one("#new_folder"),
+					folderList = Y.one('#folder-items')
+					input = Y.one("#folder_name");
+			
+			
+					Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
+			
+					//Handle Click Event
+					submitBtn.on('click', function(e) {
+				
+						//Save the current Todo
+						var text = Y.one('#folder_name').get('value');
+						var FolderItem = Parse.Object.extend("FolderItem");
+						var folderItem = new FolderItem();
+						folderItem.set("content", text);
+				
+						//Once it is saved, show it in the list of todo's.
+						folderItem.save(null, {
+						  success: function(item) {
+							input.set('value', '').focus();
+						  },
+						  error: function(gameScore, error) {
+								alert("Error when saving Todos: " + error.code + " " + error.message);
+						  }
+						});
+					});
+						
+				});
+			</script>	
+			</div>
+		</div><!-- close upload overlay -->
 <!-- start header -->
 <div class="header_bg">
 <div class="wrap">
@@ -199,197 +478,26 @@
 <div class="wrap">
 	<div class="main">
         <ul class = "loc" style="color:white">
-			<li style="display:inline"> <a href="folders_page.html">Home </a> </li>
-			<li style = "display:inline; color=white"> -> </li>
-			<li style="display:inline"> <div id= "folder" style="display:inline">  </div>  </li>
+			<li style="display:inline"> <a href="folders_page.html" class="home_link">Home</a>  &raquo;</li>
+			<li style="display:inline"><div id= "folder" style="display:inline">  </div>  </li>
 		</ul>
         
-		<!-- start popup -->
-		<div id="small-dialog" class="mfp-hide">
-			<div class="pop_up">
-                <div>
-                    <label>Title</label>
-                    <input id="image-title" type="text" class="textbox">
-                </div>
-                <div>
-                    <label>URL</label>
-                    <input id="img-url" name="img-url" type="text" class="textbox">
-                </div>
-			<div class="contact">							
-				<div class="contact_left">
-				<div class="contact-form">
-					<div>
-						<span>
-							<img src="images/monkey.gif" alt="monkey">
-						</span>
-					</div>
-				   </div>
-				  
-				</div>
-				<div class="contact_right">
-					<div class="contact-form">
-                            <div>
-                                <label>Rating</label>
-                                <span class="star-rating">
-                                    <input type="radio" id="ratings" name="ratings" value="1"><span></span>
-                                    <input type="radio" id="ratings" name="ratings" value="2"><span></span>
-                                    <input type="radio" id="ratings" name="ratings" value="3"><span></span>
-                                    <input type="radio" id="ratings" name="ratings" value="4"><span></span>
-                                    <input type="radio" id="ratings" name="ratings" value="5"><span></span>
-                                </span>
-                            </div>
-                        
-                            <div>
-                                <label>Folder</label>
-                                <select id="folder-list">
-                                    <option id="folder-filler">Choose Folder</option>
-                                </select>
-                            </div>
-                        
-						    <div>
-						     	<label>Tags</label>
-						    	<input id="tag" type="text" class="textbox">
-						    </div>
-							
-						    <div>
-						    	<label>Comments</label>
-						    	<textarea id="comments" type="text" name="comments"> </textarea>
-						    </div>
-				    </div>
-  				</div>	
-				<div class="contact-form">
-					<span><input type="submit" value="delete" style="background:#F51100" ></span>
-					<span><input id="list-item-submit" type="button" value="save" style="float: left;" onclick="location.href = 'gif_album.html';"></span>
-				</div>
-				<div class="clear"></div>		
-
-			</div>
-			</div>
-		</div>
-		<!-- end popup -->
 		
 		
 		
-		<!-- start gallery  -->
-			<div class="container">
-				
-		<div id="portfoliolist"><!-- 1 -->
-
-            
-				<div class="portfolio logo1" data-cat="logo">
-					<div class="portfolio-wrapper">				
-							<a href="portfolio.html"><img  src="images/add.png" alt="add pic"/></a>
+<!-- start gallery  -->
+<div class="container">
+		<div id="portfoliolist"><!-- 1 -->            
+					<div class="portfolio add_item" >
+					  <div class="portfolio-wrapper">				
+					  	<a href="#" onclick="return false;" id="add_item">+</a>
 						<div class="label">
-
-							<div class="label-bg"></div>
+					  	  <div class="label-text">
+							<p class="text-title">Add Image or Folder</p>
+						  </div>
 						</div>
-					</div>
-				</div>	
-            <!--
-            <div class="portfolio logo1" data-cat="logo">
-					<div class="portfolio-wrapper">				
-					  <a href="#" onclick="return false;" id="add_item">+</a>
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Add Image or Folder</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-            </div>		-->
-
-			<a class="popup-with-zoom-anim" href="#small-dialog" >
-				<div class="portfolio web" data-cat="web">
-					<div class="portfolio-wrapper">						
-							<img src="http://i.imgur.com/kovjvcU.png"  alt="Image 2" height="154" width="270"/>
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Cute Puffin!</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>				
-			</a> <!-- 4 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/YVf3376.png"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Penguin</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>	
-			</a> <!-- 5 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">	
-				<div class="portfolio app" data-cat="app">
-					<div class="portfolio-wrapper">
-							<img src="http://www.dumpaday.com/wp-content/uploads/2011/12/funny-meme-pictures.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>			
-			</a><!-- 6 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/NIBP3CI.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>	
-			</a><!-- 7 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio card" data-cat="card">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/xJLKOxC.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>	
-			</a> <!-- 8 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio logo1" data-cat="logo">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/y2xaRjW.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>																																							
-			</a> <!-- 9 -->
-			<a class="popup-with-zoom-anim" href="#small-dialog">
-				<div class="portfolio app" data-cat="app">
-					<div class="portfolio-wrapper">			
-							<img src="http://i.imgur.com/qPXNbnN.jpg"  alt="Image 2" height="154" width="270" />
-						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Title</p>
-							</div>
-							<div class="label-bg"></div>
-						</div>
-					</div>
-				</div>		
-			</a>
-			
+					  </div>
+					</div>	
 		</div>
             
         <script id="list-of-images" type="x/handlebars">
