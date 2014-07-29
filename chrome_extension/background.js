@@ -13,12 +13,36 @@ function getClickHandler() {
 
     // Create a new window to the info page.
     //chrome.windows.create({ url: url, width: 520, height: 660 });
+    Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
+
+	var tag = prompt("Enter a Tag for this Meme");
+	if (tag === null || tag ==false)
+	{
+		return;
+	}
 	
-	var title = prompt("Title");
-	
-	
-	//window.prompt("sometext","defaultText");
-	
+	var Meme = Parse.Object.extend("ImageItem");
+	var meme = new Meme();
+ 
+	 //replace url with img-url
+ 
+	meme.set("imgTag", tag);
+	meme.set("imgUrl", info.srcUrl);
+	meme.set("imgFolder","Home Folder");
+	//the rest of the fields will be empty, 
+
+
+	meme.save(null, {
+  		success: function(meme) {
+    	// Execute any logic that should take place after the object is saved.
+   	 		//alert('New meme created with objectId: ' + meme.id);
+  		},
+  		error: function(meme, error) {
+    	// Execute any logic that should take place if the save fails.
+    	// error is a Parse.Error with an error code and description.
+    		//alert('Failed to create new object, with error code: ' + error.message);
+  		}
+	});
 	
   };
 };

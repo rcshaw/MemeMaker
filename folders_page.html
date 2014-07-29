@@ -32,44 +32,83 @@
         
     </script>	
 	<script type="text/javascript">
-	function render2() {
+        
 
-    
-    Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
-	var container = document.getElementById('portfoliolist');
-    var Meme = Parse.Object.extend("ImageItem");
-	var query = new Parse.Query(Meme);
-	var search = document.getElementById('search').value
+
+    Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
+        
+	//var container = document.getElementById('portfoliolist');
+    var Folder = Parse.Object.extend("FolderItem");
+	var query = new Parse.Query(Folder);
+	//var search = document.getElementById('search').value
+	query.notEqualTo("content", "Home Folder");
 	query.find({
   	success: function(results) {
     //alert("Successfully retrieved " + results.length + " scores.");
-    
     // Do something with the returned Parse.Object values
     for (var i = 0; i < results.length; i++) { 
-       
-
       var object = results[i];
-       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"#small-dialog\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('imgUrl') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">Some picture</p></div></div></div></div></a>");
-//		alert(object.get('url'));
-      //alert(object.id + ' - ' + object.get('tag'));
-     // var img = document.createElement("img");//
-    //img.src = object.get('url');
- //   img.width = "100px";
- //   img.height = "100px";
- //   img.alt = "whatever";
- //    alert(img.src);
- //   img.style.cssText = 'padding:8px'
-    // This next line will just add it to the <body> tag
-
-    }
+       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"gif_album.html?"+ object.get('content') + "\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"images/folders.png\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">"+ object.get('content') +"</p></div></div></div></div></a>");
+    } //for loop    
   },
   error: function(error) {
     alert("Error: " + error.code + " " + error.message);
-  }
+  }    
 });
+     
+ //   renderImage();
+        
+//    function renderImage(){
+        
+        var Image = Parse.Object.extend("ImageItem");
+	var query = new Parse.Query(Image);
+	query.equalTo("imgFolder", "Home Folder");
+	query.find({
+  	success: function(results) {
+    //alert("Successfully retrieved " + results.length + " scores.");
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < results.length; i++) { 
+      var object = results[i];
+        
+       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"#small-dialog\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('imgUrl') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">" + object.get('imgTitle') +"</p></div></div></div></div></a>");
+    } //for loop    
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }    
+});
+        
+        
 
-}	
-	</script>
+        
+  //  }
+	</script>    
+    
+   <script>
+     function test(){
+         
+        //alert("Hi");
+        var tex= document.getElementById('search').value;
+       //  alert(tex);
+       // $('html').load("search.html");
+        // window.location.load("search.html")
+    }
+    </script>
+    
+	
+    <script type="text/javascript">
+    $(function() {
+        $(".draggable").draggable({revert: "invalid"});
+        $(".droppable").droppable({   
+            drop: function(event, ui) {
+                var element = document.getElementById(ui.draggable.attr("id"));
+                alert(element);
+                element.parentNode.removeChild(element);
+            }
+        });
+
+    }); 
+    </script>
     
 <!-- start gallery -->
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>	
@@ -164,10 +203,7 @@
 					mainClass: 'my-mfp-zoom-in',
 			     });
             });
-					mainClass: 'my-mfp-zoom-in'
-			});
 
-		});
 		</script>
     <script type="text/javascript">
         $(function() {
@@ -189,7 +225,7 @@
         });
         </script>
 </head>
-<body onload="render2();">
+<body>
 		<!-- start popup for adding image/folder -->
 		<div id="upload_overlay">
 			<div id="upload_prompt">
@@ -404,17 +440,17 @@
 				<li><a href="index.html">logout</a></li>
 			</ul>
 			<div id="sb-search" class="sb-search">
-				<form>
+				<form action="search.html">
 					<input class="sb-search-input" placeholder="Search by tag, name, folder..." type="text" value="" name="search" id="search">
-					<input class="sb-search-submit" type="submit" value="">
+					<input class="sb-search-submit" onclick="test()" type="submit" value="">
 					<span class="sb-icon-search"></span>
 				</form>
 			</div>
-			<script src="js/classie.js"></script>
+			<script src="js/classie.js"></script> 
 			<script src="js/uisearch.js"></script>
 			<script>
 				new UISearch( document.getElementById( 'sb-search' ) );
-			</script>
+			</script> 
 			<!-- start smart_nav * -->
 	        <nav class="nav">
 	            <ul class="nav-list">

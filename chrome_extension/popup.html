@@ -1,11 +1,14 @@
 <html>
   <head>
     <title>Set Page Color Popup</title>
+        <script src="jquery.min.js"></script>
+  <script type="text/javascript" src="parse-1.2.19.min.js"></script>
+    <script src = "popup.js"></script>
     <style>
     body {
       overflow: hidden;
       margin: 0px;
-      padding: 0px;
+      padding: 5px;
       background: white;
 	  border: 1px solid #CCCCCC;
 		  border-radius:5px;
@@ -18,10 +21,10 @@
     div {
       cursor: pointer;
       text-align: center;
-      padding: 1px 3px;
+      padding: 3px;
       font-family: sans-serif;
-      font-size: 0.8em;
-      width: 100px;
+      font-size: 1.5em;
+      width: 250px;
       margin-top: 1px;
       background: #ffffff;
     }
@@ -30,14 +33,44 @@
       color: #333333;
 	  
     }
+    #drag{
+    	font-size: 0.9em;
+    }
+    #text-holder{
+    	font-size:.9em;
+    }
+    /* img{
+    width:100px;
+    height:100px;
+    overflow:hidden;
+    } */
+    
     </style>
    <!-- <script src="popup.js"></script> -->
   </head>
   <body>
 	
-    <div id="word">The MemeMaster extension is active! </div>
-	<div id ="word">Right click any image and add it to your 
-	MemeMaster page!</div>
-
+    <div id="word">MemeMaster Extension</div>
+	
+	
+	<div>
+		Search for a Tag: <input type="text" id="search"><br>
+	<input type="submit" value="Submit" id="sub" style = "margin-top:5px">
+	</div>
+	
+	 <div id="text-holder">
+      
+    </div>
+    
+    
+	<div id="drag" style="font-style:italic; display:none">
+       Drag and Drop into any editor
+    </div>
+    
+    <div id = "pic-holder">
+    	
+    </div>
+  
+	
   </body>
 </html>

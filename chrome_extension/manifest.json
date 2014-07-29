@@ -1,13 +1,14 @@
 {
   "name": "MemeMaster",
   "description": "Add a meme to your MemeMaster account with the click of a button!",
+   "background" : { "scripts": ["parse-1.2.19.min.js", "background.js", "jquery.min.js"] },
   "version" : "1.0.1",
-  "background" : { "scripts": ["background.js"] },
   "permissions" : [
     "contextMenus",
     "tabs",
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "<all_urls>"
    ],
   "minimum_chrome_version" : "6.0.0.0",
     "browser_action": {
