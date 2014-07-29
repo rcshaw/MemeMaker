@@ -14,23 +14,6 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <script type="text/javascript">
-          
-        $(function() {
-            $(".draggable").draggable({
-                revert: "invalid",
-                opacity: 0.35,
-            });
-            $(".droppable").droppable({   
-                drop: function(event, ui) {
-                    var element = document.getElementById(ui.draggable.attr("id"));
-                    element.parentNode.removeChild(element);
-                }
-            });
-        });
-
-        
-    </script>	
 	<script type="text/javascript">
         
 
@@ -48,8 +31,20 @@
     // Do something with the returned Parse.Object values
     for (var i = 0; i < results.length; i++) { 
       var object = results[i];
-       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"gif_album.html?"+ object.get('content') + "\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"images/folders.png\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">"+ object.get('content') +"</p></div></div></div></div></a>");
-    } //for loop    
+       var folders = [];
+       var folderName = object.get('content');
+       $("#portfoliolist").append("<a href='gif_album.html?"+ folderName + "'><div class='portfolio card droppable' data-cat='card'><div class='portfolio-wrapper'><img src='images/folders.png' alt='Image 2' title='Image' /><div class='label'><div class='label-text'><p class='text-title'>"+ folderName +"</p></div></div></div></div></a>");
+       folders[i] = folderName;
+        
+            $(".droppable").droppable({   
+                drop: function(event, ui) {
+                    var turkey = (ui.draggable);
+                    $(ui.draggable).remove();
+                    var chicken = $(this).find('p').html();
+                }
+            });
+        
+    } //for loop
   },
   error: function(error) {
     alert("Error: " + error.code + " " + error.message);
@@ -59,8 +54,7 @@
  //   renderImage();
         
 //    function renderImage(){
-        
-        var Image = Parse.Object.extend("ImageItem");
+    var Image = Parse.Object.extend("ImageItem");
 	var query = new Parse.Query(Image);
 	query.equalTo("imgFolder", "Home Folder");
 	query.find({
@@ -69,17 +63,44 @@
     // Do something with the returned Parse.Object values
     for (var i = 0; i < results.length; i++) { 
       var object = results[i];
-        
-       $("#portfoliolist").append("<a class=\"popup-with-zoom-anim\" href=\"#small-dialog\"><div class=\"portfolio card draggable\" data-cat=\"card\"><div class=\"portfolio-wrapper\"><img src=\"" + object.get('imgUrl') + "\" alt=\"Image 2\" title=\"Image\" /><div class=\"label\"><div class=\"label-text\"><p class=\"text-title\">" + object.get('imgTitle') +"</p></div></div></div></div></a>");
+      var imgTitle = object.get('imgTitle');
+      var imgURL = object.get('imgUrl');
+      var imgTags = object.get('imgTag');
+      var imgComments = object.get('imgComments');
+      var imgRating = object.get('imgRatings');
+      var imgFolder = object.get('imgFolder');
+       $("#portfoliolist").append("<a class='popup-with-zoom-anim img" + i + "' href='#' onclick='return false;'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");
+                
+            $(".draggable").draggable({
+                revert: "invalid",
+                opacity: 0.35,
+            });
+       
+       var appendContent = "<div class='edit edit_img" + i + "'><button title='Close (Esc)' type='button' class='mfp-close'>×</button><h2>" + imgTitle + "</h2><hr /><form method='post' action=''><div class='contact_left'><div class='contact-form'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /></div></div><div class='contact_right'><div class='contact-form'><div><label>Title</label><input id='image-title' type='text' class='textbox' value='" + imgTitle + "'></div><div><label>Rating</label><span class='star-rating'>";
+	   appendContent += "<input type='radio' id='ratings' name='ratings' value='1'";
+		if(imgRating == 1) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='2'";
+		if(imgRating == 2) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='3'";
+		if(imgRating == 3) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='4'";
+		if(imgRating == 4) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='5'";
+		if(imgRating == 5) 
+		 appendContent += " checked='checked'";
+	   appendContent += "/><span></span></span></div><label>Folder</label><label>Tags</label><input id='tag' type='text' class='textbox' value='" + imgTags +"'><label>Comments</label><textarea id='comments' type='text' name='comments'>" + imgComments + "</textarea><br /><input class='edit-item-submit' type='submit' value='Save Edits' ></div></div></form></div>";
+       
+       $("#edit_overlay").append(appendContent);
     } //for loop    
   },
   error: function(error) {
     alert("Error: " + error.code + " " + error.message);
   }    
 });
-        
-        
-
         
   //  }
 	</script>    
@@ -94,22 +115,7 @@
         // window.location.load("search.html")
     }
     </script>
-    
-	
-    <script type="text/javascript">
-    $(function() {
-        $(".draggable").draggable({revert: "invalid"});
-        $(".droppable").droppable({   
-            drop: function(event, ui) {
-                var element = document.getElementById(ui.draggable.attr("id"));
-                alert(element);
-                element.parentNode.removeChild(element);
-            }
-        });
-
-    }); 
-    </script>
-    
+        
 <!-- start gallery -->
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>	
 <script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
@@ -134,12 +140,22 @@
 	  
 		$(document).on("keydown", function(e) {
 		  if(e.keyCode == 27)
-			$("#upload_prompt button.mfp-close").trigger("click"); 
+			$("button.mfp-close").trigger("click"); 
 		});
-		  $("#add_item").click(function() {
+		  $(".add_item").click(function() {
 			$("#upload_overlay").show();
 		  });  
-		  $("#upload_prompt button.mfp-close").click(function() {
+		  
+		  $(document).on("click", ".popup-with-zoom-anim", function() {
+		    var imgID = $(this).attr("class");
+		    imgID = imgID.substr(imgID.indexOf(" img")+4);
+		    $("#edit_overlay").show();
+		    $(".edit_img" + imgID).show();
+		  });
+		  
+		  $(document).on("click", "button.mfp-close", function() {
+		    $(".edit").hide();
+		    $("#edit_overlay").hide();
 			$("#upload_overlay").hide();
 		  });
 	});
@@ -160,9 +176,8 @@
 					// call the hover effect
 					onMixEnd: filterList.hoverEffect()
 				});				
-			
 			},
-			
+				
 			hoverEffect: function () {
 			
 				// Simple parallax effect
@@ -175,15 +190,11 @@
 						$(this).find('.label').stop().animate({bottom: -40}, 200, 'easeInQuad');
 						$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
 					}		
-				);				
-			
+				);					
 			}
-
 		};
-		
 		// Run the show!
-		filterList.init();
-			
+		filterList.init();	
 	});	
 	</script>
 <!-- Add fancyBox main JS and CSS files -->
@@ -226,21 +237,27 @@
         </script>
 </head>
 <body>
-		<!-- start popup for adding image/folder -->
-		<div id="upload_overlay">
+
+<!-- start edit overlay -->
+<div id="edit_overlay">
+</div>
+
+<!-- start upload overlay -->
+<div id="upload_overlay">
 			<div id="upload_prompt">
 			  <button title="Close (Esc)" type="button" class="mfp-close">×</button>
 			  <h2>Add a New...</h2>
 			  <input type="radio" name="add_type" value="image" id="add_image" /><label for="add_image">Image</label>
 			  <input type="radio" name="add_type" value="folder" id="add_folder" /><label for="add_folder">Folder</label>
 			  <form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
+			     <hr />
 				<div class="contact_left">
 				  <div class="contact-form">
 				  	<label>Upload An Image</label>
 					<div>
-							<input id="img-url" name="img-url" type="text" class="textbox" placeholder="URL to be Added"><br/>
-							<input type="button" id="add_url" value="Add URL" style="margin-right: 0;">
-							<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
+						<input id="img-url" name="img-url" type="text" class="textbox" placeholder="URL to be Added"><br/>
+						<input type="button" id="add_url" value="Add URL" style="margin-right: 0;">
+						<img id="imageShown" alt="Test image." style="display: none;margin-top: 10px; border-color:black;" />
 					</div>
 				   </div>
 				</div>
@@ -286,12 +303,10 @@
 				    </div>
   				</div>	
 				<div class="clear"></div>		
-			  </form>
-			  
+			  </form> 
     <script id="list-of-images" type="x/handlebars">
 		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
-	</script>
-			  
+	</script>	  
 	<script>
 		YUI().use('node', function(Y) {
 			
@@ -382,7 +397,6 @@
 	<script id="list-of-folders" type="x/handlebars">
 		<li class="list-item"><input type="checkbox" id="{id}">{content}</li>
 	</script>
-
 	<script>
 		YUI().use('node', function(Y) {
 			
@@ -433,7 +447,7 @@
 		<div class="h_right">
 			<ul class="menu">
 				<li class="active"><a href="folders_page.html">home</a></li>
-				<li><a href="about.html">create</a></li>
+<!--				<li><a href="about.html">create</a></li> -->
 				<li><a href="portfolio.html">upload</a></li>
 				<li><a>chrome extension</a></li>
 				<li><a href="teampage.html">team page</a></li>
@@ -472,157 +486,34 @@
 		<div class="clear"></div>
 	</div>
 </div>
-</div>
-<!-- start main -->
+</div><!-- end header_bg -->
 <div class="main_bg">
-<div class="wrap">
-	<div class="main">
-
-		<!-- start popup for existing images -->
-		<div id="small-dialog" class="mfp-hide">
-			<div class="pop_up">
-			<h2 contenteditable="true">Meme/GIF Title</h2><br>
-			<div class="contact">							
-				<div class="contact_left">
-				<div class="contact-form">
-					<div>
-						<img src="images/monkey.gif" alt="monkey">
-					</div>
-				</div>
-				  
-				</div>
-				<div class="contact_right">
-					  <div class="contact-form">
-						    <div>
-						    	<span style="padding-top:50px"><label>Rating</label></span>
-							<img src="images/rating.jpg" alt="rating">
-						    </div>	
-						    <div>
-						     	<label>Tags</label>
-						    	<input name="userPhone" type="text" class="textbox">
-						    </div>
-				    </div>
-  				</div>	
-				<div class="contact-form">
-					<label>Comments</label>
-					<textarea name="userMsg"> </textarea>
-
-				</div>
-				<div class="contact-form">
-					<input type="submit" value="delete" style="background:#F51100" >
-					<input type="submit" value="save" style="float: left;">
-				</div>
-				<div class="clear"></div>		
-
-			</div>
-			</div>
-		</div><!-- end popup -->
-		
-		<!-- start popup -->
-		<div id="small-dialog1" class="mfp-hide">
-			<div class="pop_up">
-			<h2 contenteditable="true">Meme/GIF Title</h2><br>
-			<div class="contact">							
-				<div class="contact_left">
-				<div class="contact-form">
-					<div>
-						<img src="http://i.imgur.com/3FUuJp4.jpg" height="154" width="154" alt="test">
-					</div>
-				   </div>
-				  
-				</div>
-				<div class="contact_right">
-					  <div class="contact-form">
-						    <div>
-						    	<span style="padding-top:50px"><label>Rating</label></span>
-							<img src="images/rating.jpg" alt="rating">
-						    </div>	
-						    <div>
-						     	<label>Tags</label>
-						    	<input name="userPhone" type="text" class="textbox">
-						    </div>
-				    </div>
-  				</div>	
-				<div class="contact-form">
-					<label>Comments</label>
-					<textarea name="userMsg"> </textarea>
-
-				</div>
-				<div class="contact-form">
-					<input type="submit" value="delete" style="background:#F51100" >
-					<input type="submit" value="save" style="float: left;">
-				</div>
-				<div class="clear"></div>		
-
-			</div>
-			</div>
-		</div><!-- end popup -->
-		
-		<!-- start popup --><div id="small-dialog2" class="mfp-hide">
-			<div class="pop_up">
-			<h2 contenteditable="true">Meme/GIF Title</h2><br>
-			<div class="contact">							
-				<div class="contact_left">
-				<div class="contact-form">
-					<div>
-						<img src="http://i1.kym-cdn.com/photos/images/newsfeed/000/641/298/448.jpg" alt="test">
-					</div>
-				   </div>
-				  
-				</div>
-				<div class="contact_right">
-					  <div class="contact-form">
-						    <div>
-						    	<span style="padding-top:50px"><label>Rating</label></span>
-							<img src="images/rating.jpg" alt="rating">
-						    </div>	
-						    <div>
-						     	<label>Tags</label>
-						    	<input name="userPhone" type="text" class="textbox" >
-						    </div>
-				    </div>
-  				</div>	
-				<div class="contact-form">
-					<label>Comments</label>
-					<textarea name="userMsg"> </textarea>
-
-				</div>
-				<div class="contact-form">
-					<input type="submit" value="delete" style="background:#F51100" >
-					<input type="submit" value="save" style="float: left;">
-				</div>
-				<div class="clear"></div>		
-
-			</div>
-			</div>
-		</div><!-- end popup -->
-		
+	<div class="wrap">
+		<div class="main">
 		<!-- start gallery  -->
-	<div class="container">
-		<ul id="filters" class="clearfix">
-			<li>Newest First</li>
-			<li>Oldest First</li> 
-			<li>A-Z</li> 
-			<li class="no-border">Z-A </li>
-		</ul>
-		<div id="portfoliolist">
-				<div class="portfolio logo1" data-cat="logo">
-					<div class="portfolio-wrapper">				
-					  <a href="#" onclick="return false;" id="add_item">+</a>
+			<div class="container">
+				<ul id="filters" class="clearfix">
+					<li>Newest First</li>
+					<li>Oldest First</li> 
+					<li>A-Z</li> 
+					<li class="no-border">Z-A </li>
+				</ul>
+				<div id="portfoliolist">
+					<div class="portfolio add_item" >
+					  <div class="portfolio-wrapper">				
+					  	<a href="#" onclick="return false;" id="add_item">+</a>
 						<div class="label">
-							<div class="label-text">
-								<p class="text-title">Add Image or Folder</p>
-							</div>
-							<div class="label-bg"></div>
+					  	  <div class="label-text">
+							<p class="text-title">Add Image or Folder</p>
+						  </div>
 						</div>
-					</div>
-				</div>		
-		  </div>
-	  </div><!-- end container -->	
-			
-		</div>
-	</div><!-- end container -->
-</div>
+					  </div>
+					</div>		
+			   </div><!-- end portfolio list -->				
+			</div><!-- end container -->
+		</div> <!-- end main -->
+	</div>
+</div><!-- end main_bg -->
 <div class="footer_bg">
 <div class="wrap">
 	<div class="footer">
@@ -644,6 +535,6 @@
 		</div>
 	</div>
 </div>
-</div>
+</div><!-- end footer_bg -->
 </body>
 </html>
