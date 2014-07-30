@@ -20,8 +20,7 @@
     
     
     <script>
-	
-    
+
         
 	function loc(){
 		var url = window.location.search;
@@ -31,25 +30,6 @@
         renderImage();
 		}
         
-        /*
-    $(document).on("load", ".popup-with-zoom-anim", function() {
-        //   console.log("inside";   <-- here it is
-        $('#small-dialog').get(0).scrollIntoView(); 
-        $('#small-dialog').load("gif_album.html");
-       // $('#small-dialog').css("z-index", 99999);
-        //window.open("folders_page.html");
-        //$('#small-dialog').css({"display":"inline"});
-    //    $('.mfp-hide').css({"display":"inline"});
-      //  $('.mfp-hide').css({"z-index":"-5"});
-    //    $('..mfp-content').css({"display":"inline-block"});
-       // alert("gif_album.html"); 
-        
-        
-    });
-        */
-        
-        
-
         
     //do pic rendering here
     function renderImage(){
@@ -417,6 +397,15 @@
 					});
 						
 				});
+                
+                function sortNewest(){
+                    //alert("test");
+                    window.location.assign("sortNewest.html?" + document.getElementById("folder").innerHTML)
+                }
+                function sortOldest(){
+                    //alert("test");
+                    window.location.assign("sortOldest.html?" + document.getElementById("folder").innerHTML)
+                }
 			</script>	
 			</div>
 		</div><!-- close upload overlay -->
@@ -478,7 +467,7 @@
 <div class="wrap">
 	<div class="main">
         <ul class = "loc" style="color:white">
-			<li style="display:inline"> <a href="folders_page.html" class="home_link">Home</a>  &raquo;</li>
+			<li style="display:inline"> <a href="folders_page.html" class="home_link" style="text-decoration:underline;color:#B6B2D9">Home</a>  &raquo;</li>
 			<li style="display:inline"><div id= "folder" style="display:inline">  </div>  </li>
 		</ul>
         
@@ -487,6 +476,13 @@
 		
 <!-- start gallery  -->
 <div class="container">
+    
+        <ul id="filters" class="clearfix">
+            <li><a href="#" onclick="sortNewest()" style="color:white">Newest First</a></li>
+            <li><a href="#" onclick="sortOldest()" style="color:white">Oldest First</a></li>
+            <li>A-Z</li> 
+            <li class="no-border">Z-A </li>
+        </ul>
 		<div id="portfoliolist"><!-- 1 -->            
 					<div class="portfolio add_item" >
 					  <div class="portfolio-wrapper">				

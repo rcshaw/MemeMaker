@@ -12,6 +12,7 @@ function funcSearch() {
  
 }
 
+
 document.addEventListener('DOMContentLoaded', function() {
 $("#search").keyup(function(event){
     if(event.keyCode == 13){
@@ -55,7 +56,8 @@ function show_image(src, width, height, alt) {
     // This next line will just add it to the <body> tag
     document.body.appendChild(img);
     */
-    
+    var totalResults = 0;
+    var tagResults=0;
         Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
     
     var Image = Parse.Object.extend("ImageItem");
@@ -81,11 +83,41 @@ function show_image(src, width, height, alt) {
     // This next line will just add it to the <body> tag
     document.body.appendChild(img);
     }
+    tagResults = results;
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
     
+    
+    
+    var query = new Parse.Query(Image);
+	var search = document.getElementById('search').value
+	query.contains("imgTitle", search);
 
-    var drag = document.getElementById('drag');
+	query.find({
+  	success: function(titleResults) {
+    //alert("Successfully retrieved " + results.length + " scores.");
     
-    if (results.length ==0)
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < titleResults.length; i++) { 
+      var object = titleResults[i];
+      //alert(object.id + ' - ' + object.get('tag'));
+      var img = document.createElement("img");
+    img.src = object.get('imgUrl');
+    img.width = width;
+    img.height = height;
+    img.alt = alt;
+    
+    img.style.cssText = 'padding:8px'
+    // This next line will just add it to the <body> tag
+    document.body.appendChild(img);
+    }
+    
+    var drag = document.getElementById('drag');
+    totalResults = tagResults + titleResults.length;
+    if (totalResults ==0)
     {
     	document.getElementById("text-holder").style.display="inline";
     	document.getElementById("text-holder").innerHTML= "no results found for " +search;
@@ -102,7 +134,15 @@ function show_image(src, width, height, alt) {
     alert("Error: " + error.code + " " + error.message);
   }
 });
-
+    
+    
+    
+    
+    
+    
+    totalResults=0;
+    
+    tagResults=0;
 
     
 }

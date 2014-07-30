@@ -15,7 +15,7 @@ function getClickHandler() {
     //chrome.windows.create({ url: url, width: 520, height: 660 });
     Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
 
-	var tag = prompt("Enter a Tag for this Meme");
+	var title = prompt("Enter a Title for this Meme");
 	if (tag === null || tag ==false)
 	{
 		return;
@@ -26,7 +26,7 @@ function getClickHandler() {
  
 	 //replace url with img-url
  
-	meme.set("imgTag", tag);
+	meme.set("imgTitle", title);
 	meme.set("imgUrl", info.srcUrl);
 	meme.set("imgFolder","Home Folder");
 	//the rest of the fields will be empty, 
