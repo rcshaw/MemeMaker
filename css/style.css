@@ -351,6 +351,11 @@ background: #34495E;
 height: auto;
 padding: 4%;
 }
+
+.main_login{
+height: 250pt;
+}
+
 .content{
 background: #ffffff;
 padding: 4%;
@@ -395,8 +400,8 @@ a:visited {
 
 .login {
 position: absolute;
-left: 450px;
-top: 225px;
+left: 35%;
+top: 30%;
 padding: 20pt;
 width: 300pt;
 height: 130pt;    
