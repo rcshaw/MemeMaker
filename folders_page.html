@@ -38,9 +38,30 @@
         
             $(".droppable").droppable({   
                 drop: function(event, ui) {
-                    var turkey = (ui.draggable);
-                    $(ui.draggable).remove();
-                    var chicken = $(this).find('p').html();
+                    
+                    Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
+                    var image = Parse.Object.extend("ImageItem");
+                    var query = new Parse.Query(image);
+                    var dropName = "" + $(this).find('p').html();
+                    
+                    var dragName = $(ui.draggable).find("img").attr("src");
+                    
+                    query.equalTo("imgUrl", dragName);
+                    query.first({
+						  success: function(results) {
+                              
+                              //  for (var i = 0; i <= results.length; i++) { 
+                                    alert(results.get("imgTitle"));
+                                    results.set("imgFolder", dropName);
+                                    results.save();
+                                    $(ui.draggable).remove();
+                             //   }
+                                
+						  },
+						  error: function(error) {
+								alert("Error when updating todo item");
+						  }
+                    });                   
                 }
             });
         
