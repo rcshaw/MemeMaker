@@ -9,28 +9,28 @@
       overflow: hidden;
       margin: 0px;
       padding: 5px;
-      background: white;
+      background: #33495E;
 	  border: 1px solid #CCCCCC;
-		  border-radius:5px;
+      border-radius:5px;
     }
 
     div:first-child {
-      margin-top: 0px;
+        margin-top: 0px;
     }
 
     div {
       cursor: pointer;
       text-align: center;
-      padding: 3px;
+      padding: 3pt;
       font-family: sans-serif;
-      font-size: 1.5em;
+      font-size: 1em;
       width: 250px;
-      margin-top: 1px;
-      background: #ffffff;
+      margin-top: 1pt;
+      background: #33495E;
     }
     #word {
 
-      color: #333333;
+      color: #FFF;
 	  
     }
     #drag{
@@ -39,6 +39,30 @@
     #text-holder{
     	font-size:.9em;
     }
+    input[type="submit"]{
+        -webkit-appearance: none;
+        font-weight: 600;
+        font-family: 'Open Sans', sans-serif;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        display: inline-block;
+        padding: 12px 30px;
+        font-size: 0.8925em;
+        color: #ffffff;
+        background: #19BD9B;
+        text-transform: uppercase;
+        border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -o-border-radius: 2px;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        text-align: center;
+}
+        
     /* img{
     width:100px;
     height:100px;
@@ -49,22 +73,17 @@
    <!-- <script src="popup.js"></script> -->
   </head>
   <body>
-	
-    <div id="word">MemeMaster Extension</div>
-	
-	
-	<div>
-		Search for a Tag/Title: <input type="text" id="search"><br>
-	<input type="submit" value="Submit" id="sub" style = "margin-top:5px">
-	</div>
-	
-	 <div id="text-holder">
       
+	<img src="meme_logo.png"/>
+    <div id="word">Search for a Tag/Title:
+        <input type="text" id="search">
+        <input type="submit" value="Submit" id="sub" style = "margin-top:5px">
     </div>
+	
+    <div id="text-holder"></div>
     
-    
-	<div id="drag" style="font-style:italic; display:none">
-       Drag and Drop into any editor
+	<div id="drag" style="display:none">
+       
     </div>
     
     <div id = "pic-holder">

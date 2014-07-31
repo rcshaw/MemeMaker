@@ -10,13 +10,14 @@ function getClickHandler() {
 
     // The srcUrl property is only available for image elements.
     var url = 'info.html#' + info.srcUrl;
+      alert(url);
 
     // Create a new window to the info page.
     //chrome.windows.create({ url: url, width: 520, height: 660 });
     Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
 
 	var title = prompt("Enter a Title for this Meme");
-	if (tag === null || tag ==false)
+	if (title === null || title ==false)
 	{
 		return;
 	}
