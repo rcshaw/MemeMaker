@@ -93,7 +93,7 @@
         
         function loc(){
 		var url = window.location.search;
-		url = url.replace("?", ''); // remove the ?
+		url = url.replace("?", '').replace("+", " "); // remove the ?
         url= url.replace("search=", '');
 		//alert(url); 
 		document.getElementById("folder").innerHTML = url;
@@ -195,40 +195,11 @@ $(function() {
 	<script type="text/javascript">
 $(document).ready(function() {
 var url = window.location.search;
-url = url.replace("?search=", ''); // remove the ?
+url = url.replace("?search=", '').replace("+", " "); // remove the ?
     initializeParse();
 	 getFolders(url);
-	 
-    var Image = Parse.Object.extend("ImageItem");
-	var query1 = new Parse.Query(Image);
-    //var query2 = new Parse.Query(Image);
-    
-	query1.equalTo("imgTag", url);
-    //query2.equalTo("imgTitle", url);
-    //var query = Parse.Query.or(query1, query2);
-	query1.find({
-  	success: function(results) {
-    // Do something with the returned Parse.Object values
-    for (var i = 0; i < results.length; i++) { 
-      var object = results[i];
-      var imgID = object.id;
-      var imgTitle = object.get('imgTitle');
-      var imgURL = object.get('imgUrl');
-      var imgTags = object.get('imgTag');
-      var imgComments = object.get('imgComments');
-      var imgRating = object.get('imgRatings');
-      var imgFolder = object.get('imgFolder');
-
-       $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
-    } //for loop    
-  }, error: function(error) {
-    alert("Error: " + error.code + " " + error.message);
-  }    
- }); 
-    
     var Image = Parse.Object.extend("ImageItem");
 	var query = new Parse.Query(Image);
-    query.equalTo("imgTitle", url);
 	query.find({
   	success: function(results) {
     // Do something with the returned Parse.Object values
@@ -241,14 +212,14 @@ url = url.replace("?search=", ''); // remove the ?
       var imgComments = object.get('imgComments');
       var imgRating = object.get('imgRatings');
       var imgFolder = object.get('imgFolder');
-
-       $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
+      if(imgTitle.toLowerCase() == url.toLowerCase() || imgTags.toLowerCase() == url.toLowerCase()) {
+	     $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
+	  } 
     } //for loop    
   }, error: function(error) {
     alert("Error: " + error.code + " " + error.message);
   }    
- }); 
-    
+ });
 });  
 </script>
         
@@ -471,14 +442,6 @@ url = url.replace("?search=", ''); // remove the ?
 
 				<div id="portfoliolist">
 					<div class="portfolio add_item" >
-					  <div class="portfolio-wrapper">				
-					  	<a href="#" onclick="return false;" id="add_item">+</a>
-						<div class="label">
-					  	  <div class="label-text">
-							<p class="text-title">Add New Image</p>
-						  </div>
-						</div>
-					  </div>
 					</div>		
 			   </div><!-- end portfolio list -->				
 			</div><!-- end container -->
