@@ -56,7 +56,7 @@
 		//Once it is saved, show it in the list of todo's.
 		folderItem.save(null, {
 		  success: function(item) {
-			 window.location = "?add_success=folder";
+			 window.location = location.href;
 		  },
 		}); 
 	}
@@ -79,7 +79,7 @@
 		//Once it is saved, show it in the list of todo's.
 		imageItem.save(null, {
 		  success: function(item) {
-			  window.location = "?add_success=image";
+			 window.location = location.href;
 		  },
 		  error: function(gameScore, error) {
 				alert("Error when saving Todos: " + error.code + " " + error.message);
@@ -95,7 +95,7 @@
           success: function(object) {
 			 object.destroy({
 			   success: function() {
-	             window.location = "?delete_image=success";
+			 window.location = location.href;
 	            }
 	        });
           }, 
@@ -118,7 +118,7 @@
              object.set("imgTag", imgTags);
              object.set("imgComments", imgComments);
              object.save();
-             window.location = "";
+			 window.location = location.href;
           }, 
 		  error: function(error) {
 			alert("Error: " + error.code + " " + error.message);
@@ -374,7 +374,7 @@ $(document).ready(function() {
 <label>Comments</label>
 <textarea id='edit_comments' type='text' name='edit_comments'></textarea>
     <br />
-<input type='button' class='delete-image' value="Delete Image" />
+<input type='button' class='delete-image' value="Delete" />
 <input class='edit-item-submit' type='submit' value='Save Edits' />
     </div></div></form>
  </div>   
@@ -516,12 +516,12 @@ $(document).ready(function() {
 		<div class="main">
 		<!-- start gallery  -->
 			<div class="container">
-				<ul id="filters" class="clearfix">
+			<!--	<ul id="filters" class="clearfix">
 					<li>Newest First</li>
 					<li>Oldest First</li> 
 					<li>A-Z</li> 
 					<li class="no-border">Z-A </li>
-				</ul>
+				</ul> -->
 				<div id="portfoliolist">
 					<div class="portfolio add_item" >
 					  <div class="portfolio-wrapper">				
