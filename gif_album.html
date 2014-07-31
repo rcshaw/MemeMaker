@@ -11,97 +11,224 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
 <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.0.19.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js">
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-</script>
-<!-- start gallery -->
-	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
-	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
-    
-    
-    <script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script type="text/javascript">
+	function initializeParse() {
+	   Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");	
+	}
+			
+	function getFolders(selectedFolder) {
+	  YUI().use('node', function(Y) {
+		var FolderItem = Parse.Object.extend("FolderItem");
+		var folderItem = new Parse.Query(FolderItem);
+		folderItem.find({
+			success: function(item) {
+				for (i in item){
+					var folder = item[i];
+					var folderCategories1 = document.getElementById("folder-list");
+					var folderCategories2 = document.getElementById("edit_folder");
+					var newFolderItem1 = document.createElement('option');
+					var newFolderItem2 = document.createElement('option');
+					if(selectedFolder == folder.get("content")) {
+					  newFolderItem1.setAttribute("selected", "selected");
+					  newFolderItem2.setAttribute("selected", "selected");
+					}
+					newFolderItem1.setAttribute("value", folder.get("content"));
+					newFolderItem2.setAttribute("value", folder.get("content"));
+					newFolderItem1.innerText = folder.get("content");
+					newFolderItem2.innerText = folder.get("content");
+					folderCategories1.appendChild(newFolderItem1);
+					folderCategories2.appendChild(newFolderItem2);
+				 }
+			  }
+			});		
+		});
+	}
+	
+	function addImage(ev, imgTitle, imgUrl, imgTag, imgFolder, imgRatings, imgComments) {
+	  ev.preventDefault();
+	
+		var ImageItem = Parse.Object.extend("ImageItem");
+		var imageItem = new ImageItem();		
+		//Save the current Todo
 
+		imageItem.set("imgTitle", imgTitle);
+		imageItem.set("imgUrl", imgUrl);
+		imageItem.set("imgTag", imgTag);
+		imageItem.set("imgFolder", imgFolder);
+		imageItem.set("imgRatings", imgRatings);
+		imageItem.set("imgComments", imgComments);
+
+		//Once it is saved, show it in the list of todo's.
+		imageItem.save(null, {
+		  success: function(item) {
+			  window.location = "";
+		  },
+		  error: function(gameScore, error) {
+				alert("Error when saving Todos: " + error.code + " " + error.message);
+		  }
+		}); 
+	}
+	
+	function deleteImage(e, imgId) {
+	    alert(imgId);
+        var img = Parse.Object.extend("ImageItem");
+        var query = new Parse.Query(img);
+        query.equalTo("objectId", imgId);
+        query.first({
+          success: function(object) {
+			 object.destroy({
+			   success: function() {
+	             window.location = "";
+	            }
+	        });
+          }, 
+		  error: function(error) {
+			alert("Error: " + error.code + " " + error.message);
+		  }    
+        });
+	}
+	
+	function saveEdits(e, imgId, imgTitle, imgRating, imgFolder, imgTags, imgComments) {
+		e.preventDefault();
+		
+        var img = Parse.Object.extend("ImageItem");
+        var query = new Parse.Query(img);
+        query.equalTo("objectId", imgId);
+        query.first({
+          success: function(object) {
+             object.set("imgTitle", imgTitle);
+             object.set("imgRatings", imgRating);
+             object.set("imgFolder", imgFolder);
+             object.set("imgTag", imgTags);
+             object.set("imgComments", imgComments);
+             object.save();
+             window.location = "";
+          }, 
+		  error: function(error) {
+			alert("Error: " + error.code + " " + error.message);
+		  }    
+        });
+	}	
+
+
+ $(document).on("click", ".delete-image", function(e) {
+	var imgId = window.location.hash.substr(1);
+	deleteImage(e, imgId);
+ });
+
+ $(document).on("submit", ".edit_form", function(e) {
+		var imgId = window.location.hash.substr(1);
+ 	    var imgTitle = $("input[name^='edit_img_title']").val();
+		var imgRating = $("input[name^='edit_ratings']:checked").val();
+		var imgFolder = $("select[name^='edit_folder']").find(":selected").val();
+		var imgTags = $("input[name^='edit_tag']").val();
+		var imgComments = $("textarea[name^='edit_comments']").val();
+		saveEdits(e, imgId, imgTitle, imgRating, imgFolder, imgTags, imgComments);
+ });
+ 
+ $(document).on("submit", "#addImage", function(e) {
+		var imgTitle = $('#image-title').val();
+		var imgUrl = $('#img-url').val();
+		var imgTag = $('#tag').val();
+		var imgFolder = $('#folder-list').val();
+		var imgRatings = $('input[name^="ratings"]:checked').val();
+		var imgComments = $('#comments').val();
+		addImage(e, imgTitle, imgUrl, imgTag, imgFolder, imgRatings, imgComments);
+ });
+ 
+$(document).on("submit", "#addFolder", function(e) {
+		var folderName = $("#folder_name").val();
+		addFolder(e, folderName);
+ });
+ 
+$(function() {        
+	var url = "";
+    $("#add_url").on("click", function(e) {
+    	url = $("input[name^='img-url']").val();
+	    $("img#imageShown").attr("src", url);
+        $("img#imageShown").css("display", "block");
+    });      
+});
+
+ 
         
-	function loc(){
-		var url = window.location.search;
-		url = url.replace("?", ''); // remove the ?
-		//alert(url); 
-		document.getElementById("folder").innerHTML = url;
-        renderImage();
-		}
-        
-        
-    //do pic rendering here
-    function renderImage(){
-        Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");   
-    var Image = Parse.Object.extend("ImageItem");
-	var query = new Parse.Query(Image);
-	var folder = document.getElementById("folder").innerHTML;
-	query.equalTo("imgFolder", folder);
-	query.find({
-  	success: function(results) {
-    //alert("Successfully retrieved " + results.length + " scores.");
-    // Do something with the returned Parse.Object values
-    for (var i = 0; i < results.length; i++) { 
-      var object = results[i];
+ $(document).on("click", "a.popup-with-zoom-anim", function() {   
+  var imgId = $(this).prop("hash").substr(1);
+  var Image = Parse.Object.extend("ImageItem");
+	var query = new Parse.Query(Image);  
+	query.equalTo("objectId", imgId);
+	query.first({success: function(results) {
+      var object = results;
       var imgTitle = object.get('imgTitle');
       var imgURL = object.get('imgUrl');
       var imgTags = object.get('imgTag');
       var imgComments = object.get('imgComments');
       var imgRating = object.get('imgRatings');
       var imgFolder = object.get('imgFolder');
-       $("#portfoliolist").append("<a class='popup-with-zoom-anim img" + i + "' href='#' onclick='return false;'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");
-       
-       var appendContent = "<div class='edit edit_img" + i + "'><button title='Close (Esc)' type='button' class='mfp-close'>×</button><h2>" + imgTitle + "</h2><hr /><form method='post' action=''><div class='contact_left'><div class='contact-form'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /></div></div><div class='contact_right'><div class='contact-form'><div><label>Title</label><input id='image-title' type='text' class='textbox' value='" + imgTitle + "'></div><div><label>Rating</label><span class='star-rating'>";
-	   appendContent += "<input type='radio' id='ratings' name='ratings' value='1'";
-		if(imgRating == 1) 
-		 appendContent += " checked='checked'";
-	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='2'";
-		if(imgRating == 2) 
-		 appendContent += " checked='checked'";
-	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='3'";
-		if(imgRating == 3) 
-		 appendContent += " checked='checked'";
-	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='4'";
-		if(imgRating == 4) 
-		 appendContent += " checked='checked'";
-	   appendContent += "/><span></span><input type='radio' id='ratings' name='ratings' value='5'";
-		if(imgRating == 5) 
-		 appendContent += " checked='checked'";
-	   appendContent += "/><span></span></span></div><label>Folder</label><label>Tags</label><input id='tag' type='text' class='textbox' value='" + imgTags +"'><label>Comments</label><textarea id='comments' type='text' name='comments'>" + imgComments + "</textarea><br /><input class='edit-item-submit' type='submit' value='Save Edits' ></div></div></form></div>";
-       
-       $("#edit_overlay").append(appendContent);
-    } //for loop    
-  },
-      error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
-      }    
-    });
-    } //renderImage function
-    
-        
-	</script>
-    
+      $("h2.h2_img_title").text(imgTitle);
+      $("input[name^='edit_img_title']").val(imgTitle);
+      $("input[name^='edit_ratings'][value^='" + imgRating + "']").prop("checked", "checked");
+      $("select[name^='edit_folder']").val(imgFolder);
+      $("input[name^='edit_tag']").val(imgTags);
+      $("textarea[name^='edit_comments']").val(imgComments);
+      $("form #img_preview").attr("src", imgURL);
+      $("#edit_overlay").show();
+    $(".edit").show(); 
+    },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }    
+  });
+});   
+    </script>	
 	<script type="text/javascript">
+$(document).ready(function() {
+	 var url = window.location.search;
+	 url = decodeURI(url.replace("?", '')); // remove the ? 
+	 document.getElementById("folder").innerHTML = url;
+     initializeParse();
+	 getFolders(url);
+	 
+    var Image = Parse.Object.extend("ImageItem");
+	var query = new Parse.Query(Image);
+	query.equalTo("imgFolder", url);
+	query.find({
+  	success: function(results) {
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < results.length; i++) { 
+      var object = results[i];
+      var imgID = object.id;
+      var imgTitle = object.get('imgTitle');
+      var imgURL = object.get('imgUrl');
+      var imgTags = object.get('imgTag');
+      var imgComments = object.get('imgComments');
+      var imgRating = object.get('imgRatings');
+      var imgFolder = object.get('imgFolder');
 
+       $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
+    } //for loop    
+  }, error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }    
+ }); 
+});  
+</script>
+        
+<!-- start gallery -->
+<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
+<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+<script type="text/javascript">
 	$(function() {
-
-		$("input[name^='add_type']").change(function() {
-			if($(this).val() == "image") {
-			  $("#addFolder").slideUp(400);
-			  $("#addImage").slideDown(400);
-		    } else {
-		      $("#addImage").slideUp(400);
-			  $("#addFolder").slideDown(400);
-		   }
-		});
 
 		$(document).mouseup(function(e) {
 		  var p = $("#upload_prompt");
 		  if(!p.is(e.target) && p.has(e.target).length === 0)
 			$("#upload_overlay").hide();
 		});	 
-	  
+	
 		$(document).on("keydown", function(e) {
 		  if(e.keyCode == 27)
 			$("button.mfp-close").trigger("click"); 
@@ -110,19 +237,13 @@
 			$("#upload_overlay").show();
 		  });  
 		  
-		  $(document).on("click", ".popup-with-zoom-anim", function() {
-		    var imgID = $(this).attr("class");
-		    imgID = imgID.substr(imgID.indexOf(" img")+4);
-		    $("#edit_overlay").show();
-		    $(".edit_img" + imgID).show();
-		  });
-		  
 		  $(document).on("click", "button.mfp-close", function() {
 		    $(".edit").hide();
 		    $("#edit_overlay").hide();
 			$("#upload_overlay").hide();
 		  });
 	});
+
 	$(function () {
 		
 		var filterList = {
@@ -138,12 +259,10 @@
 					easing: 'snap',
 					// call the hover effect
 					onMixEnd: filterList.hoverEffect()
-				});		
-			
+				});				
 			},
-			
+				
 			hoverEffect: function () {
-			
 				// Simple parallax effect
 				$('#portfoliolist .portfolio').hover(
 					function () {
@@ -154,69 +273,57 @@
 						$(this).find('.label').stop().animate({bottom: -40}, 200, 'easeInQuad');
 						$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
 					}		
-				);				
-			
+				);					
 			}
-
 		};
-		
 		// Run the show!
-		filterList.init();
-			
+		filterList.init();	
 	});	
 	</script>
 <!-- Add fancyBox main JS and CSS files -->
 <link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
-		<script>
-			$(document).ready(function() {
-				$('.popup-with-zoom-anim').magnificPopup({
-					type: 'inline',
-					fixedContentPos: false,
-					fixedBgPos: true,
-					overflowY: 'auto',
-					closeBtnInside: true,
-					preloader: false,
-					midClick: true,
-					removalDelay: 300,
-					mainClass: 'my-mfp-zoom-in'
-			});
-		});
-</script>
-<script type="text/javascript">
-	$(function() {
-	
-		$("form[name^='addURL']").submit(function(e) {
-		  e.preventDefault();
-		});
-	
-		$("form[name^='addFolder']").submit(function(e) {
-		  e.preventDefault();
-		});
-	
-		var url = "";
-		$("#add_url").on("click", function(e) {
-		  url = $("input[name^='img-url']").val();
-		  $("img#imageShown").attr("src", url);
-		  $("img#imageShown").css("display", "block");
-		});      
-	});
-	</script>
-
 </head>
-<body onload="loc()">
+<body>
 <!-- start edit overlay -->
 <div id="edit_overlay">
+<div class='edit'><button title='Close (Esc)' type='button' class='mfp-close'>×</button>
+<h2 class="h2_img_title"></h2>
+    <hr />
+<form method='post' action='' class='edit_form'>
+<div class='contact_left'><div class='contact-form'><img src='' alt='' title='' id="img_preview" /></div></div>
+<div class='contact_right'><div class='contact-form'><div><label>Title</label><input id='edit-image-title' name="edit_img_title" type='text' class='textbox' value=''></div>
+<div>
+<label>Rating</label><span class='star-rating'>
+<input type='radio' name='edit_ratings' value='1' /><span></span>
+<input type='radio' name='edit_ratings' value='2' /><span></span>
+<input type='radio' name='edit_ratings' value='3' /><span></span>
+<input type='radio' name='edit_ratings' value='4' /><span></span>
+<input type='radio' name='edit_ratings' value='5' /><span></span>
+</span>
 </div>
+<label>Folder</label>
+<select class="folder-dropdown" id="edit_folder" name="edit_folder">
+<option>Choose a Folder</option>
+</select>
+<br /><br />
+<label>Tags</label>
+<input id='edit_tag' type='text' class='textbox' value='' name='edit_tag'>
+<label>Comments</label>
+<textarea id='edit_comments' type='text' name='edit_comments'></textarea>
+    <br />
+<input type='button' class='delete-image' value="Delete Image" />
+<input class='edit-item-submit' type='submit' value='Save Edits' />
+    </div></div></form>
+ </div>   
+</div> <!-- Close edit overlay -->
 
 <!-- start upload overlay -->
 <div id="upload_overlay">
 			<div id="upload_prompt">
 			  <button title="Close (Esc)" type="button" class="mfp-close">×</button>
-			  <h2>Add a New...</h2>
-			  <input type="radio" name="add_type" value="image" id="add_image" /><label for="add_image">Image</label>
-			  <input type="radio" name="add_type" value="folder" id="add_folder" /><label for="add_folder">Folder</label>
-			  <form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data">
+			  <h2>Add New Image</h2>
+			  <form id="addImage" name="addURL" method="post" action="" enctype="multipart/form-data" style="display:inline;">
 			     <hr />
 				<div class="contact_left">
 				  <div class="contact-form">
@@ -233,7 +340,7 @@
 					<div class="contact-form">
 						    <div>
 						    	<label>Title</label>
-						    	<input id="image-title" type="text" class="textbox">
+						    	<input id="image-title" type="text" class="textbox" name="image-title" />
 						    </div>
                             <div>
                                 <label>Rating</label>
@@ -249,12 +356,9 @@
                             <div>
                                 <label>Folder</label>
                                 <select id="folder-list">
-                                    <option id="folder-filler">Choose Folder</option>
-									<option value="No Folder">No Folder</option>
+                                    <option>Choose Folder</option>
                                 </select>
-                            </div>
-                        
-						    <div>
+									<br /><br />
 						     	<label>Tags</label>
 						    	<input id="tag" type="text" class="textbox">
 						    </div>
@@ -271,175 +375,42 @@
   				</div>	
 				<div class="clear"></div>		
 			  </form> 
-				<script id="list-of-images" type="x/handlebars">
-					<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
-				</script>	  
-			<script>
-				YUI().use('node', function(Y) {
-			
-					var ImageItem, 
-					query,
-					submitBtn = Y.one("#list-item-submit"),
-					imageList = Y.one('#image-items'),
-					input = Y.one("#image-title"),
-					inputImgUrl = Y.one("#img-url"),
-					inputImgTag = Y.one("#tag"),
-					inputImgFolder = Y.one("#folder-list"),
-					inputImgRatings = Y.one("#ratings"),
-					inputImgComments = Y.one("#comments");
-			
-					Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
-			
-					var FolderItem = Parse.Object.extend("FolderItem");
-					var folderItem = new Parse.Query(FolderItem);
-					folderItem.find({
-						success: function(item) {
-							for (i in item){
-								var folder = item[i];
-		//                        console.log(folder.get("content"));
-								var folderCategories = document.getElementById("folder-list");
-								var newFolderItem = document.createElement('option');
-								newFolderItem.setAttribute("value", folder.get("content"));
-								newFolderItem.innerText = folder.get("content");
-								folderCategories.appendChild(newFolderItem);
-							}
-						}
-					});
-			
-					//Handle Click Event
-					submitBtn.on('click', function(e) {
-				
-						//Save the current Todo
-						var imgTitle = Y.one('#image-title').get('value');
-						var imgUrl = Y.one('#img-url').get('value');
-						var imgTag = Y.one('#tag').get('value');
-						var imgFolder = Y.one('#folder-list').get('value');
-						var imgRatings = $('input[name^="ratings"]:checked').val();
-						var imgComments = Y.one('#comments').get('value');
-						var ImageItem = Parse.Object.extend("ImageItem");
-						var imageItem = new ImageItem();
-
-						imageItem.set("imgTitle", imgTitle);
-						imageItem.set("imgUrl", imgUrl);
-						imageItem.set("imgTag", imgTag);
-						imageItem.set("imgFolder", imgFolder);
-						imageItem.set("imgRatings", imgRatings);
-						imageItem.set("imgComments", imgComments);
-				
-						//Once it is saved, show it in the list of todo's.
-						imageItem.save(null, {
-						  success: function(item) {
-						
-							var content = Y.Lang.sub(Y.one('#list-of-images').getHTML(), {
-									content: item.get('imgTitle'),
-									id: item.id,
-								});
-								input.set('value', '').focus();
-								inputImgUrl.set('value', '');
-								inputImgTag.set('value', '');
-								inputImgFolder.set('value', '');
-								$('#imageShown').css("display", "none");
-								$('input[name=ratings]').attr('checked',false);
-								inputImgComments.set('value', '');
-						  },
-						  error: function(gameScore, error) {
-								alert("Error when saving Todos: " + error.code + " " + error.message);
-						  }
-						}); 
-					});
-			
-			
-				});
-			</script>
-			<form action="" method="post" id="addFolder" name="addFolder">
-				<hr />
-			  <div class="contact_right">
-				<div class="contact-form">
-				<label for="folder_name">Folder Name</label>
-				<input id="folder_name" name="folder_name" type="text" class="textbox" placeholder="Folder Name" />
-				<input type="submit" name="add_folder" id="new_folder" value="Add Folder" />
-				</div>
-			  </div>
-			</form>
-			<script id="list-of-folders" type="x/handlebars">
-				<li class="list-item"><input type="checkbox" id="{id}">{content}</li>
-			</script>
-			<script>
-				YUI().use('node', function(Y) {
-			
-					var FolderItem, 
-					query,
-					submitBtn = Y.one("#new_folder"),
-					folderList = Y.one('#folder-items')
-					input = Y.one("#folder_name");
-			
-			
-					Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
-			
-					//Handle Click Event
-					submitBtn.on('click', function(e) {
-				
-						//Save the current Todo
-						var text = Y.one('#folder_name').get('value');
-						var FolderItem = Parse.Object.extend("FolderItem");
-						var folderItem = new FolderItem();
-						folderItem.set("content", text);
-				
-						//Once it is saved, show it in the list of todo's.
-						folderItem.save(null, {
-						  success: function(item) {
-							input.set('value', '').focus();
-						  },
-						  error: function(gameScore, error) {
-								alert("Error when saving Todos: " + error.code + " " + error.message);
-						  }
-						});
-					});
-						
-				});
-                
-                function sortNewest(){
-                    //alert("test");
-                    window.location.assign("sortNewest.html?" + document.getElementById("folder").innerHTML)
-                }
-                function sortOldest(){
-                    //alert("test");
-                    window.location.assign("sortOldest.html?" + document.getElementById("folder").innerHTML)
-                }
-			</script>	
-			</div>
-		</div><!-- close upload overlay -->
+    <script id="list-of-images" type="x/handlebars">
+		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
+	</script>	  
+			</div>		
+		</div>
 <!-- start header -->
 <div class="header_bg">
 <div class="wrap">
+
 	<div class="header">
 		<div class="logo">
 			<a href="index.html"><img src="images/meme_logo.png"  alt=""/></a>
 		</div>
 		
-		<img src="images/monkey.gif" height="50" width="50" alt="monkey mascot." style="padding-left:-4%" title="image-name">
+		<img src="images/monkey.gif" height="50" width="50" style="padding-left:-4%" title="image-name" alt="monkey">
 		
 		<div class="h_right">
 			<ul class="menu">
-				<li class="active"><a href="folders_page.html">home</a></li>
-				<li><a href="about.html">create</a></li>
+				<li><a href="folders_page.html">home</a></li>
 				<li><a href="portfolio.html">upload</a></li>
 				<li><a>chrome extension</a></li>
 				<li><a href="teampage.html">team page</a></li>
 				<li><a href="index.html">logout</a></li>
 			</ul>
 			<div id="sb-search" class="sb-search">
-				<form>
+				<form action="search.html">
 					<input class="sb-search-input" placeholder="Search by tag, name, folder..." type="text" value="" name="search" id="search">
-					<input class="sb-search-submit" type="submit" value="">
+					<input class="sb-search-submit" onclick="test()" type="submit" value="">
 					<span class="sb-icon-search"></span>
 				</form>
 			</div>
-			<script src="js/classie.js"></script>
+			<script src="js/classie.js"></script> 
 			<script src="js/uisearch.js"></script>
 			<script>
 				new UISearch( document.getElementById( 'sb-search' ) );
-			</script>
+			</script> 
 			<!-- start smart_nav * -->
 	        <nav class="nav">
 	            <ul class="nav-list">
@@ -461,131 +432,60 @@
 		<div class="clear"></div>
 	</div>
 </div>
-</div>
-<!-- start main -->
+</div><!-- end header_bg -->
 <div class="main_bg">
-<div class="wrap">
-	<div class="main">
+	<div class="wrap">
+		<div class="main">
         <ul class = "loc" style="color:white">
-			<li style="display:inline"> <a href="folders_page.html" class="home_link" style="text-decoration:underline;color:#B6B2D9">Home</a>  &raquo;</li>
-			<li style="display:inline"><div id= "folder" style="display:inline">  </div>  </li>
+			<li style="display:inline"> <a href="folders_page.html" class="home_link">Home</a>  &raquo;</li>
+			<li style="display:inline"><div id="folder" style="display:inline"></div></li>
 		</ul>
-        
-		
-		
-		
-<!-- start gallery  -->
-<div class="container">
-    
-        <ul id="filters" class="clearfix">
-            <li><a href="#" onclick="sortNewest()" style="color:white">Newest First</a></li>
-            <li><a href="#" onclick="sortOldest()" style="color:white">Oldest First</a></li>
-            <li>A-Z</li> 
-            <li class="no-border">Z-A </li>
-        </ul>
-		<div id="portfoliolist"><!-- 1 -->            
+
+		<!-- start gallery  -->
+			<div class="container">
+				<ul id="filters" class="clearfix">
+					<li>Newest First</li>
+					<li>Oldest First</li> 
+					<li>A-Z</li> 
+					<li class="no-border">Z-A </li>
+				</ul>
+				<div id="portfoliolist">
 					<div class="portfolio add_item" >
 					  <div class="portfolio-wrapper">				
 					  	<a href="#" onclick="return false;" id="add_item">+</a>
 						<div class="label">
 					  	  <div class="label-text">
-							<p class="text-title">Add Image or Folder</p>
+							<p class="text-title">Add New Image</p>
 						  </div>
 						</div>
 					  </div>
-					</div>	
-		</div>
-            
-        <script id="list-of-images" type="x/handlebars">
-		<li class="list-item"><input type="checkbox" id="{id}"><input type="button" id="{id}" value="Edit">{content}</li>
-	</script>
-	
-	<script>
-		YUI().use('node', function(Y) {
-			
-			var ImageItem, 
-			query,
-			submitBtn = Y.one("#list-item-submit"),
-			imageList = Y.one('#image-items'),
-			input = Y.one("#image-title"),
-			inputImgUrl = Y.one("#img-url"),
-            inputImgTag = Y.one("#tag"),
-            inputImgFolder = Y.one("#folder-list"),
-            inputImgRatings = Y.one("#ratings"),
-            inputImgComments = Y.one("#comments");
-			
-			Parse.initialize("k9fWbqwB7anOSJhUZJcIF5aDOXC5wRVQc87hGKyu", "cgwRZNr1X58BKbTv49oOhLIABJedodfAwFWHO1QY");
-            
-            var FolderItem = Parse.Object.extend("FolderItem");
-            var folderItem = new Parse.Query(FolderItem);
-            folderItem.find({
-                success: function(item) {
-                    for (i in item){
-                        var folder = item[i];
-//                        console.log(folder.get("content"));
-                        var folderCategories = document.getElementById("folder-list");
-                        var newFolderItem = document.createElement('option');
-                        newFolderItem.innerText = folder.get("content");
-                        folderCategories.appendChild(newFolderItem);
-                    }
-                }
-            });
-			
-			//Handle Click Event
-			submitBtn.on('click', function(e) {
-				
-				//Save the current Todo
-				var imgTitle = Y.one('#image-title').get('value');
-                var imgUrl = Y.one('#img-url').get('value');
-                var imgTag = Y.one('#tag').get('value');
-                var imgFolder = Y.one('#folder-list').get('value');
-                var imgRatings = $('input[name^="ratings"]:checked').val();
-                var imgComments = Y.one('#comments').get('value');
-				var ImageItem = Parse.Object.extend("ImageItem");
-				var imageItem = new ImageItem();
-
-				imageItem.set("imgTitle", imgTitle);
-				imageItem.set("imgUrl", imgUrl);
-                imageItem.set("imgTag", imgTag);
-                imageItem.set("imgFolder", imgFolder);
-                imageItem.set("imgRatings", imgRatings);
-                imageItem.set("imgComments", imgComments);
-				
-				//Once it is saved, show it in the list of todo's.
-				imageItem.save(null, {
-				  success: function(item) {
-						
-				    var content = Y.Lang.sub(Y.one('#list-of-images').getHTML(), {
-							content: item.get('imgTitle'),
-							id: item.id,
-						});
-						input.set('value', '').focus();
-                        inputImgUrl.set('value', '');
-                        inputImgTag.set('value', '');
-                        inputImgFolder.set('value', '');
-                        $('#imageShown').css("display", "none");
-                        $('input[name=ratings]').attr('checked',false);
-                        inputImgComments.set('value', '');
-				  },
-				}); 
-			});		
-		});
-	</script>
-	</div><!-- end container -->
+					</div>		
+			   </div><!-- end portfolio list -->				
+			</div><!-- end container -->
+		</div> <!-- end main -->
 	</div>
-</div>
-</div>
+</div><!-- end main_bg -->
 <div class="footer_bg">
 <div class="wrap">
 	<div class="footer">
-		<div class="span_of_4">
+		<div class="span_of_4">		
+			<div class="clear"></div>
+		</div>
+		<div class="footer_top">
+			<div class="f_nav1">
+				<ul>
+					<li><a href="index.html">home</a></li>
+					<li><a href="about.html">about</a></li>
+					<li><a href="index.html">features</a></li>
+				</ul>
+			</div>
 			<div class="copy">
-				<p class="link"><span>A TeaMeme Website | Class Page by&nbsp;<a href="http://classes.pint.com/cse134b"> Group 23</a></span></p>
+				<p class="link">A TeaMeme Website | Class Page by&nbsp;<a href="http://classes.pint.com/cse134b"> Group 23</a></p>
 			</div>
 			<div class="clear"></div>
 		</div>
 	</div>
 </div>
-</div>
+</div><!-- end footer_bg -->
 </body>
 </html>
