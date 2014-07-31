@@ -200,12 +200,12 @@ url = url.replace("?search=", '').replace("+", " "); // remove the ?
 	 getFolders(url);
     var Image = Parse.Object.extend("ImageItem");
 	var query = new Parse.Query(Image);
+	query.equalTo("imgTitle", url);
 	query.find({
   	success: function(results) {
     // Do something with the returned Parse.Object values
     for (var i = 0; i < results.length; i++) { 
       var object = results[i];
-//      alert(object.get('imgTitle'));
       var imgID = object.id;
       var imgTitle = object.get('imgTitle');
       var imgURL = object.get('imgUrl');
@@ -213,9 +213,27 @@ url = url.replace("?search=", '').replace("+", " "); // remove the ?
       var imgComments = object.get('imgComments');
       var imgRating = object.get('imgRatings');
       var imgFolder = object.get('imgFolder');
-      if(imgTitle.toLowerCase() == url.toLowerCase() || imgTags.toLowerCase() == url.toLowerCase()) {
-	     $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
-	  } 
+	  $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
+    } //for loop    
+  }, error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }    
+ });
+ 
+ 	query.equalTo("imgTag", url);
+	query.find({
+  	success: function(results) {
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < results.length; i++) { 
+      var object = results[i];
+      var imgID = object.id;
+      var imgTitle = object.get('imgTitle');
+      var imgURL = object.get('imgUrl');
+      var imgTags = object.get('imgTag');
+      var imgComments = object.get('imgComments');
+      var imgRating = object.get('imgRatings');
+      var imgFolder = object.get('imgFolder');
+	  $("#portfoliolist").append("<a class='popup-with-zoom-anim' href='#" + imgID + "'><div class='portfolio card draggable' data-cat='card'><div class='portfolio-wrapper'><img src='" + imgURL + "' alt='" + imgTitle + "' title='" + imgTitle + "' /><div class='label'><div class='label-text'><p class='text-title'>" + imgTitle +"</p></div></div></div></div></a>");       
     } //for loop    
   }, error: function(error) {
     alert("Error: " + error.code + " " + error.message);
@@ -288,7 +306,7 @@ url = url.replace("?search=", '').replace("+", " "); // remove the ?
 	});	
 	</script>
 <!-- Add fancyBox main JS and CSS files -->
-<link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
+<link href="css/magnific-popup.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 </head>
 <body onload="loc()">
@@ -319,7 +337,7 @@ url = url.replace("?search=", '').replace("+", " "); // remove the ?
 <label>Comments</label>
 <textarea id='edit_comments' type='text' name='edit_comments'></textarea>
     <br />
-<input type='button' class='delete-image' value="Delete Image" />
+<input type='button' class='delete-image' value="Delete" />
 <input class='edit-item-submit' type='submit' value='Save Edits' />
     </div></div></form>
  </div>   
@@ -442,7 +460,7 @@ url = url.replace("?search=", '').replace("+", " "); // remove the ?
 			<div class="container">
 
 				<div id="portfoliolist">
-					<div class="portfolio add_item" >
+					<div class="portfolio" >
 					</div>		
 			   </div><!-- end portfolio list -->				
 			</div><!-- end container -->
