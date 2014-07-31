@@ -58,6 +58,9 @@
 		  success: function(item) {
 			 window.location = location.href;
 		  },
+		  error: function(gameScore, error) {
+				alert("Error when saving Todos: " + error.code + " " + error.message);
+		  }
 		}); 
 	}
 	
