@@ -403,7 +403,7 @@ position: absolute;
 left: 35%;
 top: 30%;
 padding: 20pt;
-width: 300pt;
+width: 30%;
 height: 130pt;    
 background-color: white;
 border: double black;
@@ -1997,6 +1997,8 @@ width: 90.3333%;
 
 #upload_overlay, #edit_overlay {
  position: fixed;
+ top: 0;
+ left: 0;
  height: 100%;
  width: 100%;
  background-color: rgba(0, 0, 0, .8);
@@ -2005,10 +2007,11 @@ width: 90.3333%;
 }
 
 #upload_prompt, .edit {
+  
   position: absolute;
   top: 20px;
   left: 16%;
-  width: 840px; 
+  width: 60%; 
   height: auto;
   background-color: #FFF;
   border-radius: 3px;
@@ -2074,7 +2077,9 @@ img#imageShown {
 form select {
   margin-top: 20px;
   border: 1px solid #CCC;
-  min-width: 250px;
+  min-width: 240px;
+  max-width: 290px;
+  
   height: 30px;
   padding: 1px;
   font-size: 10pt !important;
@@ -2098,7 +2103,12 @@ form select {
 }
 
 .delete-image {
+	width: 120px;
 	position: absolute;
 	left: 20px;
 	background-color: #FF0000 !important;
+}
+
+textarea {
+  max-height: 80px;
 }
