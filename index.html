@@ -50,8 +50,11 @@
 			}
 
 		};
-        
-// Two functions for validations
+		
+		// Run the show!
+		filterList.init();
+			
+	});	
         
     var clicked;    
     
@@ -81,12 +84,6 @@
             return false;
         }
     }
-// End JS for validation
-		
-		// Run the show!
-		filterList.init();
-			
-	});	
 	</script>
 <!-- Add fancyBox main JS and CSS files -->
 <link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
@@ -119,6 +116,24 @@
 		
 		<img src="images/monkey.gif" height="50" width="50" style="padding-left:-4%" alt="monkey mascot" title="image-name">
 		
+		<div class="h_right">
+			
+			<script src="js/classie.js"></script>
+			<script src="js/uisearch.js"></script>
+			<script>
+				new UISearch( document.getElementById( 'sb-search' ) );
+			</script>
+			<!-- start smart_nav * -->
+	        <nav class="nav">
+	            <ul class="nav-list">
+	                <li class="nav-item"><a href="index.html">Home</a></li>
+	                <li class="nav-item"><a href="about.html">About</a></li>
+	                <li class="nav-item"><a href="portfolio.html">Portfolio</a></li>
+	            </ul>
+	        </nav>
+	        <script type="text/javascript" src="js/responsive.menu.js"></script>
+			<!-- end smart_nav * -->
+		</div>
 		<div class="clear"></div>
 	</div>
 	<div class="header_btm">
@@ -140,7 +155,7 @@
 			<!-- start gallery  -->
 				<div id="login" class="login">
 				        <!--login stuff-->
-				        <form action="folders_page.html">
+				        <form name="loginForm" action="folders_page.html" onsubmit="return validateForm()">
 							<div class="contact-form">
 								
 								<input type="text" name="username" placeholder="Username">
