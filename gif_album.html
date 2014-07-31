@@ -64,7 +64,7 @@
 		//Once it is saved, show it in the list of todo's.
 		imageItem.save(null, {
 		  success: function(item) {
-			 window.location = location.href;
+			 window.location = location.href.substring(0, location.href.indexOf("#"));
 		  },
 		  error: function(gameScore, error) {
 				alert("Error when saving Todos: " + error.code + " " + error.message);
@@ -73,7 +73,6 @@
 	}
 	
 	function deleteImage(e, imgId) {
-	    alert(imgId);
         var img = Parse.Object.extend("ImageItem");
         var query = new Parse.Query(img);
         query.equalTo("objectId", imgId);
@@ -81,7 +80,7 @@
           success: function(object) {
 			 object.destroy({
 			   success: function() {
-			 window.location = location.href;
+			 window.location = location.href.substring(0, location.href.indexOf("#"));
 	            }
 	        });
           }, 
@@ -105,7 +104,7 @@
              object.set("imgTag", imgTags);
              object.set("imgComments", imgComments);
              object.save();
-			 window.location = location.href;
+			 window.location = location.href.substring(0, location.href.indexOf("#"));
           }, 
 		  error: function(error) {
 			alert("Error: " + error.code + " " + error.message);
