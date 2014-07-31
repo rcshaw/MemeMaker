@@ -9,6 +9,7 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!--  jquery plguin -->
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<noscript><br/>¡¡¡¡¡¡¡¡¡¡WARNING!!!!!!!!!! You are entering this site with Javascript turned off. Please enable Javascript for maximum awesomeness.</noscript>
 <!-- start gallery -->
 	<script type="text/javascript" src="js/jquery.easing.min.js"></script>	
 	<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
@@ -49,6 +50,38 @@
 			}
 
 		};
+        
+// Two functions for validations
+        
+    var clicked;    
+    
+    function setClick(){
+        clicked = document.forms["loginForm"]["register"].value;
+    }
+        
+    function validateForm() {
+        var x = document.forms["loginForm"]["username"].value;
+        var y = document.forms["loginForm"]["password"].value;
+
+        if(clicked == document.forms["loginForm"]["register"].value){
+            alert("Registration page under construction.");
+            clicked = "reset";
+            return false;
+        }
+        else if ((x == null || x == "") && ( y == null || y == "")){
+            alert("Both Username and Password must be filled out");
+            return false;
+        }
+        else if (x == null || x == "") {
+            alert("Username must be filled out");
+            return false;
+        }
+        else if ( y == null || y == ""){
+            alert("Password must be filled out");
+            return false;
+        }
+    }
+// End JS for validation
 		
 		// Run the show!
 		filterList.init();
@@ -114,7 +147,7 @@
 								<br>
 								<input type="text" name="password" placeholder="Password">
 								<br>
-								<input type="submit" value="Register now!">
+								<input type="submit" name="register" value="Register now!" onclick="setClick()">
 								<input type="submit" value="Login">
 								
 							</div>
