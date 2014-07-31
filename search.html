@@ -205,6 +205,7 @@ url = url.replace("?search=", '').replace("+", " "); // remove the ?
     // Do something with the returned Parse.Object values
     for (var i = 0; i < results.length; i++) { 
       var object = results[i];
+//      alert(object.get('imgTitle'));
       var imgID = object.id;
       var imgTitle = object.get('imgTitle');
       var imgURL = object.get('imgUrl');
