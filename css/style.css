@@ -2096,3 +2096,9 @@ form select {
 .home_link:hover {
   text-decoration: underline;
 }
+
+.delete-image {
+	position: absolute;
+	left: 20px;
+	background-color: #FF0000 !important;
+}
