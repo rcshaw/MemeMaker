@@ -47,7 +47,8 @@
 		});
 	}
 	
-	function addFolder(ev, folderName) {	
+	function addFolder(ev, folderName) {
+	  ev.preventDefault();
 		//Save the current Todo
 		var FolderItem = Parse.Object.extend("FolderItem");
 		var folderItem = new FolderItem();
@@ -58,9 +59,6 @@
 		  success: function(item) {
 			 window.location = location.href;
 		  },
-		  error: function(gameScore, error) {
-				alert("Error when saving Todos: " + error.code + " " + error.message);
-		  }
 		}); 
 	}
 	
