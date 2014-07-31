@@ -64,7 +64,7 @@
 		//Once it is saved, show it in the list of todo's.
 		imageItem.save(null, {
 		  success: function(item) {
-			  window.location = "";
+			 window.location = location.href;
 		  },
 		  error: function(gameScore, error) {
 				alert("Error when saving Todos: " + error.code + " " + error.message);
@@ -81,7 +81,7 @@
           success: function(object) {
 			 object.destroy({
 			   success: function() {
-	             window.location = "";
+			 window.location = location.href;
 	            }
 	        });
           }, 
@@ -105,7 +105,7 @@
              object.set("imgTag", imgTags);
              object.set("imgComments", imgComments);
              object.save();
-             window.location = "";
+			 window.location = location.href;
           }, 
 		  error: function(error) {
 			alert("Error: " + error.code + " " + error.message);
@@ -195,6 +195,7 @@ $(document).ready(function() {
     var Image = Parse.Object.extend("ImageItem");
 	var query = new Parse.Query(Image);
 	query.equalTo("imgFolder", url);
+    query.descending("createdAt");
 	query.find({
   	success: function(results) {
     // Do something with the returned Parse.Object values
@@ -279,6 +280,16 @@ $(document).ready(function() {
 		// Run the show!
 		filterList.init();	
 	});	
+    
+    
+                function sortNewest(){
+                     //alert("test");
+                     window.location.assign("gif_album.html?" + document.getElementById("folder").innerHTML)
+                }
+                function sortOldest(){
+                     //alert("test");
+                     window.location.assign("sortOldest.html?" + document.getElementById("folder").innerHTML)
+                }
 	</script>
 <!-- Add fancyBox main JS and CSS files -->
 <link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
@@ -444,10 +455,8 @@ $(document).ready(function() {
 		<!-- start gallery  -->
 			<div class="container">
 				<ul id="filters" class="clearfix">
-					<li>Newest First</li>
-					<li>Oldest First</li> 
-					<li>A-Z</li> 
-					<li class="no-border">Z-A </li>
+					<li><a href="#" onclick="sortNewest()" style="color:white;text-decoration:underline;font-weight:bold;">Newest First</a></li>
+					<li class="no-border"> <a href="#" onclick="sortOldest()" style="color:white">Oldest First</a></li>
 				</ul>
 				<div id="portfoliolist">
 					<div class="portfolio add_item" >
