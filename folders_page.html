@@ -107,7 +107,6 @@
 	
 	function saveEdits(e, imgId, imgTitle, imgRating, imgFolder, imgTags, imgComments) {
 		e.preventDefault();
-		
         var img = Parse.Object.extend("ImageItem");
         var query = new Parse.Query(img);
         query.equalTo("objectId", imgId);
@@ -119,7 +118,7 @@
              object.set("imgTag", imgTags);
              object.set("imgComments", imgComments);
              object.save();
-             window.location = "folders_page.html?success";
+             window.location = "";
           }, 
 		  error: function(error) {
 			alert("Error: " + error.code + " " + error.message);
